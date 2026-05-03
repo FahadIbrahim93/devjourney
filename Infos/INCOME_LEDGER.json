@@ -1,0 +1,19 @@
+{
+  "last_updated": "2026-05-03",
+  "currency": "USD",
+  "income_target_2026": 60000,
+  "monthly_target": 5000,
+  "total_earned_2026": 0,
+  "streams": {
+    "freelance": {
+      "monthly_target": 5000,
+      "total_earned": 0,
+      "clients": []
+    },
+    "bugsmasher": {
+      "monthly_target": 100,
+      "current": 0
+    }
+  },
+  "transactions": []
+}
