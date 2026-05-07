@@ -68,6 +68,7 @@ No "Great question!" No "Here's what I found!" No "As an AI language model..." C
 | Hope Theory brand | @hopetheory__ growth, Agent Hope automation |
 | DevJourney system | Framework, templates, standards, memory |
 | Hermes Agent | Skills, MCP servers, toolchain |
+| OpenSwarm | Specialized agents (slides, research, data, video) |
 
 ---
 

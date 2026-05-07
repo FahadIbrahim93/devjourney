@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hope Deck — DevJourney Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Hope Theory Design Tokens ── */
+    :root {
+      --bg-void:      #07070f;
+      --bg-base:      #0d0d1a;
+      --bg-surface:    #131326;
+      --bg-card:      #181830;
+      --bg-card-hover: #1e1e3a;
+      --bg-input:     #111124;
+
+      --hope-gold:     #f5a623;
+      --hope-amber:    #ffb347;
+      --hope-glow:     rgba(245, 166, 35, 0.15);
+      --hope-glow-sm:  rgba(245, 166, 35, 0.08);
+      --hope-border:   rgba(245, 166, 35, 0.25);
+
+      --teal-base:     #0abdc6;
+      --teal-glow:     rgba(10, 189, 198, 0.15);
+      --teal-border:   rgba(10, 189, 198, 0.25);
+
+      --green-good:    #10b981;
+      --red-bad:       #ef4444;
+      --red-glow:      rgba(239, 68, 68, 0.15);
+      --yellow-warn:   #f59e0b;
+
+      --text-primary:  #e8e8f0;
+      --text-secondary:#8888aa;
+      --text-muted:    #55556a;
+      --text-gold:     #f5a623;
+
+      --border:        rgba(255,255,255,0.07);
+      --border-strong:  rgba(255,255,255,0.12);
+
+      --radius-sm:     0.375rem;
+      --radius-md:     0.75rem;
+      --radius-lg:     1.125rem;
+
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-void);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Ambient Background Glow ── */
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-glow::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, var(--hope-glow) 0%, transparent 70%);
+    }
+    .bg-glow::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(10,189,198,0.06) 0%, transparent 70%);
+    }
+
+    /* ── Layout ── */
+    .app {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: var(--bg-base);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 0.75rem 1.25rem;
+      text-decoration: none;
+    }
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--hope-gold), var(--hope-amber));
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 0 16px var(--hope-glow);
+      flex-shrink: 0;
+    }
+    .brand-text {
+      line-height: 1.2;
+    }
+    .brand-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--hope-gold);
+      letter-spacing: 0.02em;
+    }
+    .brand-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 1rem 0.75rem 0.4rem;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+    .nav-item:hover {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+    }
+    .nav-item.active {
+      background: var(--hope-glow-sm);
+      color: var(--hope-gold);
+      border: 1px solid var(--hope-border);
+    }
+    .nav-item .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+    .nav-item.active .dot {
+      background: var(--hope-gold);
+      box-shadow: 0 0 6px var(--hope-gold);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .version-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      padding: 0.5rem 0.75rem;
+    }
+
+    /* ── Main Content ── */
+    .main {
+      padding: 2rem 2.5rem 4rem;
+      max-width: 1200px;
+    }
+
+    /* ── Top Bar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-left h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, var(--text-primary) 60%, var(--hope-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .topbar-left p {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-top: 0.25rem;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .sprint-badge {
+      background: var(--hope-glow-sm);
+      border: 1px solid var(--hope-border);
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--hope-gold);
+      font-weight: 500;
+    }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--hope-gold), var(--teal-base));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--bg-void);
+      cursor: pointer;
+    }
+
+    /* ── KPI Row ── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .kpi {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .kpi:hover { border-color: var(--border-strong); }
+    .kpi.gold { border-color: var(--hope-border); }
+    .kpi.gold::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--hope-gold), transparent);
+    }
+    .kpi.teal { border-color: var(--teal-border); }
+    .kpi.teal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--teal-base), transparent);
+    }
+    .kpi-icon {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .kpi-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .kpi-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .kpi-value.gold { color: var(--hope-gold); }
+    .kpi-value.teal  { color: var(--teal-base);  }
+    .kpi-delta {
+      font-size: 11px;
+      margin-top: 0.4rem;
+      font-family: var(--font-mono);
+    }
+    .kpi-delta.up   { color: var(--green-good); }
+    .kpi-delta.warn { color: var(--yellow-warn); }
+    .kpi-delta.neutral { color: var(--text-muted); }
+
+    /* ── Section Headers ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-title::before {
+      content: '';
+      width: 3px;
+      height: 14px;
+      background: var(--hope-gold);
+      border-radius: 2px;
+      box-shadow: 0 0 8px var(--hope-gold);
+    }
+    .section-link {
+      font-size: 11px;
+      color: var(--teal-base);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      cursor: pointer;
+    }
+    .section-link:hover { text-decoration: underline; }
+
+    /* ── Two-Column Grid ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ── Sprint Board ── */
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.75rem;
+      background: var(--bg-surface);
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      transition: all 0.15s;
+    }
+    .task-item:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border);
+    }
+    .task-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .task-status-dot.done   { background: var(--green-good); box-shadow: 0 0 6px var(--green-good); }
+    .task-status-dot.pending { background: var(--hope-gold); box-shadow: 0 0 6px var(--hope-gold); animation: pulse-gold 2s infinite; }
+    .task-status-dot.blocked { background: var(--red-bad); box-shadow: 0 0 6px var(--red-bad); }
+    .task-status-dot.backlog { background: var(--text-muted); }
+
+    @keyframes pulse-gold {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .task-body { flex: 1; min-width: 0; }
+    .task-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .task-meta {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-top: 0.15rem;
+    }
+    .task-badge {
+      font-size: 9px;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .task-badge.done    { background: rgba(16,185,129,0.15); color: var(--green-good); border: 1px solid rgba(16,185,129,0.3); }
+    .task-badge.pending { background: var(--hope-glow-sm); color: var(--hope-gold); border: 1px solid var(--hope-border); }
+    .task-badge.blocked { background: var(--red-glow); color: var(--red-bad); border: 1px solid rgba(239,68,68,0.3); }
+    .task-badge.backlog { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--border); }
+    .task-badge.p0      { background: rgba(245,166,35,0.2); color: var(--hope-gold); border: 1px solid var(--hope-border); }
+    .task-badge.p1      { background: rgba(10,189,198,0.15); color: var(--teal-base); border: 1px solid var(--teal-border); }
+
+    /* ── Project Cards ── */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .project-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem;
+      transition: all 0.15s;
+    }
+    .project-item:hover { border-color: var(--border-strong); }
+    .project-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .project-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .project-badge {
+      font-size: 9px;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+    }
+    .project-badge.live     { background: rgba(16,185,129,0.15); color: var(--green-good); border: 1px solid rgba(16,185,129,0.3); }
+    .project-badge.redeploy { background: var(--hope-glow-sm); color: var(--hope-gold); border: 1px solid var(--hope-border); }
+    .project-badge.scaffold { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--border); }
+    .project-stats {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.4rem;
+    }
+    .project-stat {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+    .project-stat .val { color: var(--text-secondary); }
+    .project-url {
+      font-size: 10px;
+      color: var(--teal-base);
+      text-decoration: none;
+      margin-top: 0.4rem;
+      display: inline-block;
+      font-family: var(--font-mono);
+    }
+    .project-url:hover { text-decoration: underline; }
+
+    /* ── Tool Blockers ── */
+    .blocker-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .blocker-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--red-bad);
+    }
+    .blocker-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .blocker-body { flex: 1; }
+    .blocker-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+    .blocker-desc {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      line-height: 1.5;
+    }
+    .blocker-action {
+      font-size: 10px;
+      color: var(--teal-base);
+      font-family: var(--font-mono);
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    /* ── Quick Actions ── */
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 12px;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+    .action-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--hope-border);
+      color: var(--hope-gold);
+    }
+    .action-btn.primary {
+      background: var(--hope-glow-sm);
+      border-color: var(--hope-border);
+      color: var(--hope-gold);
+    }
+    .action-btn.primary:hover {
+      background: rgba(245,166,35,0.2);
+    }
+    .action-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .action-label { flex: 1; }
+    .action-arrow { color: var(--text-muted); font-size: 10px; }
+
+    /* ── Revenue Pipeline ── */
+    .pipeline-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .pipeline-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    .pipeline-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .pipeline-body { flex: 1; }
+    .pipeline-name { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+    .pipeline-desc { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 0.15rem; }
+    .pipeline-status {
+      font-size: 9px;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+    }
+    .pipeline-status.ready    { background: rgba(16,185,129,0.15); color: var(--green-good); border: 1px solid rgba(16,185,129,0.3); }
+    .pipeline-status.next     { background: var(--hope-glow-sm); color: var(--hope-gold); border: 1px solid var(--hope-border); }
+    .pipeline-status.planning { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--border); }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 1.5rem 0;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 1.5rem 0 0;
+      border-top: 1px solid var(--border);
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-left {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+    .footer-right {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .footer-pill {
+      font-size: 9px;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .action-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<div class="app">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <a class="brand" href="#">
+      <div class="brand-icon">◐</div>
+      <div class="brand-text">
+        <div class="brand-name">Hope Theory</div>
+        <div class="brand-sub">DevJourney</div>
+      </div>
+    </a>
+
+    <div class="section-label">Mission</div>
+    <a class="nav-item active" href="#sprint">
+      <span class="dot"></span> Sprint Board
+    </a>
+    <a class="nav-item" href="#projects">
+      <span class="dot"></span> Projects
+    </a>
+    <a class="nav-item" href="#pipeline">
+      <span class="dot"></span> Revenue
+    </a>
+    <a class="nav-item" href="#blockers">
+      <span class="dot"></span> Blockers
+    </a>
+
+    <div class="section-label">Tools</div>
+    <a class="nav-item" href="http://localhost:6789/skills">
+      <span class="dot"></span> Skills
+    </a>
+    <a class="nav-item" href="http://localhost:6789/sessions">
+      <span class="dot"></span> Sessions
+    </a>
+    <a class="nav-item" href="http://localhost:6789/cron">
+      <span class="dot"></span> Cron Jobs
+    </a>
+    <a class="nav-item" href="http://localhost:6789/analytics">
+      <span class="dot"></span> Analytics
+    </a>
+
+    <div class="sidebar-footer">
+      <div class="version-tag">Hermes v0.12.0 · May 2026</div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Command Deck</h1>
+        <p>hope-theory__ · Sprint 2026-05-02 · Active</p>
+      </div>
+      <div class="topbar-right">
+        <span class="sprint-badge">SPRINT ACTIVE</span>
+        <div class="avatar">FI</div>
+      </div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="kpi-row">
+      <div class="kpi gold">
+        <div class="kpi-icon">🎯</div>
+        <div class="kpi-label">Sprint Progress</div>
+        <div class="kpi-value gold">62%</div>
+        <div class="kpi-delta warn">5 of 8 tasks done</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon">🚀</div>
+        <div class="kpi-label">Live Projects</div>
+        <div class="kpi-value">1</div>
+        <div class="kpi-delta up">2 ready to deploy</div>
+      </div>
+      <div class="kpi teal">
+        <div class="kpi-icon">🛡️</div>
+        <div class="kpi-label">Test Coverage</div>
+        <div class="kpi-value teal">92</div>
+        <div class="kpi-delta up">92 / 92 passing</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon">⚡</div>
+        <div class="kpi-label">Revenue Target</div>
+        <div class="kpi-value gold">$5K</div>
+        <div class="kpi-delta neutral">/ month</div>
+      </div>
+    </div>
+
+    <!-- Sprint Board + Projects -->
+    <div class="two-col">
+
+      <!-- Sprint Board -->
+      <div id="sprint">
+        <div class="section-header">
+          <div class="section-title">Sprint Board</div>
+          <span class="section-link">2026-05-02 → active</span>
+        </div>
+        <div class="card">
+          <div class="task-list">
+
+            <div class="task-item">
+              <span class="task-status-dot done"></span>
+              <div class="task-body">
+                <div class="task-name">BugSmasher v1.5 restore + deploy</div>
+                <div class="task-meta">main branch restored · live at bugsmasher-ten.vercel.app</div>
+              </div>
+              <span class="task-badge done">DONE</span>
+            </div>
+
+            <div class="task-item">
+              <span class="task-status-dot done"></span>
+              <div class="task-body">
+                <div class="task-name">BugSmasher v1.6 — Death Cards + biomeId + 19 tests</div>
+                <div class="task-meta">92/92 tests passing · auto-deploy active</div>
+              </div>
+              <span class="task-badge done">DONE</span>
+            </div>
+
+            <div class="task-item">
+              <span class="task-status-dot done"></span>
+              <div class="task-body">
+                <div class="task-name">Insectiles — stitch-sdk removed (456MB freed)</div>
+                <div class="task-meta">ready for npm install + build</div>
+              </div>
+              <span class="task-badge done">DONE</span>
+            </div>
+
+            <div class="task-item">
+              <span class="task-status-dot pending"></span>
+              <div class="task-body">
+                <div class="task-name">Insectiles redeploy</div>
+                <div class="task-meta">npm install → npm run build → Vercel push</div>
+              </div>
+              <span class="task-badge p0">P0</span>
+              <span class="task-badge pending">TODAY</span>
+            </div>
+
+            <div class="task-item">
+              <span class="task-status-dot pending"></span>
+              <div class="task-body">
+                <div class="task-name">hope-theory-hq deploy</div>
+                <div class="task-meta">scaffolded + builds clean (207KB) · needs Vercel connect</div>
+              </div>
+              <span class="task-badge p0">P0</span>
+              <span class="task-badge pending">TODAY</span>
+            </div>
+
+            <div class="task-item">
+              <span class="task-status-dot blocked"></span>
+              <div class="task-body">
+                <div class="task-name">xurl OAuth setup</div>
+                <div class="task-meta">needs OAuth1a PIN flow from developer.x.com</div>
+              </div>
+              <span class="task-badge blocked">BLOCKED</span>
+            </div>
+
+            <div class="task-item">
+              <span class="task-status-dot blocked"></span>
+              <div class="task-body">
+                <div class="task-name">Ollama local AI</div>
+                <div class="task-meta">curl|sh blocked · manual install required</div>
+              </div>
+              <span class="task-badge blocked">BLOCKED</span>
+            </div>
+
+            <div class="task-item">
+              <span class="task-status-dot backlog"></span>
+              <div class="task-body">
+                <div class="task-name">Image generation API key</div>
+                <div class="task-meta">needs XAI_API_KEY or OPENAI_API_KEY in ~/.hermes/.env</div>
+              </div>
+              <span class="task-badge backlog">BACKLOG</span>
+            </div>
+
+            <div class="task-item">
+              <span class="task-status-dot backlog"></span>
+              <div class="task-body">
+                <div class="task-name">Discord OAuth (BugSmasher)</div>
+                <div class="task-meta">ready to test</div>
+              </div>
+              <span class="task-badge backlog">BACKLOG</span>
+            </div>
+
+            <div class="task-item">
+              <span class="task-status-dot backlog"></span>
+              <div class="task-body">
+                <div class="task-name">Freelancing pipeline</div>
+                <div class="task-meta">Upwork + Fiverr + case studies ready</div>
+              </div>
+              <span class="task-badge p1">P1</span>
+              <span class="task-badge backlog">BACKLOG</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div id="projects">
+        <div class="section-header">
+          <div class="section-title">Project Health</div>
+          <span class="section-link">H:/DevJourney</span>
+        </div>
+        <div class="card">
+          <div class="project-list">
+
+            <div class="project-item">
+              <div class="project-top">
+                <span class="project-name">BugSmasher</span>
+                <span class="project-badge live">● LIVE</span>
+              </div>
+              <div class="project-stats">
+                <span class="project-stat">tests: <span class="val">92/92</span></span>
+                <span class="project-stat">build: <span class="val">767KB gzip</span></span>
+                <span class="project-stat">v: <span class="val">1.6.0</span></span>
+              </div>
+              <a class="project-url" href="https://bugsmasher-ten.vercel.app" target="_blank">bugsmasher-ten.vercel.app ↗</a>
+            </div>
+
+            <div class="project-item">
+              <div class="project-top">
+                <span class="project-name">Insectiles</span>
+                <span class="project-badge redeploy">REDEPLOY</span>
+              </div>
+              <div class="project-stats">
+                <span class="project-stat">sdk: <span class="val">removed</span></span>
+                <span class="project-stat">saved: <span class="val">456MB</span></span>
+                <span class="project-stat">status: <span class="val">needs build</span></span>
+              </div>
+              <span class="project-url" style="color: var(--text-muted); cursor: default;">Projects/Insectiles — run npm install</span>
+            </div>
+
+            <div class="project-item">
+              <div class="project-top">
+                <span class="project-name">hope-theory-hq</span>
+                <span class="project-badge redeploy">REDEPLOY</span>
+              </div>
+              <div class="project-stats">
+                <span class="project-stat">build: <span class="val">207KB</span></span>
+                <span class="project-stat">gzip: <span class="val">65KB</span></span>
+                <span class="project-stat">stack: <span class="val">Vite+React</span></span>
+              </div>
+              <span class="project-url" style="color: var(--text-muted); cursor: default;">Projects/hope-theory-hq — needs Vercel connect</span>
+            </div>
+
+            <div class="project-item">
+              <div class="project-top">
+                <span class="project-name">RollON MVP</span>
+                <span class="project-badge scaffold">ARCHIVED</span>
+              </div>
+              <div class="project-stats">
+                <span class="project-stat">target: <span class="val">8.5/10</span></span>
+                <span class="project-stat">status: <span class="val">backlog</span></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick Actions + Revenue -->
+    <div class="two-col">
+
+      <!-- Quick Actions -->
+      <div>
+        <div class="section-header">
+          <div class="section-title">Quick Actions</div>
+        </div>
+        <div class="card">
+          <div class="action-grid">
+            <button class="action-btn primary" onclick="runAction('insectiles-deploy')">
+              <span class="action-icon">🚀</span>
+              <span class="action-label">Deploy Insectiles</span>
+              <span class="action-arrow">→</span>
+            </button>
+            <button class="action-btn primary" onclick="runAction('hq-deploy')">
+              <span class="action-icon">⚡</span>
+              <span class="action-label">Deploy hope-theory-hq</span>
+              <span class="action-arrow">→</span>
+            </button>
+            <button class="action-btn" onclick="runAction('bugsmasher-test')">
+              <span class="action-icon">🧪</span>
+              <span class="action-label">Run BugSmasher tests</span>
+              <span class="action-arrow">→</span>
+            </button>
+            <button class="action-btn" onclick="runAction('freelance-session')">
+              <span class="action-icon">💼</span>
+              <span class="action-label">Start Freelance Session</span>
+              <span class="action-arrow">→</span>
+            </button>
+            <button class="action-btn" onclick="runAction('open-hermes')">
+              <span class="action-icon">🖥️</span>
+              <span class="action-label">Open Hermes Dashboard</span>
+              <span class="action-arrow">↗</span>
+            </button>
+            <button class="action-btn" onclick="runAction('xurl-auth')">
+              <span class="action-icon">🔐</span>
+              <span class="action-label">Start xurl OAuth</span>
+              <span class="action-arrow">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Revenue Pipeline -->
+      <div id="pipeline">
+        <div class="section-header">
+          <div class="section-title">Revenue Pipeline</div>
+          <span class="section-link">Target: $5,000/mo</span>
+        </div>
+        <div class="card">
+          <div class="pipeline-row">
+
+            <div class="pipeline-item">
+              <div class="pipeline-icon" style="background: rgba(245,166,35,0.15); color: var(--hope-gold);">💼</div>
+              <div class="pipeline-body">
+                <div class="pipeline-name">Freelance AI Development</div>
+                <div class="pipeline-desc">Upwork + Fiverr · 3 case studies ready · 5 proposal templates</div>
+              </div>
+              <span class="pipeline-status next">NEXT FOCUS</span>
+            </div>
+
+            <div class="pipeline-item">
+              <div class="pipeline-icon" style="background: rgba(10,189,198,0.15); color: var(--teal-base);">🎮</div>
+              <div class="pipeline-body">
+                <div class="pipeline-name">BugSmasher Monetization</div>
+                <div class="pipeline-desc">Discord OAuth ready · leaderboard engagement</div>
+              </div>
+              <span class="pipeline-status planning">PLANNING</span>
+            </div>
+
+            <div class="pipeline-item">
+              <div class="pipeline-icon" style="background: rgba(16,185,129,0.15); color: var(--green-good);">📦</div>
+              <div class="pipeline-body">
+                <div class="pipeline-name">Hope Theory Products</div>
+                <div class="pipeline-desc">Insectiles + hope-theory-hq brand site · 6 ventures</div>
+              </div>
+              <span class="pipeline-status planning">BUILDING</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tool Blockers -->
+    <div id="blockers">
+      <div class="section-header">
+        <div class="section-title">Active Blockers</div>
+        <span class="section-link" style="color: var(--red-bad);">3 blockers · needs your action</span>
+      </div>
+      <div class="card">
+        <div class="blocker-list">
+
+          <div class="blocker-item">
+            <span class="blocker-icon">🔑</span>
+            <div class="blocker-body">
+              <div class="blocker-name">xurl OAuth — needs PIN flow</div>
+              <div class="blocker-desc">Go to developer.x.com → OAuth → authorize → get PIN → paste here</div>
+              <span class="blocker-action">→ Run: hermes xurl auth</span>
+            </div>
+          </div>
+
+          <div class="blocker-item">
+            <span class="blocker-icon">🧠</span>
+            <div class="blocker-body">
+              <div class="blocker-name">Ollama local AI — install blocked</div>
+              <div class="blocker-desc">Network blocks curl|sh. Manual download needed from ollama.com</div>
+              <span class="blocker-action">→ Manual: Download .tar.gz from ollama.com → extract → ./ollama serve</span>
+            </div>
+          </div>
+
+          <div class="blocker-item">
+            <span class="blocker-icon">🖼️</span>
+            <div class="blocker-body">
+              <div class="blocker-name">Image generation — no API key</div>
+              <div class="blocker-desc">Set XAI_API_KEY or OPENAI_API_KEY in ~/.hermes/.env</div>
+              <span class="blocker-action">→ hermes env set XAI_API_KEY=your_key_here</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-left">
+        DevJourney · Hope Theory · Sprint 2026-05-02 · Hermes v0.12.0
+      </div>
+      <div class="footer-right">
+        <span class="footer-pill">minimax-m2.5-free</span>
+        <span class="footer-pill">OpenCode Zen</span>
+        <span class="footer-pill">WSL</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // Quick Actions — maps to Hermes commands
+  function runAction(action) {
+    const msgs = {
+      'insectiles-deploy':  '🚀 Deploying Insectiles...\n\nRun this in terminal:\n\n  cd /mnt/h/DevJourney/Projects/Insectiles\n  npm install && npm run build\n  # Then push to GitHub → Vercel auto-deploys',
+      'hq-deploy':           '⚡ Deploying hope-theory-hq...\n\nRun this in terminal:\n\n  cd /mnt/h/DevJourney/Projects/hope-theory-hq\n  # Connect Vercel: vercel link\n  # Then: vercel --prod',
+      'bugsmasher-test':     '🧪 Running BugSmasher tests...\n\nRun this in terminal:\n\n  cd /mnt/h/DevJourney/Projects/BugSmasher-HopeTheory\n  npm test -- --run',
+      'freelance-session':   '💼 Freelancing Session\n\nUpwork profile ready. 3 case studies. 5 proposal templates.\n\nNext: Write and send first proposal targeting:\n• AI agent development\n• React/Vue frontend\n• $60-100/hr rate',
+      'open-hermes':        'Opening Hermes Dashboard...\n\nhttp://localhost:6789\n\nOr run: hermes web',
+      'xurl-auth':          '🔐 xurl OAuth setup\n\n1. Go to: https://developer.x.com\n2. Navigate to Projects & Apps\n3. Generate OAuth 1.0a access token\n4. Run: xurl auth --interactive\n5. Paste your access token + secret',
+    };
+    alert(msgs[action] || 'Action not configured');
+  }
+</script>
+
+</body>
+</html>
