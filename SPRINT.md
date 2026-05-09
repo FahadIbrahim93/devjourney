@@ -5,121 +5,60 @@
 
 ---
 
-## Session 2026-05-08
+## Session 2026-05-09 (Wrap-Up)
 
 ### Accomplished
-- [x] hope-theory-hq deployed to Vercel ✅
-  - URL: https://hope-theory-hq.vercel.app
-  - Build: 26.4MB uploaded, production deploy successful
-  - Aliased: https://hope-theory-hq.vercel.app
+- [x] Hermes updated to v0.13.0 (latest version)
+- [x] SPRINT.md and SESSION.md comprehensively updated
+- [x] HopeTheory_Core submodule properly resolved (now tracked as directory)
+- [x] Git repo cleaned up — removed stale HopeTheory_Core submodule reference
+- [x] Project registry verified against actual local state
 
-- [x] Remote Job Market Analysis completed ✅
-  - Created `/Research/Remote_Job_Market_Analysis.md`
-  - Analyzed 50+ job listings from RemoteOK API
-  - Identified top 5 job matches with salary ranges
-  - Documented skills gap analysis and competitive positioning
+### System Status (2026-05-09)
+| Component | Status |
+|-----------|--------|
+| Hermes Agent | v0.13.0 (latest) |
+| xurl CLI | v1.0.3, bearer token configured |
+| GitHub MCP | In config.yaml |
+| Filesystem MCP | In config.yaml |
+| hope-theory-hq | DEPLOYED — https://hope-theory-hq.vercel.app |
+| BugSmasher | DEPLOYED — https://bugsmasher-ten.vercel.app |
+| RollON | DEPLOYED — https://rollon-delta.vercel.app |
 
-### In Progress
-- [ ] Case study documentation (BugSmasher, RollON, Hermes)
-- [ ] Upwork profile optimization (100% complete)
-- [ ] Proposal template creation (3 templates)
+### Blocked (Stalled Items)
+| # | Task | Blocker |
+|---|------|---------|
+| 1 | xurl OAuth | Needs OAuth1a PIN flow from developer.x.com |
+| 2 | Ollama local AI | Manual install required (curl\|sh blocked) |
+| 3 | Image generation | Needs XAI_API_KEY or OPENAI_API_KEY |
+| 4 | Insectiles redeploy | npm install + build needed |
 
----
-
-## Session 2026-05-05
-
-### BugSmasher v1.6 — Completed ✅
-
-**2-hour sprint. Items shipped:**
-
-| # | Change | Status |
-|---|---|--------|
-| 1 | **BugFix** — `BiomeSelectButton.tsx` `biome.difficulty` → `biome.gameplay.difficultyMultiplier` | ✅ In PR #2 |
-| 2 | **Merged PR #2** — Codex changes: UpgradeMenu accessibility, HUD hardening, GameOver leaderboard fix | ✅ Merged |
-| 3 | **Shareable Death Cards** — canvas 1200x630 PNG, biome-themed, Web Share API + download fallback | ✅ Pushed |
-| 4 | **biomeId prop chain** — GameEngine → GameCanvas → Game → GameOver | ✅ Pushed |
-| 5 | **19 tests** — BIOMES data, formatTime, hexToRgba, roundRect | ✅ 92/92 total |
-| 6 | **Vercel auto-deploy** — GitHub push triggers deploy | ✅ Live |
-
-**Git cleanup:**
-- Stale `aistudio` branch deleted (local + remote)
-- Stale `codex/review-and-compare-main-and-ai-studio-branches` branch deleted (local + remote)
-- `.vercelignore` committed
-- Old stashes cleared
-
-**v1.6.0 repo state:** 2f4d053 on main. No open issues, no open PRs. 92/92 tests passing. Build clean.
-
----
-
-### BugSmasher v1.5 — Completed ✅
-
-**Problem:** Google AI Studio version accidentally pushed to main, losing BugSmasher code.
-
-**Solution:**
-- Restored main branch to BugSmasher biome system (commit `010ba11`)
-- Added v1.5 progression files: ProgressionManager.ts, ResourceTypes.ts, StatsManager.ts
-- Created `aistudio` branch containing Google AI Studio version
-- Force-pushed corrected main branch
-- Pushed v1.5 files (commit `48fa003`)
-- Build verified: 2159 modules, 767KB gzip
-- Live: https://bugsmasher-ten.vercel.app (shows "BugSmasher by HopeTheory")
-
----
-
-## Session 2026-05-02
-
-### Accomplished
-- [x] xurl CLI v1.0.3 installed via npm
-- [x] xurl app registered with X API credentials (bearer token configured)
-- [x] GitHub MCP added to config.yaml
-- [x] Filesystem MCP added to config.yaml
-- [x] Time MCP confirmed in config.yaml
-- [x] Browser configured: camoufox headless=false, path set
-- [x] Holographic memory set in config.yaml
-- [x] hope-theory-orchestrator skill created
-- [x] HERMES_SETUP.md created (setup guide for user)
-- [x] PROJECT_REGISTRY.json updated
-- [x] Insectiles deploy fix: removed 456MB unused @google/stitch-sdk
-- [x] hope-theory-hq brand site scaffolded (Vite + React + TypeScript)
-- [x] hope-theory-hq builds clean (207KB, 65KB gzip)
-
-### Blocked
-- [ ] xurl OAuth — need OAuth1a access token + token secret (PIN flow)
-- [ ] Ollama install — 2GB binary: `curl -fsSL https://ollama.com/install.sh | sh`
-- [ ] Image generation — needs XAI_API_KEY or OPENAI_API_KEY in ~/.hermes/.env
-
----
-
-## Sprint Goals — Current Status
-
+### Sprint Goals — Current Status
 | # | Task | Status | Notes |
 |---|---|---|---|
-| 1 | BugSmasher v1.5 deploy | ✅ Done | main branch restored, v1.5 files pushed, live at https://bugsmasher-ten.vercel.app |
-| 2 | Insectiles redeploy | 🔴 Pending | stitch-sdk removed, needs npm install + build |
-| 3 | hope-theory-hq deploy | ✅ Done | deployed to https://hope-theory-hq.vercel.app |
-| 4 | xurl OAuth | 🔴 Blocked | Needs OAuth1a PIN flow from developer.x.com |
-| 5 | Ollama local AI | 🔴 Blocked | Manual install required |
-| 6 | Image generation | 🔴 Blocked | Needs API key in .env |
+| 1 | BugSmasher v1.5 deploy | ✅ Done | v1.6 also complete, 92 tests |
+| 2 | Insectiles redeploy | 🔴 Pending | stitch-sdk removed, needs build |
+| 3 | hope-theory-hq deploy | ✅ Done | deployed to Vercel |
+| 4 | xurl OAuth | 🔴 Blocked | PIN flow needed |
+| 5 | Ollama local AI | 🔴 Blocked | Manual install |
+| 6 | Image generation | 🔴 Blocked | API key needed |
 | 7 | Discord OAuth (BugSmasher) | 🟡 Backlog | Ready to test |
 | 8 | Freelancing | 🟡 Active | Research complete, proposals starting |
 
----
+### Freelance Launch Status
+- [x] Case studies — BugSmasher, RollON, Hermes (all complete)
+- [x] Proposal templates — Web3, AI Agent, Automation (all ready)
+- [x] Remote job market research — 50+ jobs analyzed
+- [x] Upwork profile setup — Ready to apply
+- [x] Fiverr gigs — 5 templates ready
+- [ ] Active outreach — Needs execution
 
-## Next Immediate Actions (Next 48 hours)
-
-1. **Case Studies** — Create 3 detailed case studies (BugSmasher, RollON, Hermes)
-2. **Upwork Profile** — Optimize to 100% completion, add portfolio
-3. **Proposal Templates** — Create 3 templates (Web3, AI, Full-stack)
-4. **First Outreach** — Send 10 test proposals to refine approach
-
----
-
-### Notes
-- Network restrictions: curl|sh blocked, large downloads slow
-- WSL: /mnt/h/DevJourney = Windows H:\DevJourney
-- Hermes v0.12.0 (Curator enabled)
-- Model: minimax-m2.5-free via OpenCode Zen
+### Next Immediate Actions
+1. **Start freelance outreach** — Send 20 proposals, analyze response rates
+2. **Insectiles redeploy** — npm install + vercel deploy
+3. **Case study PDFs** — Create polished PDF versions for proposals
+4. **Key rotation** — BugSmasher Supabase keys (user action)
 
 ---
 
-*Session ended: 2026-05-08 | Agent: Hermes CEO Orchestrator v1*
+*Session ended: 2026-05-09 | Agent: Hermes v0.13.0*
