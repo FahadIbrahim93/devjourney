@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hope Theory — Command Center</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+  :root {
+    --void: #0a0a0f;
+    --deep: #12121a;
+    --card: #1a1a2e;
+    --border: rgba(0,240,255,0.12);
+    --cyan: #00f0ff;
+    --green: #00ff88;
+    --pink: #ff00aa;
+    --purple: #a855f7;
+    --text: #e0e0e0;
+    --muted: #7a7a8a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .bg-glow {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(0,240,255,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(168,85,247,0.04) 0%, transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+  header {
+    position: relative; z-index: 1;
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  .brand { display:flex; align-items:center; gap:14px; }
+  .ankh { font-size:32px; filter: drop-shadow(0 0 10px rgba(0,240,255,0.5)); }
+  .brand h1 { font-size:22px; font-weight:800; letter-spacing:-1px; color:var(--cyan); }
+  .brand p { font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+  .live-clock { font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--green); text-align:right; }
+  .live-clock .tz { font-size:10px; color:var(--muted); display:block; }
+
+  main { position:relative; z-index:1; padding:24px 32px 60px; max-width:1440px; margin:0 auto; }
+
+  .section { margin-bottom:28px; }
+  .section-title {
+    font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase;
+    color:var(--muted); margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:8px; }
+  .kpi {
+    background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px 18px;
+    position:relative; overflow:hidden; transition:border-color .2s;
+  }
+  .kpi:hover { border-color: rgba(0,240,255,0.35); }
+  .kpi .label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .kpi .value { font-size:26px; font-weight:800; font-family:'JetBrains Mono',monospace; }
+  .kpi .sub { font-size:11px; color:var(--muted); margin-top:4px; }
+  .kpi .bar { height:3px; border-radius:2px; background:rgba(255,255,255,0.05); margin-top:10px; overflow:hidden; }
+  .kpi .bar-fill { height:100%; border-radius:2px; transition:width .6s ease; }
+
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+
+  @media(max-width:900px) { .grid-2,.grid-3{grid-template-columns:1fr;} main,header{padding-left:16px;padding-right:16px;} }
+
+  .card {
+    background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px 20px;
+    transition: border-color .2s;
+  }
+  .card:hover { border-color: rgba(0,240,255,0.25); }
+  .card h3 { font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th { text-align:left; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); padding:6px 8px; border-bottom:1px solid var(--border); font-weight:600; }
+  td { padding:8px; border-bottom:1px solid rgba(255,255,255,0.03); vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  .badge { display:inline-block; padding:3px 8px; border-radius:4px; font-size:10px; font-weight:600; letter-spacing:.5px; }
+  .badge-green { background:rgba(0,255,136,0.12); color:var(--green); border:1px solid rgba(0,255,136,0.25); }
+  .badge-red { background:rgba(255,0,170,0.12); color:var(--pink); border:1px solid rgba(0,255,136,0.25); }
+  .badge-yellow { background:rgba(255,215,0,0.12); color:#ffd700; border:1px solid rgba(255,215,0,0.25); }
+  .badge-blue { background:rgba(0,240,255,0.10); color:var(--cyan); border:1px solid rgba(0,240,255,0.25); }
+
+  .post-card {
+    background: linear-gradient(135deg, rgba(0,240,255,0.04), rgba(168,85,247,0.03));
+    border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:10px;
+  }
+  .post-card .num { font-size:10px; color:var(--cyan); font-weight:700; letter-spacing:1px; margin-bottom:6px; }
+  .post-card .text { font-size:13px; line-height:1.6; color:var(--text); white-space:pre-wrap; }
+  .post-card .meta { font-size:10px; color:var(--muted); margin-top:8px; display:flex; gap:10px; flex-wrap:wrap; }
+
+  .checklist { list-style:none; }
+  .checklist li { padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.03); font-size:12px; display:flex; align-items:flex-start; gap:10px; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist input[type=checkbox] { accent-color:var(--green); margin-top:2px; flex-shrink:0; }
+  .checklist .item-label { flex:1; }
+  .checklist .item-meta { font-size:10px; color:var(--muted); white-space:nowrap; }
+
+  .revenue-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.03); font-size:12px; }
+  .revenue-row:last-child { border-bottom:none; }
+  .rev-label { flex:1; }
+  .rev-input { width:90px; background:var(--void); border:1px solid var(--border); color:var(--green); font-family:'JetBrains Mono',monospace; font-size:12px; padding:5px 8px; border-radius:5px; text-align:right; }
+  .rev-input:focus { outline:none; border-color:var(--cyan); }
+
+  .btn {
+    display:inline-block; padding:8px 16px; border-radius:6px; font-size:11px; font-weight:600; letter-spacing:.5px;
+    cursor:pointer; border:1px solid var(--border); background:transparent; color:var(--text); transition:all .2s;
+  }
+  .btn:hover { border-color:var(--cyan); color:var(--cyan); }
+  .btn-primary { background:rgba(0,240,255,0.12); color:var(--cyan); border-color:rgba(0,240,255,0.3); }
+  .btn-primary:hover { background:rgba(0,240,255,0.2); }
+  .actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+
+  .copy-toast {
+    position:fixed; bottom:24px; right:24px; z-index:999;
+    background:var(--card); border:1px solid rgba(0,255,136,0.3); color:var(--green);
+    padding:12px 20px; border-radius:8px; font-size:12px; font-weight:600;
+    opacity:0; transform:translateY(10px); transition:all .3s; pointer-events:none;
+  }
+  .copy-toast.show { opacity:1; transform:translateY(0); }
+
+  .progress-ring { display:inline-flex; align-items:center; gap:6px; }
+  .progress-ring svg { width:40px; height:40px; transform:rotate(-90deg); }
+  .progress-ring circle { fill:none; stroke-width:3; }
+  .progress-ring .bg { stroke:rgba(255,255,255,0.05); }
+  .progress-ring .fg { stroke:var(--green); stroke-linecap:round; transition:stroke-dashoffset .6s ease; }
+  .progress-ring .pct { position:absolute; font-size:9px; color:var(--green); font-weight:700; }
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="copy-toast" id="copyToast">Copied to clipboard ✓</div>
+
+<header>
+  <div class="brand">
+    <div class="ankh">☤</div>
+    <div>
+      <h1>Hope Theory — Command Center</h1>
+      <p>Never GIVE UP on your HOPES · Fahad Ibrahim</p>
+    </div>
+  </div>
+  <div class="live-clock" id="clock">
+    <span id="time">--:--:--</span>
+    <span class="tz" id="tz">Loading…</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- NORTH STAR KPIs -->
+  <div class="section">
+    <div class="section-title">North Star Metrics — 12 Month Targets</div>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="label">Monthly Income</div>
+        <div class="value" style="color:var(--green)">$0</div>
+        <div class="sub">Target: $4,000+/mo</div>
+        <div class="bar"><div class="bar-fill" id="kpi-income" style="width:0%;background:var(--green)"></div></div>
+      </div>
+      <div class="kpi">
+        <div class="label">DMs / Week</div>
+        <div class="value" style="color:var(--cyan)">0</div>
+        <div class="sub">Target: 10+/week</div>
+        <div class="bar"><div class="bar-fill" id="kpi-dms" style="width:0%;background:var(--cyan)"></div></div>
+      </div>
+      <div class="kpi">
+        <div class="label">Audience Reach</div>
+        <div class="value" style="color:var(--purple)">0</div>
+        <div class="sub">X + LI + NL · Target: 18K</div>
+        <div class="bar"><div class="bar-fill" id="kpi-audience" style="width:0%;background:var(--purple)"></div></div>
+      </div>
+      <div class="kpi">
+        <div class="label">GitHub Stars</div>
+        <div class="value" style="color:#ffd700">0</div>
+        <div class="sub">Target: 500+</div>
+        <div class="bar"><div class="bar-fill" id="kpi-stars" style="width:0%;background:#ffd700"></div></div>
+      </div>
+      <div class="kpi">
+        <div class="label">Newsletter Subs</div>
+        <div class="value" style="color:var(--pink)">0</div>
+        <div class="sub">Target: 1,000+</div>
+        <div class="bar"><div class="bar-fill" id="kpi-nl" style="width:0%;background:var(--pink)"></div></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="updateKPIs()">📊 Update Metrics</button>
+      <button class="btn" onclick="resetKPIs()">🔄 Reset to Defaults</button>
+    </div>
+  </div>
+
+  <div class="grid-2">
+
+    <!-- FREELANCE PIPELINE AUDIT -->
+    <div class="section">
+      <div class="section-title">Freelance Pipeline — Application Audit</div>
+      <div class="card">
+        <h3>📋 Platform Status · Applied vs. Followed-Up vs. Approved</h3>
+        <table>
+          <thead>
+            <tr><th>Platform</th><th>Role</th><th>Applied</th><th>Status</th><th>Rate</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Outlier AI</strong><br><span style="font-size:10px;color:var(--muted)">outlier.ai</span></td>
+              <td>Bangla Freelance Writer</td>
+              <td>Jun 17</td>
+              <td><span class="badge badge-yellow">⏳ Pending</span></td>
+              <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$6-35/hr</td>
+              <td><button class="btn" onclick="window.open('https://app.outlier.ai','_blank')">→ Login</button></td>
+            </tr>
+            <tr>
+              <td><strong>Outlier AI</strong><br><span style="font-size:10px;color:var(--muted)">outlier.ai</span></td>
+              <td>Voice Training Bengali</td>
+              <td>Jun 17</td>
+              <td><span class="badge badge-yellow">⏳ Pending</span></td>
+              <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$8/hr</td>
+              <td><button class="btn" onclick="window.open('https://app.outlier.ai','_blank')">→ Login</button></td>
+            </tr>
+            <tr>
+              <td><strong>DataAnnotation</strong><br><span style="font-size:10px;color:var(--muted)">dataannotation.tech</span></td>
+              <td>Bengali AI Trainer</td>
+              <td>Jun 17</td>
+              <td><span class="badge badge-yellow">⏳ Pending</span></td>
+              <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$25-50/hr</td>
+              <td><button class="btn" onclick="window.open('https://dataannotation.tech','_blank')">→ Login</button></td>
+            </tr>
+            <tr>
+              <td><strong>Alignerr</strong><br><span style="font-size:10px;color:var(--muted)">alignerr.com</span></td>
+              <td>Bengali Language Expert</td>
+              <td>—</td>
+              <td><span class="badge badge-red">❌ Not Applied</span></td>
+              <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$15-30/hr</td>
+              <td><button class="btn btn-primary" onclick="window.open('https://www.alignerr.com/jobs/05a3b35a-6931-4892-8fc7-3c9141fa2826','_blank')">→ Apply Now</button></td>
+            </tr>
+            <tr>
+              <td><strong>xAI</strong><br><span style="font-size:10px;color:var(--muted)">x.ai/careers</span></td>
+              <td>AI Tutor (Bengali)</td>
+              <td>Jun 17</td>
+              <td><span class="badge badge-yellow">⏳ Pending</span></td>
+              <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$15-25/hr</td>
+              <td><button class="btn" onclick="window.open('https://x.ai/careers','_blank')">→ Check</button></td>
+            </tr>
+            <tr>
+              <td><strong>Mercor</strong><br><span style="font-size:10px;color:var(--muted)">work.mercor.com</span></td>
+              <td>Bengali AI Specialist</td>
+              <td>Jun 17</td>
+              <td><span class="badge badge-yellow">⏳ Pending</span></td>
+              <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$20-22/hr</td>
+              <td><button class="btn" onclick="window.open('https://www.mercor.com','_blank')">→ Check</button></td>
+            </tr>
+            <tr>
+              <td><strong>Upwork</strong><br><span style="font-size:10px;color:var(--muted)">upwork.com</span></td>
+              <td>React/Supabase Dev</td>
+              <td>—</td>
+              <td><span class="badge badge-red">❌ Profile Ready, Not Live</span></td>
+              <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$40-80/hr</td>
+              <td><button class="btn btn-primary" onclick="window.open('https://www.upwork.com','_blank')">→ Activate</button></td>
+            </tr>
+            <tr>
+              <td><strong>Toptal</strong><br><span style="font-size:10px;color:var(--muted)">toptal.com</span></td>
+              <td>Full-Stack Developer</td>
+              <td>—</td>
+              <td><span class="badge badge-yellow">⏳ Pending Setup</span></td>
+              <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$40-80/hr</td>
+              <td><button class="btn" onclick="window.open('https://www.toptal.com','_blank')">→ Apply</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="actions">
+          <button class="btn btn-primary" onclick="followUpAll()">📧 Send Follow-Up to Pending Platforms</button>
+          <button class="btn" onclick="copyFollowUp()">📋 Copy Follow-Up Template</button>
+        </div>
+      </div>
+
+      <!-- REVENUE TRACKER -->
+      <div class="card" style="margin-top:14px;">
+        <h3>💰 Revenue Tracker — Monthly Income</h3>
+        <div id="revenue-tracker">
+          <div class="revenue-row"><div class="rev-label"><strong>Outlier AI</strong> <span style="font-size:10px;color:var(--muted)">Writer</span></div><input class="rev-input" data-platform="outlier-writer" placeholder="$0" /></div>
+          <div class="revenue-row"><div class="rev-label"><strong>Outlier AI</strong> <span style="font-size:10px;color:var(--muted)">Voice</span></div><input class="rev-input" data-platform="outlier-voice" placeholder="$0" /></div>
+          <div class="revenue-row"><div class="rev-label"><strong>DataAnnotation</strong></div><input class="rev-input" data-platform="dataannotation" placeholder="$0" /></div>
+          <div class="revenue-row"><div class="rev-label"><strong>Alignerr</strong></div><input class="rev-input" data-platform="alignerr" placeholder="$0" /></div>
+          <div class="revenue-row"><div class="rev-label"><strong>xAI Tutor</strong></div><input class="rev-input" data-platform="xai-tutor" placeholder="$0" /></div>
+          <div class="revenue-row"><div class="rev-label"><strong>Mercor</strong></div><input class="rev-input" data-platform="mercor" placeholder="$0" /></div>
+          <div class="revenue-row"><div class="rev-label"><strong>Upwork</strong></div><input class="rev-input" data-platform="upwork" placeholder="$0" /></div>
+          <div class="revenue-row"><div class="rev-label"><strong>Toptal</strong></div><input class="rev-input" data-platform="toptal" placeholder="$0" /></div>
+          <div class="revenue-row" style="border-top:1px solid var(--border);padding-top:12px;margin-top:4px;">
+            <div class="rev-label" style="font-weight:700;color:var(--green)">TOTAL MONTHLY</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--green)" id="total-rev">$0</div>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" onclick="calcRevenue()">💵 Calculate Total</button>
+          <button class="btn" onclick="saveRevenue()">💾 Save to localStorage</button>
+          <button class="btn" onclick="clearRevenue()">🗑️ Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+
+      <!-- PLATFORM STATUS -->
+      <div class="card" style="margin-bottom:14px;">
+        <h3>🌐 Platform Overview</h3>
+        <table>
+          <thead><tr><th>Platform</th><th>Handle</th><th>Score</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>X/Twitter</strong></td>
+              <td style="font-size:11px">@hopetheory__</td>
+              <td><span class="badge badge-yellow">3/10</span></td>
+              <td><span class="badge badge-yellow">Needs Work</span></td>
+            </tr>
+            <tr>
+              <td><strong>LinkedIn</strong></td>
+              <td style="font-size:11px">/in/hopetheory-</td>
+              <td><span class="badge badge-yellow">⚠️ Unknown</span></td>
+              <td><span class="badge badge-blue">Update Profile</span></td>
+            </tr>
+            <tr>
+              <td><strong>GitHub</strong></td>
+              <td style="font-size:11px">FahadIbrahim93</td>
+              <td><span class="badge badge-green">6/10</span></td>
+              <td><span class="badge badge-green">Good</span></td>
+            </tr>
+            <tr>
+              <td><strong>Website</strong></td>
+              <td style="font-size:11px">hopetheory.co</td>
+              <td><span class="badge badge-red">0/10</span></td>
+              <td><span class="badge badge-red">Not Deployed</span></td>
+            </tr>
+            <tr>
+              <td><strong>Newsletter</strong></td>
+              <td style="font-size:11px">The Chronicle</td>
+              <td><span class="badge badge-red">0/10</span></td>
+              <td><span class="badge badge-red">Not Started</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- THIS WEEK'S ACTION CHECKLIST -->
+      <div class="card" style="margin-bottom:14px;">
+        <h3>✅ This Week — Action Checklist</h3>
+        <ul class="checklist" id="weekly-checklist">
+          <li><input type="checkbox" id="w1"><label class="item-label" for="w1">Log into Outlier AI — check dashboard for tasks</label><span class="item-meta">Today</span></li>
+          <li><input type="checkbox" id="w2"><label class="item-label" for="w2">Log into DataAnnotation — complete pending assessments</label><span class="item-meta">Today</span></li>
+          <li><input type="checkbox" id="w3"><label class="item-label" for="w3">Apply to Alignerr (Bengali Language Expert)</label><span class="item-meta">Today</span></li>
+          <li><input type="checkbox" id="w4"><label class="item-label" for="w4">Send follow-up to all Jun 17 applications (xAI, Mercor, Sigma)</label><span class="item-meta">Today</span></li>
+          <li><input type="checkbox" id="w5"><label class="item-label" for="w5">Activate Upwork profile (copy from UPWORK_PROFILE.md)</label><span class="item-meta">Day 2</span></li>
+          <li><input type="checkbox" id="w6"><label class="item-label" for="w6">Post X intro thread (6-tweet pinned thread)</label><span class="item-meta">Day 2</span></li>
+          <li><input type="checkbox" id="w7"><label class="item-label" for="w7">10 strategic replies on X to crypto/dev accounts</label><span class="item-meta">Daily</span></li>
+          <li><input type="checkbox" id="w8"><label class="item-label" for="w8">Update GitHub profile README with project links</label><span class="item-meta">Day 3</span></li>
+          <li><input type="checkbox" id="w9"><label class="item-label" for="w9">Send 3 LinkedIn connection requests to recruiters</label><span class="item-meta">Daily</span></li>
+          <li><input type="checkbox" id="w10"><label class="item-label" for="w10">Review metrics — what's working? Adjust next week.</label><span class="item-meta">Sunday</span></li>
+        </ul>
+        <div class="actions">
+          <button class="btn btn-primary" onclick="saveChecklist()">💾 Save Progress</button>
+          <button class="btn" onclick="resetChecklist()">🔄 Reset Week</button>
+        </div>
+      </div>
+
+      <!-- 30-DAY CONTENT CALENDAR PREVIEW -->
+      <div class="card">
+        <h3>📅 30-Day Content Calendar — Week 1 Preview</h3>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">X/Twitter posts only. Copy-paste ready.</div>
+        <div class="post-card" onclick="copyPost(this)">
+          <div class="num">POST 1 — MONDAY · 🧵 THREAD · PIN THIS</div>
+          <div class="text">Tweet 1/6 🧵
+I run 6 companies under one brand.
+
+Not because I can't focus.
+Because I see patterns others miss.
+
+Here's who I am and what I build 👇</div>
+          <div class="meta"><span>🧵 Thread</span><span>🏷️ #BuildInPublic #HopeTheory</span><span>⏰ 9:00 AM</span></div>
+        </div>
+        <div class="post-card" onclick="copyPost(this)">
+          <div class="num">POST 2 — TUESDAY · 📊 CHART POST</div>
+          <div class="text">$BTC — 4H [Date]
+
+What I see:
+• [Pattern: cup-handle / descending triangle / bull flag]
+• Resistance: $[level]
+• Support: $[level]
+• Volume: [increasing/decreasing]
+• RSI: [number] — [overbought/oversold/neutral]
+
+My trade: [Long/Short/Skip]
+Entry: $[price]
+Target: $[price]
+Stop: $[price]
+
+Not financial advice. Just my read.
+
+#BTC #Crypto #TechnicalAnalysis</div>
+          <div class="meta"><span>📊 Analysis</span><span>🏷️ #BTC #Crypto</span><span>⏰ 9:00 AM</span></div>
+        </div>
+        <div class="post-card" onclick="copyPost(this)">
+          <div class="num">POST 3 — WEDNESDAY · 🧵 THREAD</div>
+          <div class="text">How I shipped BugSmasher in 2 weeks 🧵
+
+1/ Tech stack: React 19 + TypeScript + Supabase + Vite
+2/ Why I chose each tool
+3/ What broke (auth, state, sync)
+4/ What I'd do differently
+
+If you're building solo, this will save you weeks.</div>
+          <div class="meta"><span>🧵 Build Log</span><span>🏷️ #ReactJS #BuildInPublic</span><span>⏰ 9:00 AM</span></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" onclick="copyAllPosts()">📋 Copy All Posts</button>
+          <button class="btn" onclick="openContentVault()">📂 Full 30-Day Vault</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // Live clock
+  function updateClock() {
+    const now = new Date();
+    const opts = { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, timeZone:'Asia/Dhaka' };
+    const tzOpts = { timeZone:'Asia/Dhaka', timeZoneName:'short' };
+    document.getElementById('time').textContent = new Intl.DateTimeFormat('en-US', opts).format(now);
+    document.getElementById('tz').textContent = 'UTC+6 · Dhaka, BD · ' + new Intl.DateTimeFormat('en-US', tzOpts).format(now).split('·').pop().trim();
+  }
+  updateClock(); setInterval(updateClock, 1000);
+
+  // Revenue calc
+  function calcRevenue() {
+    let total = 0;
+    document.querySelectorAll('.rev-input').forEach(inp => {
+      const val = parseFloat(inp.value.replace(/[^0-9.]/g,'')) || 0;
+      total += val;
+    });
+    document.getElementById('total-rev').textContent = '$' + total.toLocaleString();
+    return total;
+  }
+
+  function saveRevenue() {
+    const data = {};
+    document.querySelectorAll('.rev-input').forEach(inp => {
+      data[inp.dataset.platform] = inp.value;
+    });
+    localStorage.setItem('hopetheory_revenue', JSON.stringify(data));
+    showToast('Revenue data saved ✓');
+  }
+
+  function clearRevenue() {
+    document.querySelectorAll('.rev-input').forEach(inp => inp.value = '');
+    document.getElementById('total-rev').textContent = '$0';
+    localStorage.removeItem('hopetheory_revenue');
+  }
+
+  // Load saved revenue
+  (function loadRevenue() {
+    const saved = localStorage.getItem('hopetheory_revenue');
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        document.querySelectorAll('.rev-input').forEach(inp => {
+          if (data[inp.dataset.platform]) inp.value = data[inp.dataset.platform];
+        });
+        calcRevenue();
+      } catch(e) {}
+    }
+  })();
+
+  // Checklist persistence
+  function saveChecklist() {
+    const state = {};
+    document.querySelectorAll('#weekly-checklist input[type=checkbox]').forEach(cb => {
+      state[cb.id] = cb.checked;
+    });
+    localStorage.setItem('hopetheory_checklist', JSON.stringify(state));
+    showToast('Progress saved ✓');
+  }
+
+  function resetChecklist() {
+    document.querySelectorAll('#weekly-checklist input[type=checkbox]').forEach(cb => cb.checked = false);
+    localStorage.removeItem('hopetheory_checklist');
+  }
+
+  (function loadChecklist() {
+    const saved = localStorage.getItem('hopetheory_checklist');
+    if (saved) {
+      try {
+        const state = JSON.parse(saved);
+        Object.keys(state).forEach(id => {
+          const cb = document.getElementById(id);
+          if (cb) cb.checked = state[id];
+        });
+      } catch(e) {}
+    }
+  })();
+
+  // Auto-save checkboxes on change
+  document.querySelectorAll('#weekly-checklist input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', saveChecklist);
+  });
+
+  // Copy post to clipboard
+  function copyPost(el) {
+    const text = el.querySelector('.text').textContent.trim();
+    navigator.clipboard.writeText(text).then(() => showToast('Post copied to clipboard ✓'));
+  }
+
+  function copyAllPosts() {
+    const posts = document.querySelectorAll('.post-card .text');
+    const all = Array.from(posts).map(p => p.textContent.trim()).join('\n\n---\n\n');
+    navigator.clipboard.writeText(all).then(() => showToast('All posts copied ✓'));
+  }
+
+  function followUpAll() {
+    const template = `Hi [Name],
+
+I'm a native Bengali speaker with full-stack dev background offering AI training, voice, and annotation work.
+
+I applied on June 17 and wanted to follow up. Still very interested in contributing to your Bengali language projects.
+
+Native fluency · Fluent English · Technical background · Available 20-30 hrs/week · GMT+6
+
+Let me know next steps.
+
+Fahad Ibrahim
+hopetheorybd@gmail.com`;
+    navigator.clipboard.writeText(template).then(() => showToast('Follow-up template copied ✓'));
+  }
+
+  function copyFollowUp() {
+    followUpAll();
+  }
+
+  function openContentVault() {
+    showToast('Open WEEK1_CONTENT_VAULT.md in your editor for full 30-day posts');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('copyToast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // KPI persistence
+  function updateKPIs() {
+    const income = prompt('Monthly income ($):', document.querySelector('.kpi:nth-child(1) .value').textContent.replace(/[^0-9]/g,'') || '0');
+    const dms = prompt('Recruiter/client DMs this week:', document.querySelector('.kpi:nth-child(2) .value').textContent || '0');
+    const audience = prompt('Total audience (X + LI + NL followers):', document.querySelector('.kpi:nth-child(3) .value').textContent.replace(/[^0-9]/g,'') || '0');
+    const stars = prompt('GitHub stars across all repos:', document.querySelector('.kpi:nth-child(4) .value').textContent || '0');
+    const subs = prompt('Newsletter subscribers:', document.querySelector('.kpi:nth-child(5) .value').textContent.replace(/[^0-9]/g,'') || '0');
+    if (income !== null) {
+      const v1 = document.querySelectorAll('.kpi:nth-child(1) .value, .kpi:nth-child(1) .sub');
+      if(v1[0]) v1[0].textContent = '$' + parseInt(income).toLocaleString();
+      if(v1[1]) v1[1].textContent = 'Target: $4,000+/mo';
+      const b1 = document.getElementById('kpi-income'); if(b1) b1.style.width = Math.min(100, (parseInt(income)/4000)*100)+'%';
+    }
+    if (dms !== null) {
+      const v2 = document.querySelectorAll('.kpi:nth-child(2) .value, .kpi:nth-child(2) .sub');
+      if(v2[0]) v2[0].textContent = dms;
+      if(v2[1]) v2[1].textContent = 'Target: 10+/week';
+      const b2 = document.getElementById('kpi-dms'); if(b2) b2.style.width = Math.min(100, (parseInt(dms)/10)*100)+'%';
+    }
+    if (audience !== null) {
+      const v3 = document.querySelectorAll('.kpi:nth-child(3) .value, .kpi:nth-child(3) .sub');
+      if(v3[0]) v3[0].textContent = parseInt(audience).toLocaleString();
+      if(v3[1]) v3[1].textContent = 'X + LI + NL · Target: 18K';
+      const b3 = document.getElementById('kpi-audience'); if(b3) b3.style.width = Math.min(100, (parseInt(audience)/18000)*100)+'%';
+    }
+    if (stars !== null) {
+      const v4 = document.querySelectorAll('.kpi:nth-child(4) .value, .kpi:nth-child(4) .sub');
+      if(v4[0]) v4[0].textContent = stars;
+      if(v4[1]) v4[1].textContent = 'Target: 500+';
+      const b4 = document.getElementById('kpi-stars'); if(b4) b4.style.width = Math.min(100, (parseInt(stars)/500)*100)+'%';
+    }
+    if (subs !== null) {
+      const v5 = document.querySelectorAll('.kpi:nth-child(5) .value, .kpi:nth-child(5) .sub');
+      if(v5[0]) v5[0].textContent = subs;
+      if(v5[1]) v5[1].textContent = 'Target: 1,000+';
+      const b5 = document.getElementById('kpi-nl'); if(b5) b5.style.width = Math.min(100, (parseInt(subs)/1000)*100)+'%';
+    }
+    localStorage.setItem('hopetheory_kpis', JSON.stringify({income,dms,audience,stars,subs}));
+    showToast('Metrics updated ✓');
+  }
+
+  function resetKPIs() {
+    ['kpi-income','kpi-dms','kpi-audience','kpi-stars','kpi-nl'].forEach(id => {
+      document.getElementById(id).style.width = '0%';
+    });
+    document.querySelectorAll('.kpi .value').forEach(el => { if(el.textContent.includes('$')) el.textContent='$0'; else el.textContent='0'; });
+    localStorage.removeItem('hopetheory_kpis');
+    showToast('Metrics reset ✓');
+  }
+
+  (function loadKPIs() {
+    const saved = localStorage.getItem('hopetheory_kpis');
+    if (!saved) return;
+    try {
+      const d = JSON.parse(saved);
+      if(d.income){ document.querySelector('.kpi:nth-child(1) .value').textContent='$'+parseInt(d.income).toLocaleString(); document.getElementById('kpi-income').style.width=Math.min(100,(parseInt(d.income)/4000)*100)+'%'; }
+      if(d.dms){ document.querySelector('.kpi:nth-child(2) .value').textContent=d.dms; document.getElementById('kpi-dms').style.width=Math.min(100,(parseInt(d.dms)/10)*100)+'%'; }
+      if(d.audience){ document.querySelector('.kpi:nth-child(3) .value').textContent=parseInt(d.audience).toLocaleString(); document.getElementById('kpi-audience').style.width=Math.min(100,(parseInt(d.audience)/18000)*100)+'%'; }
+      if(d.stars){ document.querySelector('.kpi:nth-child(4) .value').textContent=d.stars; document.getElementById('kpi-stars').style.width=Math.min(100,(parseInt(d.stars)/500)*100)+'%'; }
+      if(d.subs){ document.querySelector('.kpi:nth-child(5) .value').textContent=d.subs; document.getElementById('kpi-nl').style.width=Math.min(100,(parseInt(d.subs)/1000)*100)+'%'; }
+    } catch(e) {}
+  })();
+</script>
+</body>
+</html>
