@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hope Theory — Bengali AI Training Tracker</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+  :root {
+    --void: #0a0a0f;
+    --deep: #12121a;
+    --card: #1a1a2e;
+    --border: rgba(0,240,255,0.12);
+    --cyan: #00f0ff;
+    --green: #00ff88;
+    --pink: #ff00aa;
+    --purple: #a855f7;
+    --text: #e0e0e0;
+    --muted: #7a7a8a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  .brand { display:flex; align-items:center; gap:12px; }
+  .ankh { font-size:28px; filter: drop-shadow(0 0 8px rgba(0,240,255,0.5)); }
+  .brand h1 { font-size:20px; font-weight:800; letter-spacing:-1px; color:var(--cyan); }
+  .brand p { font-size:11px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+  .summary { display:flex; gap:16px; flex-wrap:wrap; }
+  .summary-item { text-align:center; }
+  .summary-item .val { font-size:22px; font-weight:800; font-family:'JetBrains Mono',monospace; }
+  .summary-item .lbl { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+
+  main { padding: 24px 32px 60px; max-width:1400px; margin:0 auto; }
+
+  .section { margin-bottom:28px; }
+  .section-title {
+    font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase;
+    color:var(--muted); margin-bottom:14px; display:flex; align-items:center; gap:10px;
+  }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:20px; }
+  .kpi {
+    background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px;
+    text-align:center;
+  }
+  .kpi .label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .kpi .value { font-size:24px; font-weight:800; font-family:'JetBrains Mono',monospace; }
+  .kpi .sub { font-size:10px; color:var(--muted); margin-top:4px; }
+
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th { text-align:left; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); padding:8px; border-bottom:1px solid var(--border); font-weight:600; }
+  td { padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.03); vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  .badge { display:inline-block; padding:3px 8px; border-radius:4px; font-size:10px; font-weight:600; letter-spacing:.5px; }
+  .badge-green { background:rgba(0,255,136,0.12); color:var(--green); border:1px solid rgba(0,255,136,0.25); }
+  .badge-red { background:rgba(255,0,170,0.12); color:var(--pink); border:1px solid rgba(255,0,170,0.25); }
+  .badge-yellow { background:rgba(255,215,0,0.12); color:#ffd700; border:1px solid rgba(255,215,0,0.25); }
+  .badge-blue { background:rgba(0,240,255,0.10); color:var(--cyan); border:1px solid rgba(0,240,255,0.25); }
+
+  .btn {
+    display:inline-block; padding:6px 12px; border-radius:5px; font-size:10px; font-weight:600;
+    cursor:pointer; border:1px solid var(--border); background:transparent; color:var(--text);
+    text-decoration:none; transition:all .2s;
+  }
+  .btn:hover { border-color:var(--cyan); color:var(--cyan); }
+  .btn-primary { background:rgba(0,240,255,0.12); color:var(--cyan); border-color:rgba(0,240,255,0.3); }
+
+  .actions-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+  .actions-bar .btn { padding:10px 18px; font-size:12px; }
+
+  .toast {
+    position:fixed; bottom:24px; right:24px; z-index:999;
+    background:var(--card); border:1px solid rgba(0,255,136,0.3); color:var(--green);
+    padding:12px 20px; border-radius:8px; font-size:12px; font-weight:600;
+    opacity:0; transform:translateY(10px); transition:all .3s; pointer-events:none;
+  }
+  .toast.show { opacity:1; transform:translateY(0); }
+
+  .notes-input {
+    width:100%; background:var(--void); border:1px solid var(--border); color:var(--text);
+    font-family:'Inter',sans-serif; font-size:11px; padding:6px 8px; border-radius:4px;
+    resize:vertical; min-height:36px;
+  }
+  .notes-input:focus { outline:none; border-color:var(--cyan); }
+
+  @media(max-width:900px) {
+    main,header { padding-left:16px; padding-right:16px; }
+    table { font-size:11px; }
+    th,td { padding:6px 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="toast" id="toast">Saved ✓</div>
+
+<header>
+  <div class="brand">
+    <div class="ankh">☤</div>
+    <div>
+      <h1>Bengali AI Training — Application Tracker</h1>
+      <p>Never GIVE UP on your HOPES · Revenue Tracker</p>
+    </div>
+  </div>
+  <div class="summary">
+    <div class="summary-item">
+      <div class="val" style="color:var(--cyan)" id="totalApps">0</div>
+      <div class="lbl">Applications</div>
+    </div>
+    <div class="summary-item">
+      <div class="val" style="color:var(--yellow)" id="pendingApps">0</div>
+      <div class="lbl">Pending</div>
+    </div>
+    <div class="summary-item">
+      <div class="val" style="color:var(--green)" id="approvedApps">0</div>
+      <div class="lbl">Approved</div>
+    </div>
+    <div class="summary-item">
+      <div class="val" style="color:var(--green)" id="monthlyRev">$0</div>
+      <div class="lbl">Monthly Potential</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="section">
+    <div class="section-title">Application Status Tracker</div>
+    <div class="actions-bar">
+      <button class="btn btn-primary" onclick="saveAll()">💾 Save All Changes</button>
+      <button class="btn" onclick="loadSaved()">🔄 Load Saved Data</button>
+      <button class="btn" onclick="exportCSV()">📊 Export CSV</button>
+      <button class="btn" onclick="window.print()">🖨️ Print</button>
+    </div>
+
+    <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Platform</th>
+          <th>Role</th>
+          <th>Rate</th>
+          <th>Applied Date</th>
+          <th>Days Pending</th>
+          <th>Status</th>
+          <th>Follow-Up #</th>
+          <th>Last Contact</th>
+          <th>Next Action</th>
+          <th>Notes</th>
+          <th>Links</th>
+        </tr>
+      </thead>
+      <tbody id="appTable">
+        <tr data-platform="outlier-writer">
+          <td><strong>Outlier AI</strong><br><span style="font-size:10px;color:var(--muted)">outlier.ai</span></td>
+          <td>Bangla Freelance Writer</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$6-35/hr</td>
+          <td>Jun 17</td>
+          <td class="days-pending">56</td>
+          <td><span class="badge badge-yellow">⏳ Pending</span></td>
+          <td class="followup-count">0</td>
+          <td class="last-contact">—</td>
+          <td><button class="btn btn-primary" onclick="sendFollowUp('outlier-writer')">📧 Follow Up</button></td>
+          <td><textarea class="notes-input" placeholder="Add notes..."></textarea></td>
+          <td><a href="https://app.outlier.ai" target="_blank" class="btn">→ Login</a></td>
+        </tr>
+        <tr data-platform="outlier-voice">
+          <td><strong>Outlier AI</strong><br><span style="font-size:10px;color:var(--muted)">outlier.ai</span></td>
+          <td>Voice Training Bengali</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$8/hr</td>
+          <td>Jun 17</td>
+          <td class="days-pending">56</td>
+          <td><span class="badge badge-yellow">⏳ Pending</span></td>
+          <td class="followup-count">0</td>
+          <td class="last-contact">—</td>
+          <td><button class="btn btn-primary" onclick="sendFollowUp('outlier-voice')">📧 Follow Up</button></td>
+          <td><textarea class="notes-input" placeholder="Add notes..."></textarea></td>
+          <td><a href="https://app.outlier.ai" target="_blank" class="btn">→ Login</a></td>
+        </tr>
+        <tr data-platform="dataannotation">
+          <td><strong>DataAnnotation</strong><br><span style="font-size:10px;color:var(--muted)">dataannotation.tech</span></td>
+          <td>Bengali AI Trainer</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$25-50/hr</td>
+          <td>Jun 17</td>
+          <td class="days-pending">56</td>
+          <td><span class="badge badge-yellow">⏳ Pending</span></td>
+          <td class="followup-count">0</td>
+          <td class="last-contact">—</td>
+          <td><button class="btn btn-primary" onclick="sendFollowUp('dataannotation')">📧 Follow Up</button></td>
+          <td><textarea class="notes-input" placeholder="Add notes..."></textarea></td>
+          <td><a href="https://dataannotation.tech" target="_blank" class="btn">→ Login</a></td>
+        </tr>
+        <tr data-platform="xai-tutor">
+          <td><strong>xAI</strong><br><span style="font-size:10px;color:var(--muted)">x.ai/careers</span></td>
+          <td>AI Tutor (Bengali)</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$15-25/hr</td>
+          <td>Jun 17</td>
+          <td class="days-pending">56</td>
+          <td><span class="badge badge-yellow">⏳ Pending</span></td>
+          <td class="followup-count">0</td>
+          <td class="last-contact">—</td>
+          <td><button class="btn btn-primary" onclick="sendFollowUp('xai-tutor')">📧 Follow Up</button></td>
+          <td><textarea class="notes-input" placeholder="Add notes..."></textarea></td>
+          <td><a href="https://x.ai/careers" target="_blank" class="btn">→ Check</a></td>
+        </tr>
+        <tr data-platform="mercor">
+          <td><strong>Mercor</strong><br><span style="font-size:10px;color:var(--muted)">work.mercor.com</span></td>
+          <td>Bengali AI Specialist</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$20-22/hr</td>
+          <td>Jun 17</td>
+          <td class="days-pending">56</td>
+          <td><span class="badge badge-yellow">⏳ Pending</span></td>
+          <td class="followup-count">0</td>
+          <td class="last-contact">—</td>
+          <td><button class="btn btn-primary" onclick="sendFollowUp('mercor')">📧 Follow Up</button></td>
+          <td><textarea class="notes-input" placeholder="Add notes..."></textarea></td>
+          <td><a href="https://www.mercor.com" target="_blank" class="btn">→ Check</a></td>
+        </tr>
+        <tr data-platform="sigma">
+          <td><strong>Sigma Group</strong><br><span style="font-size:10px;color:var(--muted)">careers.sigma.ai</span></td>
+          <td>Bengali Linguist</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$12/hr</td>
+          <td>Jun 17</td>
+          <td class="days-pending">56</td>
+          <td><span class="badge badge-yellow">⏳ Pending</span></td>
+          <td class="followup-count">0</td>
+          <td class="last-contact">—</td>
+          <td><button class="btn btn-primary" onclick="sendFollowUp('sigma')">📧 Follow Up</button></td>
+          <td><textarea class="notes-input" placeholder="Add notes..."></textarea></td>
+          <td><a href="https://careers.sigma.ai" target="_blank" class="btn">→ Check</a></td>
+        </tr>
+        <tr data-platform="alignerr">
+          <td><strong>Alignerr</strong><br><span style="font-size:10px;color:var(--muted)">alignerr.com</span></td>
+          <td>Bengali Language Expert</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$15-30/hr</td>
+          <td>—</td>
+          <td class="days-pending">—</td>
+          <td><span class="badge badge-red">❌ Not Applied</span></td>
+          <td class="followup-count">0</td>
+          <td class="last-contact">—</td>
+          <td><button class="btn btn-primary" onclick="window.open('https://www.alignerr.com/jobs/05a3b35a-6931-4892-8fc7-3c9141fa2826','_blank')">→ Apply Now</button></td>
+          <td><textarea class="notes-input" placeholder="Add notes..."></textarea></td>
+          <td><a href="https://www.alignerr.com/jobs/05a3b35a-6931-4892-8fc7-3c9141fa2826" target="_blank" class="btn">→ Apply</a></td>
+        </tr>
+        <tr data-platform="upwork">
+          <td><strong>Upwork</strong><br><span style="font-size:10px;color:var(--muted)">upwork.com</span></td>
+          <td>React/Supabase Dev</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$40-80/hr</td>
+          <td>—</td>
+          <td class="days-pending">—</td>
+          <td><span class="badge badge-red">❌ Profile Not Live</span></td>
+          <td class="followup-count">0</td>
+          <td class="last-contact">—</td>
+          <td><button class="btn btn-primary" onclick="window.open('https://www.upwork.com','_blank')">→ Activate</button></td>
+          <td><textarea class="notes-input" placeholder="Add notes..."></textarea></td>
+          <td><a href="https://www.upwork.com" target="_blank" class="btn">→ Go</a></td>
+        </tr>
+        <tr data-platform="toptal">
+          <td><strong>Toptal</strong><br><span style="font-size:10px;color:var(--muted)">toptal.com</span></td>
+          <td>Full-Stack Developer</td>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:11px">$40-80/hr</td>
+          <td>—</td>
+          <td class="days-pending">—</td>
+          <td><span class="badge badge-yellow">⏳ Pending Setup</span></td>
+          <td class="followup-count">0</td>
+          <td class="last-contact">—</td>
+          <td><button class="btn btn-primary" onclick="window.open('https://www.toptal.com','_blank')">→ Apply</button></td>
+          <td><textarea class="notes-input" placeholder="Add notes..."></textarea></td>
+          <td><a href="https://www.toptal.com" target="_blank" class="btn">→ Go</a></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- REVENUE CALCULATOR -->
+  <div class="section">
+    <div class="section-title">Monthly Income Potential Calculator</div>
+    <div class="card" style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px;">
+        <div>
+          <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;">Outlier AI — Writer (hrs/wk)</label>
+          <input type="number" class="notes-input" data-rev="outlier-writer" value="0" min="0" style="width:100%;" onchange="calcTotal()" />
+        </div>
+        <div>
+          <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;">Outlier AI — Voice (hrs/wk)</label>
+          <input type="number" class="notes-input" data-rev="outlier-voice" value="0" min="0" style="width:100%;" onchange="calcTotal()" />
+        </div>
+        <div>
+          <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;">DataAnnotation (hrs/wk)</label>
+          <input type="number" class="notes-input" data-rev="dataannotation" value="0" min="0" style="width:100%;" onchange="calcTotal()" />
+        </div>
+        <div>
+          <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;">Alignerr (hrs/wk)</label>
+          <input type="number" class="notes-input" data-rev="alignerr" value="0" min="0" style="width:100%;" onchange="calcTotal()" />
+        </div>
+        <div>
+          <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;">xAI Tutor (hrs/wk)</label>
+          <input type="number" class="notes-input" data-rev="xai-tutor" value="0" min="0" style="width:100%;" onchange="calcTotal()" />
+        </div>
+        <div>
+          <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;">Mercor (hrs/wk)</label>
+          <input type="number" class="notes-input" data-rev="mercor" value="0" min="0" style="width:100%;" onchange="calcTotal()" />
+        </div>
+        <div>
+          <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;">Upwork (hrs/wk)</label>
+          <input type="number" class="notes-input" data-rev="upwork" value="0" min="0" style="width:100%;" onchange="calcTotal()" />
+        </div>
+        <div>
+          <label style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;">Toptal (hrs/wk)</label>
+          <input type="number" class="notes-input" data-rev="toptal" value="0" min="0" style="width:100%;" onchange="calcTotal()" />
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Total Monthly Potential</div>
+          <div style="font-size:32px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--green);" id="totalMonthly">$0</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Target</div>
+          <div style="font-size:18px;font-weight:700;color:var(--cyan);">$4,000+/mo</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">Progress: <span id="progressPct">0%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOLLOW-UP TEMPLATES -->
+  <div class="section">
+    <div class="section-title">Quick Follow-Up Templates</div>
+    <div class="card" style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Click a button to copy the template to your clipboard, then paste into the platform's messaging system.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="copyTemplate('generic')">📋 Generic Follow-Up</button>
+        <button class="btn" onclick="copyTemplate('outlier')">📧 Outlier AI</button>
+        <button class="btn" onclick="copyTemplate('dataannotation')">📧 DataAnnotation</button>
+        <button class="btn" onclick="copyTemplate('xai')">📧 xAI</button>
+        <button class="btn" onclick="copyTemplate('mercor')">📧 Mercor</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  const rates = {
+    'outlier-writer': 20,
+    'outlier-voice': 8,
+    'dataannotation': 35,
+    'alignerr': 20,
+    'xai-tutor': 20,
+    'mercor': 21,
+    'upwork': 60,
+    'toptal': 60
+  };
+
+  function calcTotal() {
+    let total = 0;
+    document.querySelectorAll('[data-rev]').forEach(inp => {
+      const platform = inp.dataset.rev;
+      const hours = parseFloat(inp.value) || 0;
+      const rate = rates[platform] || 0;
+      total += hours * rate * 4.33;
+    });
+    document.getElementById('totalMonthly').textContent = '$' + Math.round(total).toLocaleString();
+    const pct = Math.min(100, Math.round((total / 4000) * 100));
+    document.getElementById('progressPct').textContent = pct + '%';
+    return total;
+  }
+
+  function sendFollowUp(platform) {
+    const templates = {
+      'outlier-writer': `Hi Outlier AI Team,\n\nFollowing up on my Bangla Freelance Writer application submitted June 17.\n\nNative Bengali speaker • Full-stack dev background • 20-30 hrs/week available\n\nStill very interested. Any updates or next steps?\n\nFahad Ibrahim\nhopetheorybd@gmail.com`,
+      'outlier-voice': `Hi Outlier AI Team,\n\nFollowing up on my Voice Training (Bengali) application submitted June 17.\n\nNative Bengali speaker • Quiet workspace • Quality mic ready • 20-30 hrs/week\n\nCan start immediately. Any updates?\n\nFahad Ibrahim\nhopetheorybd@gmail.com`,
+      'dataannotation': `Hi DataAnnotation Team,\n\nChecking in on my Bengali AI Trainer application from June 17.\n\nNative Bengali • BSc CSE • Full-stack dev • Available 20-30 hrs/week\n\nHappy to complete any pending assessments. Any updates on my status?\n\nFahad Ibrahim\nhopetheorybd@gmail.com`,
+      'xai-tutor': `Hi xAI Careers Team,\n\nFollowing up on my Bengali AI Tutor application submitted June 17.\n\nNative Bengali speaker • Technical background • Available 10-15 hrs/week\n\nPassionate about making AI education accessible to Bengali-speaking users.\n\nAny updates or next steps?\n\nFahad Ibrahim\nhopetheorybd@gmail.com`,
+      'mercor': `Hi Mercor Team,\n\nFollowing up on my Bengali AI Specialist application from June 17.\n\nNative Bengali • AI/ML systems background • 20+ hrs/week\n\nInterested in contributing to Bengali language model safety and quality.\n\nAny updates on my application?\n\nFahad Ibrahim\nhopetheorybd@gmail.com`,
+      'sigma': `Hi Sigma Group Team,\n\nFollowing up on my Bengali Linguist application submitted June 17.\n\nNative Bengali speaker • Technical background • Available immediately\n\nAny updates or next steps?\n\nFahad Ibrahim\nhopetheorybd@gmail.com`
+    };
+
+    const text = templates[platform] || 'Follow-up template not found.';
+    navigator.clipboard.writeText(text).then(() => showToast('Follow-up copied to clipboard ✓'));
+
+    // Update row
+    const row = document.querySelector(`tr[data-platform="${platform}"]`);
+    if (row) {
+      const fuCell = row.querySelector('.followup-count');
+      const lastCell = row.querySelector('.last-contact');
+      const today = new Date().toISOString().split('T')[0];
+      if (fuCell) fuCell.textContent = parseInt(fuCell.textContent || '0') + 1;
+      if (lastCell) lastCell.textContent = today;
+    }
+  }
+
+  const templateTexts = {
+    generic: `Hi [Name],\n\nI applied for the [ROLE] position on [DATE] and wanted to briefly follow up.\n\nIn case it got buried, here's why I'm a strong fit in 30 seconds:\n- [KEY QUALIFICATION 1]\n- [KEY QUALIFICATION 2]\n- [KEY QUALIFICATION 3]\n\nI'm still very interested and available to start immediately. Happy to provide additional materials or complete any assessments.\n\nBest,\nFahad Ibrahim\nhopetheorybd@gmail.com`,
+    outlier: `Hi Outlier AI Team,\n\nFollowing up on my Bengali AI application (submitted June 17).\n\nNative Bengali speaker • Full-stack dev (React/TS/Supabase) • 20-30 hrs/week\n\nMy technical background means higher-quality annotations. Still very interested.\n\nFahad Ibrahim\nhopetheorybd@gmail.com`,
+    dataannotation: `Hi DataAnnotation Team,\n\nChecking in on my Bengali AI Trainer application (June 17).\n\nNative Bengali • BSc CSE • Available 20-30 hrs/week • GMT+6\n\nReady to complete any pending assessments. Any updates?\n\nFahad Ibrahim\nhopetheorybd@gmail.com`,
+    xai: `Hi xAI Careers,\n\nFollowing up on Bengali AI Tutor application (June 17).\n\nNative Bengali + technical background = better AI training outcomes.\nAvailable 10-15 hrs/week. Passionate about Bengali AI education.\n\nAny updates?\n\nFahad Ibrahim\nhopetheorybd@gmail.com`,
+    mercor: `Hi Mercor Team,\n\nFollowing up on Bengali AI Specialist application (June 17).\n\nNative Bengali • AI/ML systems • 20+ hrs/week\n\nInterested in Bengali language model safety/quality.\n\nAny updates on my status?\n\nFahad Ibrahim\nhopetheorybd@gmail.com`
+  };
+
+  function copyTemplate(key) {
+    const text = templateTexts[key] || '';
+    navigator.clipboard.writeText(text).then(() => showToast('Template copied ✓'));
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  function saveAll() {
+    const data = {};
+    document.querySelectorAll('#appTable tr').forEach(row => {
+      const platform = row.dataset.platform;
+      if (!platform) return;
+      data[platform] = {
+        notes: row.querySelector('.notes-input')?.value || '',
+        followupCount: row.querySelector('.followup-count')?.textContent || '0',
+        lastContact: row.querySelector('.last-contact')?.textContent || '—'
+      };
+    });
+    const revData = {};
+    document.querySelectorAll('[data-rev]').forEach(inp => {
+      revData[inp.dataset.rev] = inp.value;
+    });
+    localStorage.setItem('hopetheory_tracker', JSON.stringify({ apps: data, revenue: revData }));
+    showToast('All data saved ✓');
+    updateSummary();
+  }
+
+  function loadSaved() {
+    const saved = localStorage.getItem('hopetheory_tracker');
+    if (!saved) { showToast('No saved data found'); return; }
+    try {
+      const data = JSON.parse(saved);
+      if (data.apps) {
+        Object.keys(data.apps).forEach(platform => {
+          const row = document.querySelector(`tr[data-platform="${platform}"]`);
+          if (!row) return;
+          const app = data.apps[platform];
+          const notesEl = row.querySelector('.notes-input');
+          const fuEl = row.querySelector('.followup-count');
+          const lcEl = row.querySelector('.last-contact');
+          if (notesEl && app.notes) notesEl.value = app.notes;
+          if (fuEl && app.followupCount) fuEl.textContent = app.followupCount;
+          if (lcEl && app.lastContact && app.lastContact !== '—') lcEl.textContent = app.lastContact;
+        });
+      }
+      if (data.revenue) {
+        Object.keys(data.revenue).forEach(platform => {
+          const inp = document.querySelector(`[data-rev="${platform}"]`);
+          if (inp) inp.value = data.revenue[platform];
+        });
+        calcTotal();
+      }
+      showToast('Saved data loaded ✓');
+      updateSummary();
+    } catch(e) { showToast('Error loading data'); }
+  }
+
+  function exportCSV() {
+    let csv = 'Platform,Role,Rate,Applied Date,Days Pending,Status,Follow-Ups,Last Contact,Next Action,Notes\n';
+    document.querySelectorAll('#appTable tr').forEach(row => {
+      const platform = row.dataset.platform;
+      if (!platform) return;
+      const cells = row.querySelectorAll('td');
+      const name = cells[0]?.textContent?.trim()?.replace(/\s+/g, ' ') || '';
+      const role = cells[1]?.textContent?.trim() || '';
+      const rate = cells[2]?.textContent?.trim() || '';
+      const applied = cells[3]?.textContent?.trim() || '';
+      const pending = cells[4]?.textContent?.trim() || '';
+      const status = cells[5]?.textContent?.trim() || '';
+      const followups = cells[6]?.textContent?.trim() || '0';
+      const lastContact = cells[7]?.textContent?.trim() || '—';
+      const notes = cells[9]?.querySelector('textarea')?.value?.replace(/"/g, '""') || '';
+      csv += `"${name}","${role}","${rate}","${applied}","${pending}","${status}","${followups}","${lastContact}","","${notes}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'bengali_ai_training_tracker.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('CSV exported ✓');
+  }
+
+  function updateSummary() {
+    const rows = document.querySelectorAll('#appTable tr[data-platform]');
+    let total = 0, pending = 0, approved = 0;
+    rows.forEach(row => {
+      total++;
+      const status = row.querySelector('.badge')?.textContent || '';
+      if (status.includes('Pending') || status.includes('Not Applied')) pending++;
+      if (status.includes('Approved') || status.includes('Active')) approved++;
+    });
+    document.getElementById('totalApps').textContent = total;
+    document.getElementById('pendingApps').textContent = pending;
+    document.getElementById('approvedApps').textContent = approved;
+  }
+
+  // Auto-save every 30 seconds
+  setInterval(() => {
+    const notes = document.querySelectorAll('.notes-input');
+    let hasChanges = false;
+    notes.forEach(n => { if (n.value && !n.dataset.saved) hasChanges = true; });
+    if (hasChanges) saveAll();
+  }, 30000);
+
+  // Mark notes as saved on blur
+  document.querySelectorAll('.notes-input').forEach(el => {
+    el.addEventListener('blur', () => { el.dataset.saved = 'true'; });
+    el.addEventListener('input', () => { el.dataset.saved = ''; });
+  });
+
+  // Initial load
+  updateSummary();
+  calcTotal();
+</script>
+</body>
+</html>
