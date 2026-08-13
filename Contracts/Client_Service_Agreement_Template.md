@@ -6,7 +6,7 @@
 
 ## 1. PARTIES
 This Agreement is between:
-- **Service Provider:** Fahad Ibrahim (legal name: Rimon Islam), trading as Hope Theory (Hope Theory)
+- **Service Provider:** Fahad Ibrahim, trading as Hope Theory
 - **Client:** [Client Full Legal Name], located at [Client Address] (Client)
 
 ## 2. SCOPE OF WORK

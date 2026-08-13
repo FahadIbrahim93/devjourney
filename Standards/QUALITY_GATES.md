@@ -6,7 +6,7 @@ A task can skip a gate only if that gate doesn't apply (e.g., no tests for a con
 
 ---
 
-## The 4 Gates
+## The 5 Gates (including Revenue)
 
 ### Gate 1 — Lint ✅
 ```

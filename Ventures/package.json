@@ -1,0 +1,26 @@
+{
+  "name": "hope-theory-ventures",
+  "version": "1.0.0",
+  "description": "Hope Theory 6-venture business plans + content engine + revenue tracker",
+  "type": "module",
+  "main": "revenue-tracker.js",
+  "bin": {
+    "ht-revenue": "./revenue-tracker.js",
+    "ht-content": "./venture-content-engine.js"
+  },
+  "scripts": {
+    "revenue:report": "node revenue-tracker.js report",
+    "revenue:income": "node revenue-tracker.js income",
+    "revenue:expense": "node revenue-tracker.js expense",
+    "revenue:forecast": "node revenue-tracker.js forecast",
+    "revenue:venture": "node revenue-tracker.js venture",
+    "content:crypto": "node venture-content-engine.js crypto tweets",
+    "content:code": "node venture-content-engine.js code tweets",
+    "content:marjahans": "node venture-content-engine.js marjahans instagram",
+    "content:snaptrap": "node venture-content-engine.js snaptrap instagram",
+    "content:build": "node venture-content-engine.js build linkedin",
+    "content:philo": "node venture-content-engine.js philo threads"
+  },
+  "author": "Hope Theory <@hopetheory__>",
+  "license": "MIT"
+}

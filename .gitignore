@@ -1,18 +1,36 @@
 node_modules/
 .env
 *.env
-node_modules
 package-lock.json
+
+# Archival & generated
 _archived/
-.openclaude/
-.openclaw/
-Hermes/
-Notes/
 Sessions/
 Scripts/
 Freelancing/
+job_landing/
+
+# IDEs & tools
+.openclaude/
+.openclaw/
+.openclawrc
+.opencode-agents/
+
+# Build output & deployed
+.vercel
+Digital_Presence_Overhaul/
+
+# Knowledge & personal
+SecondBrain/
 KnowledgeGraph/
-Social_Media/
-Projects/
+Notes/
 Hermes/
+
+# Social media content (drafts)
+Social_Media/
+Social_Media_v3_Overhaul/
+
+# Projects (each is its own repo)
+Projects/
+
 .vercel

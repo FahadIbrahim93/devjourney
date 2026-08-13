@@ -1,0 +1,224 @@
+{
+  "insights": [
+    {
+      "id": "I-1780772639754",
+      "timestamp": "2026-06-06T19:03:59.754Z",
+      "clone": "crypto_sage",
+      "venture": "[CRYPTO]",
+      "type": "[SHADOW_SIM]",
+      "content": "Daily market analysis: BTC support at 5K, resistance at 9K"
+    },
+    {
+      "id": "I-1780800000001",
+      "timestamp": "2026-06-07T14:30:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[CROSS_VENTURE]",
+      "type": "[BRIDGE: REVENUE]",
+      "content": "Real revenue flowing across 3 ventures: CODE $1,500, SNAPTRAP ৳80,000, BUILD ৳5,000. Revenue tracking system working at H:/DevJourney/Ventures/revenue_data.json. This proves the multi-venture model works."
+    },
+    {
+      "id": "I-1780800000002",
+      "timestamp": "2026-06-07T14:31:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[CROSS_VENTURE]",
+      "type": "[BRIDGE: CONTENT]",
+      "content": "Content engine has pre-written material for ALL 6 ventures. 20+ video scripts, 104 posts scheduled in calendar, working CLI content generator. Content is the common thread that powers all ventures."
+    },
+    {
+      "id": "I-1780800000003",
+      "timestamp": "2026-06-07T14:32:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[CROSS_VENTURE]",
+      "type": "[BRIDGE: PRIVACY]",
+      "content": "Marjahans (jewelry, customer PII) and SnapTrap (drop plans, pricing) BOTH require Ollama local. Ollama not installed = both ventures have no working model. This is the #1 infrastructure blocker."
+    },
+    {
+      "id": "I-1780800000004",
+      "timestamp": "2026-06-07T14:33:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[CROSS_VENTURE]",
+      "type": "[BRIDGE: API]",
+      "content": "Only GEMINI_API_KEY has working credits. OpenRouter, xAI, OpenCodeZen all at $0. The planned model architecture (Nemotron 120B, Qwen Coder 32B, DeepSeek R1) cannot be used. Running on gemini-2.5-flash-lite only."
+    },
+    {
+      "id": "I-1780800000005",
+      "timestamp": "2026-06-07T14:34:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[CROSS_VENTURE]",
+      "type": "[BRIDGE: FREELANCE]",
+      "content": "CODE freelance system is production-ready: 10 ready-to-send proposals, 6 contract templates, portfolio site built, 7 automation scripts. 0 proposals sent. Fastest path to $5K/mo is fire the proposals."
+    },
+    {
+      "id": "I-1780800000006",
+      "timestamp": "2026-06-07T14:35:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[CROSS_VENTURE]",
+      "type": "[BRIDGE: SYSTEM]",
+      "content": "7 Hermes profiles, 130 skills, wiki, dashboard, CLIs all built and tested (47/47 pass). But profile configs are 2-line stubs. Skills are blueprints with no executable code. ShadowNetwork nearly empty. The factory is built but the assembly line isn't running."
+    },
+    {
+      "id": "I-1780800000007",
+      "timestamp": "2026-06-07T14:36:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[PHILO]",
+      "type": "[LEARNED]",
+      "content": "Quran timeline project at H:/DevProjects/quran-timeline/ is active research. API data fetched, methodology documented. This connects to PHILO venture's deep research and could bridge to CRYPTO (history of money) content."
+    },
+    {
+      "id": "I-1780800000008",
+      "timestamp": "2026-06-07T14:37:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[CROSS_VENTURE]",
+      "type": "[BRIDGE: CONTENT→CONTENT]",
+      "content": "Cross-venture experiments document defines 10 concrete experiments (Eid bundle, Web3 financing, cultural storytelling, etc.). None executed yet. These are pre-planned revenue opportunities waiting for execution."
+    },
+    {
+      "id": "I-1780800000009",
+      "timestamp": "2026-06-07T14:38:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[CODE]",
+      "type": "[LEARNED]",
+      "content": "Active code projects: Insectiles (TypeScript/Vite/React/PixiJS, 8.5/10 quality), RollON (deployed), hope-theory-hq (deployed Vercel), BugSmasher (case study written). Code Ninja has real project portfolio to show clients."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "M-1780800000010",
+      "timestamp": "2026-06-07T14:40:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[CROSS_VENTURE]",
+      "type": "[MISTAKE]",
+      "content": "Overbuilt infrastructure, under-deployed it: 7 profiles created but configs are 2-line stubs. 130 skills installed but none executable. 23 cron jobs generated but none scheduled. Factory built, assembly line not running.",
+      "lesson": "[LESSON] Always end each session with at least ONE operational output. Infrastructure without ops is theater. Next: deploy the minimum viable system first, then add complexity."
+    },
+    {
+      "id": "M-1780800000011",
+      "timestamp": "2026-06-07T14:41:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[CROSS_VENTURE]",
+      "type": "[MISTAKE]",
+      "content": "Built entire model architecture around OpenRouter free models (Nemotron, Qwen Coder, DeepSeek R1) without verifying OpenRouter has credits. Only Gemini works. Architecture is theoretical, not operational.",
+      "lesson": "[LESSON] Verify API credit balances BEFORE architecting model assignments. Build around what works (Gemini), not what you wish worked (OpenRouter free tier). Check .env credits in the first 5 minutes of every session."
+    },
+    {
+      "id": "M-1780800000012",
+      "timestamp": "2026-06-07T14:42:00.000Z",
+      "clone": "naruto_main",
+      "venture": "[CROSS_VENTURE]",
+      "type": "[MISTAKE]",
+      "content": "ShadowNetwork has only 1 insight from the entire build. 7 sessions worth of work, 300+ files created, and almost nothing tagged. No bridges, no learnings, no mistakes documented. Memory pool empty.",
+      "lesson": "[LESSON] Tag every session output immediately. [LEARNED], [MISTAKE]+[LESSON], [CROSS_VENTURE] tags are not optional — they're the system's memory. Start tagging in the first message of every session."
+    }
+  ],
+  "bridges": [
+    {
+      "id": "B-1",
+      "source": "[MARJAHANS]",
+      "target": "[SNAPTRAP]",
+      "type": "Eid Bundle",
+      "description": "Jewelry + streetwear bundle for Eid season. Defined in CROSS_VENTURE_EXPERIMENTS.md Experiment 1. Target: 50 bundles = ৳140,000 revenue.",
+      "status": "planned"
+    },
+    {
+      "id": "B-2",
+      "source": "[BUILD]",
+      "target": "[CRYPTO]",
+      "type": "Web3 Financing",
+      "description": "Real estate clients pay with BTC/ETH. 1-2% discount incentive. Defined in CROSS_VENTURE_EXPERIMENTS.md Experiment 2.",
+      "status": "planned"
+    },
+    {
+      "id": "B-3",
+      "source": "[PHILO]",
+      "target": "[CRYPTO]",
+      "type": "History of Money Content",
+      "description": "BTC halving cycles connected to historical patterns. Pre-written in content engine and content calendar.",
+      "status": "ready"
+    },
+    {
+      "id": "B-4",
+      "source": "[CODE]",
+      "target": "[SNAPTRAP]",
+      "type": "Drop Automation Tool",
+      "description": "Auto-generate drop teasers using code_ninja's automation skills. Snaptrap's pre_drop_teaser cron job designed for this.",
+      "status": "ready"
+    },
+    {
+      "id": "B-5",
+      "source": "[CODE]",
+      "target": "[BUILD]",
+      "type": "Proptech Tool",
+      "description": "Build a simple CRM/proposal tracker for real estate clients. Cross-venture experiment from CROSS_VENTURE_EXPERIMENTS.md.",
+      "status": "planned"
+    }
+  ],
+  "skills": [
+    {
+      "id": "S-1",
+      "name": "system-audit",
+      "description": "Comprehensive system audit across 6 ventures: scan all directories, check API credits, validate profile configs, inventory assets vs plans. Run at session start.",
+      "lastUsed": "2026-06-07"
+    },
+    {
+      "id": "S-2",
+      "name": "content-blast",
+      "description": "Generate and distribute content for all 6 ventures in parallel using delegate_task. Uses pre-written content from venture-content-engine.js and 30-day content calendar.",
+      "lastUsed": "never"
+    },
+    {
+      "id": "S-3",
+      "name": "freelance-proposal-fire",
+      "description": "Select, personalize, and prepare 5 freelance proposals from Ready_To_Send_Proposals.md. Optimize for specific Upwork/Fiverr jobs.",
+      "lastUsed": "never"
+    }
+  ],
+  "missions": [
+    {
+      "id": "M-1780772639637",
+      "timestamp": "2026-06-06T19:03:59.637Z",
+      "description": "Analyze BTC 4H chart for trading setup",
+      "tags": {"venture": "[CRYPTO]", "priority": "Med", "urgency": "Today"},
+      "clones": ["crypto_sage"],
+      "status": "queued"
+    },
+    {
+      "id": "M-1780800000100",
+      "timestamp": "2026-06-07T14:45:00.000Z",
+      "description": "Fix infrastructure: install Ollama, deploy profile configs, install cron jobs. Phase 0 of mission plan.",
+      "tags": {"venture": "[CROSS_VENTURE]", "priority": "P1", "urgency": "NOW"},
+      "clones": ["naruto_main"],
+      "status": "queued"
+    },
+    {
+      "id": "M-1780800000101",
+      "timestamp": "2026-06-07T14:46:00.000Z",
+      "description": "Fire first 5 freelance proposals from ready-to-send pool. Generate personalized versions for real Upwork/Fiverr jobs.",
+      "tags": {"venture": "[CODE]", "priority": "P1", "urgency": "Today"},
+      "clones": ["code_ninja"],
+      "status": "queued"
+    },
+    {
+      "id": "M-1780800000102",
+      "timestamp": "2026-06-07T14:47:00.000Z",
+      "description": "Day 1 content blast: generate 4 pieces of content (CRYPTO tweet, MARJAHANS IG, SNAPTRAP launch, PHILO thread)",
+      "tags": {"venture": "[CROSS_VENTURE]", "priority": "P1", "urgency": "Today"},
+      "clones": ["crypto_sage", "marjahans_merchant", "snaptrap_stylist", "truth_seeker"],
+      "status": "queued"
+    }
+  ],
+  "lastSync": "2026-06-08T01:50:00.000Z",
+  "testResults": {
+    "verified": [
+      {"provider": "google", "model": "gemini-2.5-flash-lite", "status": "working"},
+      {"provider": "opencode-zen", "model": "nemotron-3-ultra-free", "status": "working"},
+      {"provider": "opencode-zen", "model": "deepseek-v4-flash-free", "status": "working"},
+      {"provider": "opencode-zen", "model": "nemotron-3-super-free", "status": "working"},
+      {"provider": "opencode-zen", "model": "mimo-v2.5-free", "status": "working"}
+    ],
+    "failed": [
+      {"provider": "openrouter", "reason": "privacy_restrictions + no_credits", "fix": "openrouter.ai/settings/privacy"},
+      {"provider": "xai", "reason": "no_credits", "fix": "console.x.ai billing"},
+      {"provider": "kimi-coding", "reason": "account_suspended", "fix": "recharge Moonshot account"}
+    ]
+  }
+}

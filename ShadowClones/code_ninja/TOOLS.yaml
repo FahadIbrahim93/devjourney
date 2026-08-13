@@ -1,0 +1,64 @@
+# TOOLS.yaml — Code Ninja
+# Tools enabled for the [CODE] venture clone
+
+profile: code_ninja
+venture: [CODE]
+model:
+  primary: anthropic/claude-3.5-sonnet
+  fallback: opencode-zen
+  local: ollama/qwen2.5-coder:7b
+
+tools:
+  enabled:
+    - code_exec        # PRIMARY: write, run, debug code
+    - file_access      # Project files, configs
+    - browser          # Test web apps, read docs, debug UI
+    - web_search       # Find libraries, docs, StackOverflow
+    - terminal         # Git, npm, deployments
+    - cron_scheduler   # Scheduled jobs, monitoring, backups
+
+  permissions:
+    web_search: full
+    browser: full
+    code_exec: full
+    file_access:
+      read:
+        - ~/.hermes/profiles/code_ninja/projects/
+        - ~/.hermes/shared/code_library/
+      write:
+        - ~/.hermes/profiles/code_ninja/projects/
+        - ~/.hermes/shared/code_library/reusable/
+    terminal: full
+    cron_scheduler: full
+
+mcp_servers:
+  - name: github-mcp
+    purpose: Repos, issues, PRs, actions
+    auth: github_pat
+  - name: vercel-mcp
+    purpose: Deployments, domains, analytics
+    auth: vercel_token
+  - name: supabase-mcp
+    purpose: Database, auth, storage
+    auth: supabase_anon_key
+  - name: docker-mcp
+    purpose: Container management
+    auth: local_socket
+
+memory_namespace:
+  private: ~/.hermes/profiles/code_ninja/
+  shared: ~/.hermes/shared/code_library/
+
+daily_routines:
+  - time: "08:30"
+    task: "Standup: what shipped yesterday, what ships today"
+  - time: "17:00"
+    task: "End-of-day: commit, push, update kanban"
+
+skills:
+  - vibe_scaffold
+  - api_orchestrator
+  - ai_agent_builder
+  - automation_script
+  - freelance_deliverable
+  - ollama_deployer

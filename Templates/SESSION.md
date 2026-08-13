@@ -1,11 +1,17 @@
 # SESSION — [PROJECT] — [DATE]
 
 ## Project Context
-- **Project:** [name]
-- **Session:** #[N]
-- **Date:** [YYYY-MM-DD]
-- **Quality:** [N]/10
-- **Sprint goal:** [one sentence]
+- **Project**: [name]
+- **Session**: #[N]
+- **Date**: [YYYY-MM-DD]
+- **Quality**: [N]/10
+- **Sprint goal**: [one sentence]
+
+## Daily Revenue Check (Mandatory)
+- **Proposals sent today**: __
+- **Outreach actions**: __
+- **Revenue impact**: $__
+- If blank, session is INCOMPLETE
 
 ## Session Tasks
 > Max 3 tasks. Highest impact first.
@@ -16,27 +22,30 @@
 
 ## Progress
 ### [TIME] — [Task]
-**Done:**
+**Done**:
 - 
 
-**Next:**
+**Next**:
 - 
 
-**Blockers:**
+**Blockers**:
 - 
 
 ## End-of-Session
-**Completed:**
+**Completed**:
 - 
 
-**Remaining blockers:**
+**Remaining blockers**:
 - 
 
-**Next session starts with:**
+**Next session starts with**:
 1. 
 2. 
 
-**Notes:**
+**Revenue actions taken**:
+- 
+
+**Notes**:
 - 
 
 ---

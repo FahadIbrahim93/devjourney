@@ -1,0 +1,72 @@
+# ═══════════════════════════════════════════════════════════════════
+# Profile: naruto_main
+# Purpose: Fahad's digital twin. Orchestrates all 6 clones.
+# Created: 2026-06-06 · Updated: 2026-06-07 (free models)
+# ═══════════════════════════════════════════════════════════════════
+
+name: naruto_main
+description: "Fahad Ibrahim's digital twin. Orchestrates 6 specialized clones for the 6-venture Hope Theory empire. Sticky default."
+
+# ─── MODEL CONFIGURATION (FREE TIER) ─────────────────────────────
+model:
+  # Best free model overall — 80.2% SWE-Bench, top of free leaderboard
+  default: "nvidia/nemotron-3-super-120b-a12b:free"
+  provider: openrouter
+  base_url: "https://openrouter.ai/api/v1"
+  fallback_chain:
+    - "deepseek/deepseek-chat-v3-0324:free"      # 671B MoE, strong reasoning
+    - "qwen/qwen-2.5-72b-instruct:free"          # 128K context
+    - "ollama/llama3.1:8b"                       # Local, always works
+
+# ─── TOOLSETS (full access — orchestrator) ───────────────────────
+toolsets:
+  - terminal
+  - file
+  - web
+  - search
+  - vision
+  - memory
+  - code_execution
+  - browser
+  - delegation
+  - kanban
+  - todo
+  - session_search
+  - skills
+  - cron
+
+# ─── ENVIRONMENT ─────────────────────────────────────────────────
+env:
+  HERMES_PROFILE: naruto_main
+  OPENAI_API_KEY: "${OPENAI_API_KEY}"            # OpenRouter
+  GEMINI_API_KEY: "${GEMINI_API_KEY}"
+
+# ─── SKILLS (inherits from all clones via delegation) ────────────
+skills: []  # Orchestrator uses delegation, not direct skills
+
+# ─── CRON (3 daily jobs) ─────────────────────────────────────────
+cron:
+  - schedule: "30 9 * * *"
+    name: morning_synthesis
+    prompt: "Run shadow-orchestrator synthesis. Deliver State of the Empire."
+  - schedule: "0 22 * * *"
+    name: evening_memory
+    prompt: "Run shadow-orchestrator memory. Tag insights, save to ShadowNetwork."
+  - schedule: "0 20 * * 0"
+    name: weekly_review
+    prompt: "Run shadow-orchestrator weekly. Sunday digest."
+
+# ─── MEMORY ───────────────────────────────────────────────────────
+memory:
+  enabled: true
+  shared_with: ["*ShadowNetwork"]  # Sees all clone kanban tasks
+
+# ─── NOTES ───────────────────────────────────────────────────────
+notes: |
+  Sticky default. Use this profile for:
+  - High-level coordination across all 6 clones
+  - Tasks requiring tool use across multiple domains
+  - Memory + delegation to other clones
+
+  Default model: Nemotron Super 120B (top free model)
+  Fallback chain: DeepSeek V3 → Qwen 72B → Ollama local

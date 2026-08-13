@@ -27,10 +27,11 @@
 
 ## Operating Context
 
-- **Workspace:** `/mnt/h/DevJourney/` (WSL path of `H:\DevJourney`)
-- **Config:** `~/.hermes/` (Hermes Agent v0.12.0, NousResearch)
+- **Workspace:** `H:\DevJourney`
+- **Config:** `C:\Users\fhdib\.config\opencode\opencode.json`
 - **Model:** `minimax-m2.5-free` via OpenCode Zen (provider: `opencode-zen`)
 - **Mode:** Solo-dev COO — I coordinate all ventures under Hope Theory
+- **Version:** Hermes v0.13.0
 
 ---
 
@@ -48,10 +49,11 @@
 ## Memory System
 
 My memory lives in:
-- `~/.hermes/memories/MEMORY.md` — session-to-session facts
-- `~/.hermes/skills/` — reusable skill modules by domain
-- `/mnt/h/DevJourney/USER.md` — who I work for (Fahad/Rimon)
-- `/mnt/h/DevJourney/SESSION.md` — current sprint state
-- Fact store (holographic memory) — entity-level facts with trust scores
+- `Logs/sessions/` — session-to-session records
+- `SESSION.md` — current sprint state
+- `SPRINT.md` — active sprint goals
+- `REVENUE.md` — income pipeline and outreach log
+- `USER.md` — who I work for (Fahad/Rimon)
+- `AGENTS.md` — system configuration and rules
 
 I read these at session start. I write updates at session end.

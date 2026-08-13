@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>👁️ The Dream — Fahad Ibrahim</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #0A192F; color: #CCD6F6; padding: 0; }
+.slide {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 60px 40px; border-bottom: 1px solid rgba(100,255,218,0.05);
+}
+.container { max-width: 900px; margin: 0 auto; text-align: center; }
+h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 800; color: #E6F1FF; line-height: 1.1; }
+h1 .gold { color: #FFD700; }
+h1 .teal { color: #64FFDA; }
+h2 { font-size: 22px; font-weight: 600; color: #64FFDA; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 3px; }
+.subtitle { font-size: 18px; color: #8892B0; margin: 16px 0 32px; line-height: 1.6; }
+.numbers { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin: 32px 0; }
+.num-card { padding: 24px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
+.num-card .val { font-size: 36px; font-weight: 800; }
+.num-card .lbl { font-size: 12px; color: #8892B0; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.platforms { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 32px 0; }
+.plat-card { padding: 24px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); text-align: left; }
+.plat-card .icon { font-size: 28px; margin-bottom: 8px; }
+.plat-card h3 { font-size: 16px; font-weight: 600; color: #E6F1FF; margin-bottom: 4px; }
+.plat-card .metric { font-size: 24px; font-weight: 700; color: #64FFDA; margin: 8px 0 4px; }
+.plat-card .desc { font-size: 13px; color: #8892B0; }
+.quote { font-size: 22px; font-style: italic; color: #8892B0; max-width: 700px; margin: 32px auto; line-height: 1.6; }
+.quote .attribution { font-size: 14px; color: #FFD700; font-style: normal; margin-top: 12px; }
+.cta { margin: 40px 0; }
+.cta a { display: inline-block; padding: 16px 40px; border-radius: 8px; background: #FFD700; color: #0A192F; font-size: 16px; font-weight: 700; text-decoration: none; transition: all 0.3s; }
+.cta a:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,215,0,0.2); }
+.footer { padding: 40px; text-align: center; font-size: 14px; color: #5A6B8A; }
+.journey { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 32px 0; flex-wrap: wrap; }
+.step { flex: 1; min-width: 120px; padding: 16px; border-radius: 8px; background: rgba(255,255,255,0.02); text-align: center; }
+.step .phase { font-size: 11px; color: #64FFDA; text-transform: uppercase; letter-spacing: 1px; }
+.step .label { font-size: 14px; font-weight: 600; color: #E6F1FF; margin: 4px 0; }
+.step .income { font-size: 16px; font-weight: 700; color: #FFD700; }
+.step .arrow { font-size: 20px; color: #5A6B8A; }
+@media (max-width: 600px) { .slide { padding: 40px 20px; } .journey { flex-direction: column; } }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Hero -->
+<div class="slide" style="padding-top: 80px;">
+    <div class="container">
+        <h2>June 24, 2026 → June 24, 2027</h2>
+        <h1>👁️ The <span class="gold">Dream</span></h1>
+        <p class="subtitle">
+            From 6 LinkedIn connections and $0 income to a world-class digital existence<br/>
+            where opportunities find YOU. This is what we're building.
+        </p>
+        <div class="numbers">
+            <div class="num-card"><div class="val" style="color:#FFD700;">$4K+</div><div class="lbl">Monthly Income</div></div>
+            <div class="num-card"><div class="val" style="color:#64FFDA;">18K+</div><div class="lbl">Total Audience</div></div>
+            <div class="num-card"><div class="val" style="color:#FFD700;">10+</div><div class="lbl">Inbound DMs/Week</div></div>
+            <div class="num-card"><div class="val" style="color:#64FFDA;">1K+</div><div class="lbl">Newsletter Subs</div></div>
+        </div>
+        <div class="cta">
+            <a href="#platforms">See The Future ↓</a>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 2: Platforms -->
+<div class="slide" id="platforms">
+    <div class="container">
+        <h2>The Ecosystem</h2>
+        <p class="subtitle">5 platforms. 1 cohesive brand. 1 powerful reputation.</p>
+        <div class="platforms">
+            <div class="plat-card">
+                <div class="icon">🔗</div>
+                <h3>LinkedIn</h3>
+                <div class="metric">5,000+</div>
+                <div class="desc">connections · 2K followers · 5 recruiter DMs/week</div>
+            </div>
+            <div class="plat-card">
+                <div class="icon">𝕏</div>
+                <h3>X/Twitter</h3>
+                <div class="metric">10,000+</div>
+                <div class="desc">followers · viral threads · 70/30 reply ratio</div>
+            </div>
+            <div class="plat-card">
+                <div class="icon">🐙</div>
+                <h3>GitHub</h3>
+                <div class="metric">500+</div>
+                <div class="desc">stars · 3 OSS projects · green square streak</div>
+            </div>
+            <div class="plat-card">
+                <div class="icon">🌐</div>
+                <h3>Website</h3>
+                <div class="metric">3,000+</div>
+                <div class="desc">monthly visitors · 30+ blog posts · central hub</div>
+            </div>
+            <div class="plat-card">
+                <div class="icon">📬</div>
+                <h3>Newsletter</h3>
+                <div class="metric">1,000+</div>
+                <div class="desc">subscribers · 45% open rate · weekly touchpoint</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 3: The Journey -->
+<div class="slide">
+    <div class="container">
+        <h2>The Path</h2>
+        <p class="subtitle">12 months. 5 phases. Each step gets you closer.</p>
+        <div class="journey">
+            <div class="step">
+                <div class="phase">Now</div>
+                <div class="label">Survival</div>
+                <div class="income">$0/mo</div>
+                <div>6 LI connections</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="step">
+                <div class="phase">Month 1</div>
+                <div class="label">Foundation</div>
+                <div class="income">$1K/mo</div>
+                <div>First job/client</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="step">
+                <div class="phase">Month 3</div>
+                <div class="label">Stability</div>
+                <div class="income">$2K/mo</div>
+                <div>Content rhythm</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="step">
+                <div class="phase">Month 6</div>
+                <div class="label">Growth</div>
+                <div class="income">$2.5K/mo</div>
+                <div>Audience building</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="step">
+                <div class="phase">Month 12</div>
+                <div class="label">Authority</div>
+                <div class="income">$4K+/mo</div>
+                <div>The Dream</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 4: The Feeling -->
+<div class="slide">
+    <div class="container">
+        <h2>What Success Feels Like</h2>
+        <div class="quote">
+            "You wake up. Check your phone. Three opportunities waiting.
+            <br/>You don't chase. You select.
+            <br/>The system works. You just maintain it."
+            <div class="attribution">— The Dream, 12 months from now</div>
+        </div>
+        <div style="margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+            <span style="padding: 8px 16px; border-radius: 100px; background: rgba(100,255,218,0.1); color: #64FFDA; font-size: 13px;">📱 Recruiter DMs</span>
+            <span style="padding: 8px 16px; border-radius: 100px; background: rgba(255,215,0,0.1); color: #FFD700; font-size: 13px;">💼 Client Inquiries</span>
+            <span style="padding: 8px 16px; border-radius: 100px; background: rgba(100,255,218,0.1); color: #64FFDA; font-size: 13px;">🎙️ Speaking Invites</span>
+            <span style="padding: 8px 16px; border-radius: 100px; background: rgba(255,215,0,0.1); color: #FFD700; font-size: 13px;">🤝 Partnership Offers</span>
+            <span style="padding: 8px 16px; border-radius: 100px; background: rgba(100,255,218,0.1); color: #64FFDA; font-size: 13px;">📬 Loyal Subscribers</span>
+        </div>
+        <div class="cta">
+            <a href="#" onclick="window.print();return false;">🖨️ Print This Vision</a>
+        </div>
+    </div>
+</div>
+
+<!-- Slide 5: Action -->
+<div class="slide" style="border-bottom: none;">
+    <div class="container">
+        <h2>Start <span class="gold">Today</span></h2>
+        <p class="subtitle">
+            The dream is defined. The roadmap exists.<br/>
+            The first step is the only one that matters right now.
+        </p>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin: 32px 0;">
+            <div style="padding: 16px; background: rgba(255,255,255,0.02); border-radius: 8px; min-width: 200px;">
+                <div style="font-size: 24px; margin-bottom: 8px;">1</div>
+                <div style="font-weight: 600; color: #E6F1FF;">Update LinkedIn</div>
+                <div style="font-size: 13px; color: #8892B0;">30 minutes</div>
+            </div>
+            <div style="padding: 16px; background: rgba(255,255,255,0.02); border-radius: 8px; min-width: 200px;">
+                <div style="font-size: 24px; margin-bottom: 8px;">2</div>
+                <div style="font-weight: 600; color: #E6F1FF;">Send 25 Applications</div>
+                <div style="font-size: 13px; color: #8892B0;">This week</div>
+            </div>
+            <div style="padding: 16px; background: rgba(255,255,255,0.02); border-radius: 8px; min-width: 200px;">
+                <div style="font-size: 24px; margin-bottom: 8px;">3</div>
+                <div style="font-weight: 600; color: #E6F1FF;">Learn Next.js</div>
+                <div style="font-size: 13px; color: #8892B0;">3-day crash course</div>
+            </div>
+        </div>
+        <div class="quote" style="font-size: 18px;">
+            "Never GIVE UP on your HOPES"
+            <div class="attribution">— Hope Theory</div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>🪽 Hope Theory · The Dream · June 24, 2026 → June 24, 2027</p>
+    <p style="margin-top: 8px;">Open this whenever you need to remember what you're building toward.</p>
+</div>
+
+</body>
+</html>

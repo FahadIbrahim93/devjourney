@@ -1,0 +1,64 @@
+# TOOLS.yaml — Crypto Sage
+# Tools enabled for the [CRYPTO] venture clone
+
+profile: crypto_sage
+venture: [CRYPTO]
+model:
+  primary: google/gemini-2.5-flash
+  fallback: openrouter/auto
+  local: ollama/llama3.1:8b
+
+tools:
+  enabled:
+    - web_search       # Market news, protocol docs
+    - browser          # TradingView, DEX, explorers
+    - code_exec        # Pandas backtests, data analysis
+    - file_access      # Trading journals, analysis files
+    - cron_scheduler   # Daily market briefings, alert checks
+
+  permissions:
+    web_search: full
+    browser: full
+    code_exec: full
+    file_access:
+      read:
+        - ~/.hermes/profiles/crypto_sage/journal/
+        - ~/.hermes/shared/market_data/
+      write:
+        - ~/.hermes/profiles/crypto_sage/journal/
+        - ~/.hermes/shared/insights/CRYPTO/
+    cron_scheduler: full
+
+mcp_servers:
+  - name: tradingview-mcp
+    purpose: Chart data, alerts, screener
+    auth: api_key_required
+  - name: coingecko-mcp
+    purpose: Price data, market cap, trends
+    auth: free_tier
+  - name: dexscreener-mcp
+    purpose: DEX pair data, new listings
+    auth: none
+  - name: defillama-mcp
+    purpose: DeFi TVL, yield data
+    auth: free_api
+
+memory_namespace:
+  private: ~/.hermes/profiles/crypto_sage/
+  shared: ~/.hermes/shared/insights/CRYPTO/
+
+daily_routines:
+  - time: "09:00"
+    task: "Overnight market summary + key setups"
+  - time: "13:00"
+    task: "Midday sentiment check"
+  - time: "21:00"
+    task: "Daily journal entry + tomorrow's watchlist"
+
+skills:
+  - chart_pattern_recognition
+  - onchain_flow_analysis
+  - defi_yield_optimizer
+  - mining_profitability
+  - sentiment_tracker
+  - ta_backtester

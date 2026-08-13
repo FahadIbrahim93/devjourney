@@ -1,0 +1,21 @@
+{
+  "name": "hope-theory-shadow-clones",
+  "version": "1.0.0",
+  "description": "Hope Theory Shadow Clone Jutsu — orchestrator + 6 clones",
+  "type": "module",
+  "main": "shadow-orchestrator.js",
+  "bin": {
+    "ht-jutsu": "./shadow-orchestrator.js"
+  },
+  "scripts": {
+    "jutsu:mission": "node shadow-orchestrator.js mission",
+    "jutsu:shadow": "node shadow-orchestrator.js shadow",
+    "jutsu:clones": "node shadow-orchestrator.js clones",
+    "jutsu:state": "node shadow-orchestrator.js state",
+    "jutsu:memory": "node shadow-orchestrator.js memory",
+    "jutsu:briefing": "node shadow-orchestrator.js briefing",
+    "jutsu:dispel": "node shadow-orchestrator.js dispel"
+  },
+  "author": "Hope Theory <@hopetheory__>",
+  "license": "MIT"
+}
