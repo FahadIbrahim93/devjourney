@@ -1,0 +1,27 @@
+{
+  "weekStart": "2026-06-01",
+  "proposals": [
+    {
+      "id": "P-1780764879001",
+      "date": "2026-06-06",
+      "time": "22:54",
+      "jobType": "react",
+      "client": "Acme-Corp",
+      "amount": 2500,
+      "status": "sent"
+    },
+    {
+      "id": "P-1780764879091",
+      "date": "2026-06-06",
+      "time": "22:54",
+      "jobType": "ai",
+      "client": "CryptoVentures",
+      "amount": 4500,
+      "status": "sent"
+    }
+  ],
+  "clients": [],
+  "income": [],
+  "totalProposalsThisWeek": 0,
+  "totalIncomeThisMonth": 0
+}

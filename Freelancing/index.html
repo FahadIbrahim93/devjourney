@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fahad Ibrahim — Full-Stack Developer | Remote</title>
+    <meta name="description" content="Full-Stack Developer specializing in React, TypeScript, and Supabase. Available for remote work." />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #fff; color: #1a1a2e; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+        
+        .hero { padding: 80px 0 40px; }
+        .hero h1 { font-size: 36px; font-weight: 700; margin-bottom: 8px; }
+        .hero .title { font-size: 20px; color: #2563eb; font-weight: 500; margin-bottom: 16px; }
+        .hero .tagline { color: #64748b; font-size: 16px; max-width: 600px; margin-bottom: 24px; }
+        
+        .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+        .badge {
+            padding: 6px 14px; border-radius: 100px; font-size: 13px; font-weight: 500;
+            background: #eef2ff; color: #2563eb;
+        }
+        .badge.green { background: #ecfdf5; color: #059669; }
+        .badge.amber { background: #fffbeb; color: #d97706; }
+        
+        .cta-group { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px; padding: 12px 24px;
+            border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-outline { border: 2px solid #e2e8f0; color: #475569; }
+        .btn-outline:hover { border-color: #2563eb; color: #2563eb; }
+        
+        .section { padding: 48px 0; }
+        .section h2 { font-size: 22px; font-weight: 700; margin-bottom: 24px; }
+        
+        .project-card {
+            padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 16px;
+            transition: all 0.2s;
+        }
+        .project-card:hover { border-color: #2563eb; box-shadow: 0 4px 12px rgba(37,99,235,0.08); }
+        .project-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .project-card .stack { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+        .project-card .stack span {
+            padding: 3px 10px; border-radius: 6px; font-size: 12px;
+            background: #f1f5f9; color: #64748b;
+        }
+        .project-card .links a { font-size: 14px; color: #2563eb; margin-right: 16px; }
+        
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 12px; }
+        .skill-cat { margin-bottom: 24px; }
+        .skill-cat h3 { font-size: 14px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        .skill-cat .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-cat .tags span {
+            padding: 6px 14px; border-radius: 6px; font-size: 13px;
+            background: #f8fafc; border: 1px solid #e2e8f0;
+        }
+        
+        .contact-card {
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+            padding: 32px; text-align: center;
+        }
+        .contact-card h2 { margin-bottom: 8px; }
+        .contact-card p { color: #64748b; margin-bottom: 24px; }
+        .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        .contact-links a { font-size: 14px; color: #2563eb; text-decoration: none; }
+        .contact-links a:hover { text-decoration: underline; }
+        
+        footer { padding: 32px 0; text-align: center; color: #94a3b8; font-size: 13px; border-top: 1px solid #e2e8f0; }
+        
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 28px; }
+            .skills-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Hero -->
+    <div class="hero">
+        <h1>Fahad Ibrahim</h1>
+        <div class="title">Native Bengali AI Trainer · Full-Stack Developer (React · TypeScript · Supabase)</div>
+        <div class="tagline">
+            Native Bengali speaker and full-stack developer helping build better AI for the global South.
+            Available for remote AI training, voice, and annotation work.
+        </div>
+        <div class="badges">
+            <span class="badge">✅ Available Now</span>
+            <span class="badge green">🌍 Remote Only</span>
+            <span class="badge amber">🕐 Flexible Timezones</span>
+            <span class="badge">🚀 2 Production Apps Live</span>
+        </div>
+        <div class="cta-group">
+            <a href="#contact" class="btn btn-primary">📩 Hire Me</a>
+            <a href="#projects" class="btn btn-outline">📂 View Projects</a>
+            <a href="https://github.com/FahadIbrahim93" class="btn btn-outline">🐙 GitHub</a>
+            <a href="https://linkedin.com/in/hopetheory-" class="btn btn-outline">🔗 LinkedIn</a>
+        </div>
+    </div>
+
+    <!-- Featured Projects -->
+    <div class="section" id="projects">
+        <h2>🚀 Featured Projects</h2>
+        
+        <div class="project-card">
+            <h3>🐞 BugSmasher — Full-Stack Arcade Game</h3>
+            <p style="color:#64748b; font-size:14px;">Wave-based arcade game with guest→account conversion, XP progression, and global leaderboards. Built and deployed in 2 weeks.</p>
+            <div class="stack">
+                <span>React 19</span><span>TypeScript</span><span>Supabase</span><span>PWA</span><span>Vercel</span>
+            </div>
+            <div class="links">
+                <a href="https://github.com/FahadIbrahim93/BugSmasher-HopeTheory" target="_blank">📦 Source Code →</a>
+                <span style="color:#94a3b8; font-size:13px;">🔧 Demo temporarily offline — code available</span>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <h3>🛒 RollON — E-Commerce Platform</h3>
+            <p style="color:#64748b; font-size:14px;">Custom e-commerce with product variants, cart management, checkout flow, and admin dashboard.</p>
+            <div class="stack">
+                <span>React</span><span>TypeScript</span><span>Tailwind CSS</span><span>Vercel</span>
+            </div>
+            <div class="links">
+                <a href="https://rollon-delta.vercel.app" target="_blank">🔗 Live Demo →</a>
+                <a href="https://github.com/FahadIbrahim93/RollON-MVP-Final-V1" target="_blank">📦 Source Code →</a>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <h3>🤖 AI Trader Clone — AI Agent System</h3>
+            <p style="color:#64748b; font-size:14px;">AI-powered crypto trading assistant using Hermes Agent orchestration and TradingView integration. Demonstrates AI agent capabilities.</p>
+            <div class="stack">
+                <span>Hermes Agent</span><span>Python</span><span>TradingView</span><span>AI/LLM</span>
+            </div>
+            <div class="links">
+                <span style="color:#94a3b8;">🔧 In Development</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="section">
+        <h2>💻 Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-cat">
+                <h3>Frontend</h3>
+                <div class="tags">
+                    <span>React 19</span><span>TypeScript</span><span>JavaScript</span>
+                    <span>Tailwind CSS</span><span>HTML5/CSS3</span><span>Framer Motion</span>
+                    <span>PWA</span><span>Responsive Design</span>
+                </div>
+            </div>
+            <div class="skill-cat">
+                <h3>Backend & Database</h3>
+                <div class="tags">
+                    <span>Node.js</span><span>Express</span><span>Supabase</span>
+                    <span>Firebase</span><span>REST APIs</span><span>PostgreSQL</span>
+                </div>
+            </div>
+            <div class="skill-cat">
+                <h3>Tools & DevOps</h3>
+                <div class="tags">
+                    <span>Git</span><span>GitHub</span><span>GitHub Actions</span>
+                    <span>Vercel</span><span>VS Code</span><span>Figma</span>
+                </div>
+            </div>
+            <div class="skill-cat">
+                <h3>AI & Emerging</h3>
+                <div class="tags">
+                    <span>AI Agent Integration</span><span>Prompt Engineering</span>
+                    <span>Hermes Agent</span><span>Claude Code</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="section" id="contact">
+        <div class="contact-card">
+            <h2>📩 Available for Remote Work</h2>
+            <p>Looking for a full-time remote role or freelance project. I ship fast, communicate clearly, and write clean code.</p>
+            <div class="contact-links">
+                <a href="mailto:hopetheorybd@gmail.com">📧 hopetheorybd@gmail.com</a>
+                <a href="https://github.com/FahadIbrahim93">🐙 GitHub</a>
+                <a href="https://linkedin.com/in/hopetheory-">🔗 LinkedIn</a>
+                <a href="https://x.com/hopetheory__">𝕏 @hopetheory__</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Fahad Ibrahim · Full-Stack Developer · Available for remote work</p>
+    </footer>
+</div>
+</body>
+</html>

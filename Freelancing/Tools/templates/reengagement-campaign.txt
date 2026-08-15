@@ -1,0 +1,25 @@
+Subject: Checking in — any new projects on the horizon?
+
+Hi [Client Name],
+
+It's been a while since we worked together on [Project Name]. I hope things are going well!
+
+I'm reaching out because:
+1. **I've added new skills** — [mention recent work/skills]
+2. **I have availability** — Currently accepting new projects
+3. **I value ongoing relationships** — Past clients get priority scheduling
+
+**If you have any new projects or need updates to existing work:**
+- Bug fixes and maintenance
+- New features
+- Performance optimization
+- Tech stack upgrades
+
+Just reply to this email and I'll get back to you within 24 hours with availability and a quote.
+
+**If you don't have anything right now, no worries!** You can save this email for when you do need a developer. I'll be here.
+
+Thanks for the great work we did together. Hope to collaborate again soon.
+
+Best,
+Fahad

@@ -1,0 +1,30 @@
+{
+  "revenue": {
+    "monthly": 0,
+    "yearly": 0,
+    "pending": 0,
+    "pipeline": 0,
+    "lifetime": 0
+  },
+  "goals": {
+    "monthly": {
+      "current": 0,
+      "target": 5000,
+      "percent": "0.0"
+    },
+    "yearly": {
+      "current": 0,
+      "target": 60000,
+      "percent": "0.0"
+    }
+  },
+  "activity": {
+    "proposalsSent": 0,
+    "replies": 0,
+    "interviews": 0,
+    "contracts": 0,
+    "replyRate": 0,
+    "conversionRate": 0
+  },
+  "timestamp": "2026-06-05T14:59:55.104Z"
+}

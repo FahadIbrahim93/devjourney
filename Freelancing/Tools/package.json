@@ -1,0 +1,22 @@
+{
+  "name": "hopetheory-freelance-tools",
+  "version": "1.0.0",
+  "description": "Hope Theory Freelance CLIs — daily outreach + revenue tracking",
+  "type": "module",
+  "main": "daily-outreach.js",
+  "bin": {
+    "ht-outreach": "./daily-outreach.js",
+    "ht-revenue": "./revenue-tracker.js"
+  },
+  "scripts": {
+    "outreach:status": "node daily-outreach.js status",
+    "outreach:find": "node daily-outreach.js find",
+    "outreach:log": "node daily-outreach.js log",
+    "outreach:followup": "node daily-outreach.js followup",
+    "outreach:dashboard": "node daily-outreach.js dashboard",
+    "revenue:monthly": "node revenue-tracker.js monthly",
+    "revenue:forecast": "node revenue-tracker.js forecast"
+  },
+  "author": "Hope Theory <@hopetheory__>",
+  "license": "MIT"
+}

@@ -1,0 +1,46 @@
+<svg width="1584" height="396" viewBox="0 0 1584 396" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A1628"/>
+      <stop offset="55%" stop-color="#0F2942"/>
+      <stop offset="100%" stop-color="#1A3A5C"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#F4D03F"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1584" height="396" fill="url(#bg)"/>
+
+  <!-- Subtle grid pattern -->
+  <g stroke="#1E3A5F" stroke-width="1" opacity="0.4">
+    <line x1="0" y1="99" x2="1584" y2="99"/>
+    <line x1="0" y1="198" x2="1584" y2="198"/>
+    <line x1="0" y1="297" x2="1584" y2="297"/>
+    <line x1="396" y1="0" x2="396" y2="396"/>
+    <line x1="792" y1="0" x2="792" y2="396"/>
+    <line x1="1188" y1="0" x2="1188" y2="396"/>
+  </g>
+
+  <!-- Gold accent bar -->
+  <rect x="0" y="0" width="12" height="396" fill="url(#gold)"/>
+
+  <!-- Name -->
+  <text x="80" y="170" font-family="Segoe UI, Arial, sans-serif" font-size="64" font-weight="700" fill="#FFFFFF">FAHAD IBRAHIM</text>
+
+  <!-- Tagline -->
+  <text x="82" y="232" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="400" fill="url(#gold)">Native Bengali AI Trainer  ·  Full-Stack Developer</text>
+
+  <!-- Brand line -->
+  <text x="82" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="400" fill="#9DB4C8">Hope Theory  —  Never GIVE UP on your HOPES</text>
+
+  <!-- Contact -->
+  <text x="82" y="352" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="400" fill="#6E8CA0">hopetheorybd@gmail.com   ·   github.com/FahadIbrahim93</text>
+
+  <!-- Decorative circles (tech motif) -->
+  <circle cx="1430" cy="120" r="60" fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.5"/>
+  <circle cx="1430" cy="120" r="30" fill="none" stroke="url(#gold)" stroke-width="1.5" opacity="0.3"/>
+  <circle cx="1500" cy="260" r="40" fill="none" stroke="#3A6B9C" stroke-width="2" opacity="0.4"/>
+</svg>

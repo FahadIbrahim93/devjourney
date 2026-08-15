@@ -1,0 +1,62 @@
+Subject: Weekly Update: [Project Name] — 6/5/2026
+
+Hi [Client Name],
+
+Here's your weekly status update for **[Project Name]**:
+
+---
+
+## 📊 PROGRESS THIS WEEK
+
+✅ **Completed:**
+- [Task 1]
+- [Task 2]
+- [Task 3]
+
+🔄 **In Progress:**
+- [Task 4 - 60% complete]
+- [Task 5 - starting today]
+
+📅 **Planned for Next Week:**
+- [Task 6]
+- [Task 7]
+
+---
+
+## 🎯 MILESTONE STATUS
+
+All milestones on schedule
+
+---
+
+## 📸 SCREENSHOTS / DEMO
+
+Demo available on request
+
+---
+
+## ⚠️ BLOCKERS OR RISKS
+
+None at this time.
+
+---
+
+## 💰 FINANCIAL STATUS
+
+- **Invoiced this period:** $0
+- **Paid:** $0
+- **Outstanding:** $0
+
+---
+
+## 📞 NEXT STEPS
+
+- Continue development
+- Weekly check-in scheduled
+
+---
+
+Let me know if you have any questions or want to discuss anything!
+
+Best,
+Fahad

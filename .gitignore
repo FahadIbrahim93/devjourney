@@ -7,7 +7,6 @@ package-lock.json
 _archived/
 Sessions/
 Scripts/
-Freelancing/
 job_landing/
 
 # IDEs & tools
@@ -32,5 +31,3 @@ Social_Media_v3_Overhaul/
 
 # Projects (each is its own repo)
 Projects/
-
-.vercel

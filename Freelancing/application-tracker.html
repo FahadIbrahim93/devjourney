@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Remote Job Search Tracker — Fahad Ibrahim</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: #0A192F; color: #CCD6F6; padding: 24px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { font-size: 24px; color: #64FFDA; margin-bottom: 4px; }
+        .subtitle { color: #8892B0; font-size: 14px; margin-bottom: 24px; }
+        .stats { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+        .stat-card {
+            flex: 1; min-width: 140px; padding: 16px; border-radius: 8px;
+            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+        }
+        .stat-card .num { font-size: 28px; font-weight: 700; }
+        .stat-card .lbl { font-size: 12px; color: #8892B0; margin-top: 4px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+        th { text-align: left; font-size: 12px; color: #8892B0; text-transform: uppercase; letter-spacing: 1px; padding: 12px 8px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        td { padding: 12px 8px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .status { padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+        .applied { background: rgba(100,255,218,0.1); color: #64FFDA; }
+        .rejected { background: rgba(255,82,82,0.1); color: #FF5252; }
+        .interview { background: rgba(255,215,0,0.1); color: #FFD700; }
+        .offer { background: rgba(76,175,80,0.1); color: #4CAF50; }
+        .add-row { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+        .add-row input, .add-row select {
+            padding: 10px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03); color: #CCD6F6; font-size: 13px;
+        }
+        .btn {
+            padding: 10px 20px; border-radius: 6px; border: none; font-size: 13px; font-weight: 600;
+            background: #64FFDA; color: #0A192F; cursor: pointer; transition: all 0.2s;
+        }
+        .btn:hover { transform: translateY(-1px); opacity: 0.9; }
+        .quick-links { display: flex; gap: 12px; flex-wrap: wrap; margin: 24px 0; }
+        .quick-links a {
+            padding: 8px 16px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08);
+            font-size: 12px; color: #CCD6F6; text-decoration: none;
+        }
+        .quick-links a:hover { border-color: #64FFDA; color: #64FFDA; }
+        .platform-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 12px; margin-bottom: 24px; }
+        .platform-card { padding: 16px; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
+        .platform-card .name { font-size: 13px; font-weight: 600; color: #E6F1FF; }
+        .platform-card .count { font-size: 22px; font-weight: 700; color: #64FFDA; margin: 4px 0; }
+        @media (max-width: 600px) { .stats { flex-direction: column; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🎯 Remote Job Search Tracker</h1>
+    <p class="subtitle">Target: $1,500-$4,000/month · Full-Stack/React Developer · Remote</p>
+
+    <!-- Stats -->
+    <div class="stats">
+        <div class="stat-card"><div class="num" id="totalApps" style="color:#64FFDA;">0</div><div class="lbl">Total Applications</div></div>
+        <div class="stat-card"><div class="num" id="responses" style="color:#FFD700;">0</div><div class="lbl">Responses</div></div>
+        <div class="stat-card"><div class="num" id="interviews" style="color:#64FFDA;">0</div><div class="lbl">Interviews</div></div>
+        <div class="stat-card"><div class="num" id="offers" style="color:#4CAF50;">0</div><div class="lbl">Offers</div></div>
+        <div class="stat-card"><div class="num" id="responseRate" style="color:#FFD700;">0%</div><div class="lbl">Response Rate</div></div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="quick-links">
+        <a href="https://www.linkedin.com/jobs/" target="_blank">LinkedIn Jobs</a>
+        <a href="https://arc.dev/en-bd/remote-jobs" target="_blank">Arc.dev</a>
+        <a href="https://remoteok.com" target="_blank">RemoteOK</a>
+        <a href="https://weworkremotely.com" target="_blank">We Work Remotely</a>
+        <a href="https://remotive.com" target="_blank">Remotive</a>
+        <a href="https://turing.com/jobs/remote-full-stack-jobs" target="_blank">Turing</a>
+        <a href="https://www.toptal.com" target="_blank">Toptal</a>
+        <a href="https://www.upwork.com" target="_blank">Upwork</a>
+        <a href="https://gun.io" target="_blank">Gun.io</a>
+        <a href="https://braintrust.com" target="_blank">Braintrust</a>
+    </div>
+
+    <!-- Platform Stats -->
+    <h2 style="font-size:16px; color:#E6F1FF; margin-bottom:12px;">📊 By Platform</h2>
+    <div class="platform-stats">
+        <div class="platform-card"><div class="name">LinkedIn</div><div class="count" id="liCount">0</div></div>
+        <div class="platform-card"><div class="name">Arc.dev</div><div class="count" id="arcCount">0</div></div>
+        <div class="platform-card"><div class="name">RemoteOK</div><div class="count" id="rokCount">0</div></div>
+        <div class="platform-card"><div class="name">We Work Remotely</div><div class="count" id="wwrCount">0</div></div>
+        <div class="platform-card"><div class="name">Upwork</div><div class="count" id="upCount">0</div></div>
+        <div class="platform-card"><div class="name">Turing/Toptal</div><div class="count" id="ttCount">0</div></div>
+    </div>
+
+    <!-- Application Table -->
+    <h2 style="font-size:16px; color:#E6F1FF; margin-bottom:12px;">📋 Applications</h2>
+    <div class="add-row">
+        <input type="date" id="appDate" />
+        <input type="text" id="companyName" placeholder="Company name" style="width:160px;" />
+        <input type="text" id="jobTitle" placeholder="Position" style="width:200px;" />
+        <select id="platform">
+            <option>LinkedIn</option><option>Arc.dev</option><option>RemoteOK</option>
+            <option>We Work Remotely</option><option>Upwork</option><option>Turing</option>
+            <option>Toptal</option><option>Gun.io</option><option>Braintrust</option>
+            <option>Company Site</option><option>Other</option>
+        </select>
+        <select id="status">
+            <option value="Applied">Applied</option><option value="Response">Response</option>
+            <option value="Interview">Interview</option><option value="Rejected">Rejected</option>
+            <option value="Offer">Offer 🎉</option>
+        </select>
+        <button class="btn" onclick="addApplication()">+ Add</button>
+    </div>
+    <table>
+        <thead>
+            <tr><th>Date</th><th>Company</th><th>Position</th><th>Platform</th><th>Status</th><th>Action</th></tr>
+        </thead>
+        <tbody id="appTable"></tbody>
+    </table>
+
+    <footer style="text-align:center; padding:24px 0; color:#5A6B8A; font-size:12px;">
+        🎯 Target: 100 applications = 5 interviews = 1 offer · Never GIVE UP on your HOPES
+    </footer>
+</div>
+
+<script>
+    let apps = JSON.parse(localStorage.getItem('jobApps') || '[]');
+    
+    function render() {
+        const tbody = document.getElementById('appTable');
+        tbody.innerHTML = apps.map((a, i) => `
+            <tr>
+                <td>${a.date}</td>
+                <td>${a.company}</td>
+                <td>${a.position}</td>
+                <td>${a.platform}</td>
+                <td><span class="status ${a.status.toLowerCase()}">${a.status}</span></td>
+                <td><button onclick="deleteApp(${i})" style="background:none;border:none;color:#FF5252;cursor:pointer;">✕</button></td>
+            </tr>
+        `).join('');
+
+        // Stats
+        const total = apps.length;
+        const responded = apps.filter(a => a.status === 'Response' || a.status === 'Interview' || a.status === 'Offer').length;
+        const interviewed = apps.filter(a => a.status === 'Interview' || a.status === 'Offer').length;
+        const offers = apps.filter(a => a.status === 'Offer').length;
+        const rate = total > 0 ? Math.round(responded/total*100) : 0;
+
+        document.getElementById('totalApps').textContent = total;
+        document.getElementById('responses').textContent = responded;
+        document.getElementById('interviews').textContent = interviewed;
+        document.getElementById('offers').textContent = offers;
+        document.getElementById('responseRate').textContent = rate + '%';
+
+        // Platform counts
+        const platforms = {LinkedIn:0,Arc:0,RemoteOK:0,'We Work Remotely':0,Upwork:0,Turing:0,Toptal:0,Gun:0,Braintrust:0,'Company Site':0,Other:0};
+        apps.forEach(a => {
+            const p = a.platform;
+            if (p.includes('LinkedIn')) platforms.LinkedIn++;
+            else if (p.includes('Arc')) platforms.Arc++;
+            else if (p.includes('RemoteOK')) platforms.RemoteOK++;
+            else if (p.includes('Remotely')) platforms['We Work Remotely']++;
+            else if (p.includes('Upwork')) platforms.Upwork++;
+            else if (p.includes('Turing') || p.includes('Toptal')) { platforms.Turing++; }
+        });
+        document.getElementById('liCount').textContent = platforms.LinkedIn;
+        document.getElementById('arcCount').textContent = platforms.Arc;
+        document.getElementById('rokCount').textContent = platforms.RemoteOK;
+        document.getElementById('wwrCount').textContent = platforms['We Work Remotely'];
+        document.getElementById('upCount').textContent = platforms.Upwork;
+        document.getElementById('ttCount').textContent = platforms.Turing;
+
+        localStorage.setItem('jobApps', JSON.stringify(apps));
+    }
+
+    function addApplication() {
+        const date = document.getElementById('appDate').value || new Date().toISOString().split('T')[0];
+        const company = document.getElementById('companyName').value.trim();
+        const position = document.getElementById('jobTitle').value.trim();
+        const platform = document.getElementById('platform').value;
+        const status = document.getElementById('status').value;
+        if (!company || !position) return alert('Company and Position required');
+        apps.unshift({date, company, position, platform, status});
+        document.getElementById('companyName').value = '';
+        document.getElementById('jobTitle').value = '';
+        document.getElementById('appDate').value = '';
+        render();
+    }
+
+    function deleteApp(i) {
+        apps.splice(i, 1);
+        render();
+    }
+
+    render();
+</script>
+</body>
+</html>

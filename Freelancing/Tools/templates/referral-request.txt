@@ -1,0 +1,27 @@
+Subject: Know anyone who needs a React developer?
+
+Hi [Client Name],
+
+I hope [Project Name] is serving you well!
+
+I'm growing my freelance practice and focusing on React/Supabase work. If you know anyone — friends, colleagues, other businesses — who might need a developer, I'd appreciate an introduction.
+
+**What I'm looking for:**
+- Small to medium businesses needing a web app
+- Startups wanting to build an MVP
+- E-commerce stores
+- Bug fixes or performance optimization
+- Any custom React/TypeScript work
+
+**My referral offer:**
+For any client you refer who signs a contract, I'll give you:
+- $200 cash bonus (or PayPal/Venmo)
+- OR 5 hours of free development work for you
+- OR a donation to a charity of your choice ($200)
+
+No pressure at all — just putting it out there. If someone comes to mind, just reply with their name and email, and I'll reach out personally.
+
+Thanks for being an awesome client!
+
+Best,
+Fahad
