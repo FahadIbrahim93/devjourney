@@ -1,84 +1,67 @@
-# DevJourney - Hope Theory Empire
+# DevJourney — Hope Theory
 
-**Fahad Ibrahim | June 2026**
-
----
-
-## 🎯 ACTIVE GOAL
-Build $1,000+/month steady remote income by **June 30, 2026** through Bengali AI training platforms.
-
-> ⚠️ **Status:** 0/3 applications sent | 9 days remaining
+**Fahad Ibrahim** · Dhaka, Bangladesh (UTC+6)  
+**GitHub:** [@FahadIbrahim93](https://github.com/FahadIbrahim93)  
+**Live site:** [fahadibrahim93.github.io](https://fahadibrahim93.github.io)
 
 ---
 
-## 📁 ACTUAL FOLDER STRUCTURE
+## What this repo is
+
+`devjourney` is the **canonical source of truth** for Hope Theory: brand, public site source, revenue assets, and project context.  
+It is not a deployment target itself. The live public site is served from the separate repository `FahadIbrahim93/FahadIbrahim93.github.io`.
+
+---
+
+## Current structure
 
 ```
 DevJourney/
-├── README.md                # THIS FILE - Master guide
-├── GOAL_HIERARCHY.md        # Unified revenue goals
-├── SPRINT.md                # Active sprint log
-├── SESSION.md               # Master session memory
-├── revenue_data.json        # Income tracking
-│
-├── 00-System/               # Config + master docs
-├── Archive/                 # Archived projects
-├── SecondBrain/             # Obsidian knowledge vault
-├── Projects/                # Active code projects
-├── Ventures/                # Business venture plans
-├── Freelancing/             # Job landing system
-│   ├── APPLICATION_KIT.md   # Ready-to-use applications
-│   ├── PLATFORM_RESEARCH.md # All platforms researched
-│   └── PROPOSAL_PACK_READY_TO_SEND.md
-└── job_landing/               # Active job hunt workspace
+├── README.md                 # Repo overview and usage
+├── AGENTS.md                 # Agent/runtime guidance
+├── CLAUDE.md                 # Coding/runtime guidance
+├── GOAL_HIERARCHY.md         # Goals and priorities
+├── SPRINT.md                 # Active sprint tracking
+├── DEPLOY_GITHUB_PAGES.md    # Canonical Pages workflow
+├── PENDING_APPLICATION_FOLLOWUPS.md
+├── Bengali_AI_Training_Tracker.html
+├── CommandCenter.html
+├── docs/                     # Service pages source
+│   ├── index.html
+│   └── services/
+│       ├── fullstack.html
+│       ├── ai-agents.html
+│       └── bengali-ai.html
+├── portfolio/                # Portfolio assets
+│   ├── index.html
+│   └── case-studies.html
+└── Freelancing/              # Revenue assets
+    ├── PROPOSAL_GENERATOR.md
+    ├── BUSINESS_PACK.md
+    ├── READY_TO_SEND_EMAILS.md
+    └── README.md
 ```
 
 ---
 
-## 🚀 QUICK START - TODAY'S WORK
+## What this repo is not
 
-### P0: APPLY TO PLATFORMS (START HERE)
-1. **Outlier AI** → Use `Freelancing/APPLICATION_KIT.md` template
-2. **Sigma Group** → Email using template in APPLICATION_KIT.md  
-3. **DataAnnotation** → Complete profile with guidance in APPLICATION_KIT.md
-
-### P1: PROJECTS (When applications submitted)
-- BugSmasher: ✅ Deployed (v1.6.1, 237 tests)
-- RollON: ✅ Deployed (rollon-delta.vercel.app)
-- Insectiles: ⚠️ Needs deploy fix
-- hope-theory-hq: ✅ Scaffolded, needs content
+- It is **not** a catch-all for old experiments, session logs, and duplicate docs.
+- It is **not** the live site itself; for that, use `FahadIbrahim93/FahadIbrahim93.github.io`.
 
 ---
 
-## 📊 INCOME TRACKING
+## Workflow
 
-| Venture | Target | Current | Status |
-|---------|--------|---------|--------|
-| **JOB_LANDING** | $1,000 | $0 | 🚧 APPLY NOW |
-| CODE | $5,000 | $0 | ⏸ After approval |
-| MARJAHANS | $3,000 | $0 | ⏸ Paused |
-| SNAPTRAP | $2,000 | $0 | ⏸ Paused |
+1. Make changes in `docs/`, `portfolio/`, or `Freelancing/`.
+2. Update the live site by copying final files into `FahadIbrahim93/FahadIbrahim93.github.io` and pushing to `gh-pages`.
+3. Keep proposals, contracts, and outreach templates in `Freelancing/`.
 
 ---
 
-## 🔧 SYSTEMS READY
+## Status
 
-- ✅ SecondBrain Obsidian vault
-- ✅ 7-profile Shadow Clone system
-- ✅ Application templates (3 platforms)
-- ✅ Portfolio (BugSmasher, RollON live)
-- ❌ No active platform subscriptions yet
-
----
-
-## 🚨 ACCOUNTABILITY
-
-**Revenue Gate:** Outreach sent OR code shipped today = session valid.
-
-**Current streak:** 0 proposals (7+ days = BLOCKED)
-
-**Next action:** APPLY TO OUTLIER NOW
-
----
-
-*Single source of truth for all Hope Theory operations*
+- **Public site:** [https://fahadibrahim93.github.io](https://fahadibrahim93.github.io)
+- **Live services:** full-stack, AI agents, Bengali AI training
+- **Revenue system:** proposal templates, follow-up emails, tracker
+- **Pending applications:** follow-up templates ready to send
