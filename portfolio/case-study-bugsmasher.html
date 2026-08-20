@@ -134,6 +134,13 @@
 <div class="hero">
   <div class="kicker">Case Study · v2.5.0 · MIT</div>
   <h1>BugSmasher — an accessible arcade game with a replay-proof leaderboard and 678 tests</h1>
+  <div style="margin-top: 32px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border);">
+    <picture>
+      <source srcset="/images/case-studies/bugsmasher-800.webp" type="image/webp" media="(min-width: 800px)" />
+      <source srcset="/images/case-studies/bugsmasher-400.webp" type="image/webp" />
+      <img src="/images/case-studies/bugsmasher-400.webp" alt="BugSmasher game interface showing arcade gameplay with scoreboard and accessibility controls" loading="lazy" style="width: 100%; height: auto; display: block;" />
+    </picture>
+  </div>
   <p class="sub">High-intensity bug-squashing gameplay meets brutalist OS aesthetics and neon bio-luminescent bugs. Built with React 19, TypeScript, and Canvas 2D, backed by Firebase and a serious automated-verification baseline.</p>
   <div class="tags">
     <span class="tag">React 19</span>
@@ -190,7 +197,7 @@
     <p class="lead">Quality is enforced through layered gates that run in CI, not by vibes. The latest repository-reported verification:</p>
     <table>
       <tr><th>Signal</th><th>Result</th></tr>
-      <tr><td>Frontend tests</td><td class="mono">651 passing (Vitest)</td></tr>
+      <tr><td>Frontend tests</td><td class="mono">646 passing (Vitest)</td></tr>
       <tr><td>Firebase tests</td><td class="mono">26 emulator/integration + 6 Functions schema</td></tr>
       <tr><td>Line coverage</td><td class="mono">79.17%</td></tr>
       <tr><td>Statement coverage</td><td class="mono">78.12%</td></tr>
