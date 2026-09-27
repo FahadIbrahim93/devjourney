@@ -87,7 +87,7 @@ WEEKLY REPORT — week of [date]
 |---|---|---|---|
 | **1** (28 Sep – 4 Oct) | **Client discovery & market research.** Understand the customer before selling. | Client A content brief (due 30 Sep) · Competitor scan of 10 Dhaka studios (due 4 Oct) | How agencies run discovery; what makes a service website convert |
 | **2** (5 – 11 Oct) | **Positioning & pricing.** Who we serve, why us, what we charge. | Agency brand basics: name options, one-line pitch, 3-tier BDT price draft (due 8 Oct) · Start the lead list | Value proposition canvas; good/better/best pricing |
-| **3** (12 – 18 Oct) | **Lead generation & outreach.** Find the right prospects and write messages that get replies. | Lead list of 30 Dhaka businesses (due 12 Oct) · Outreach drafts in Bangla + English (due 15 Oct) | Ideal customer profile; cold message structure (hook → value → small ask) |
+| **3** (12 – 18 Oct) | **Lead generation & outreach.** Find the right prospects and write messages that get replies. | Lead list of 30 Dhaka businesses (due 31 Oct) · Outreach drafts in Bangla + English (due 15 Oct) | Ideal customer profile; cold message structure (hook → value → small ask) |
 | **4** (19 – 31 Oct) | **Launch marketing & social proof.** Turn a finished project into more business. | Client A launch plan: Google Business Profile, FB/IG posts, testimonial request (due 22 Oct) · Client A case study outline (due 31 Oct) | Google Business Profile basics; case study structure (problem → solution → result) |
 
 At the end of each week: send the weekly report, and have a 15-minute review with Hope.

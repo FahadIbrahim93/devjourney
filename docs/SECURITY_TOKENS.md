@@ -66,6 +66,6 @@ See `/workspace/agency/sync/RUNBOOK.md` → *Enable live writes*: create an inte
 Workflows that need more declare it explicitly (`coder-pr-handoff.yml`: `issues: write`, `pull-requests: read`; `public-hygiene.yml`: `contents: read`).
 
 **Remaining risks:**
-- The `gh` login on the box has broad scopes (`repo`, `delete_repo`, `admin:org`, `workflow`). Replace day-to-day use with `GH_AGENCY_TOKEN` once created, and consider `gh auth refresh --remove-scopes delete_repo,admin:org`.
+- The `gh` login on the box keeps its full scopes (`repo`, `delete_repo`, `admin:org`, `workflow`, `project`). **Hope explicitly accepted this risk on 28 Sep 2026: do not refresh or remove scopes.** Mitigation: day-to-day issue/PR/file work and STATUS pushes use `GH_AGENCY_TOKEN`; the login is used only for board (Project) reads/edits, repo creation in `new-client.sh`, and settings changes Hope approves; bots never delete (archive/close only).
 - Old client text in git history and in issue edit history.
 - Private repos have no force-push/deletion protection (GitHub Pro, about $4/month, would add rulesets + branch protection).
