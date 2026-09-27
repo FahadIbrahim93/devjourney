@@ -2,12 +2,12 @@
 
 General guidelines for **any AI coding agent** (Hermes, Freebuff, Cursor, Claude Code, Codex, …) working on Hope Theory repos. Each client repo has its own `AGENTS.md` with the same rules plus its stack; the client repo's file wins if the two differ. In this repo the root `AGENTS.md` is Hermes' personal system config; for `CODER` issues, this file takes precedence.
 
-**Roles:** Hope = owner and final approver. Chief of Web Agency bot (Grok) = project manager: writes issues, moves cards, reviews, maintains `STATUS.md`. AI coders = implement `CODER` issues and deliver via PR.
+**Roles:** Hope = owner and final approver. Chief of Web Agency bot = project manager (the only bot Hope talks to): writes issues, moves cards, reviews, maintains `STATUS.md`. AI coders = implement `CODER` issues and deliver via PR.
 
-**Where work lives:** Notion Tasks DB (business + task board) → GitHub issues (work items). Coding tasks carry the `CODER` label and sit on the **Web Agency - CODER Board**. Non-code work uses the *Work item* template.
+**Where work lives:** GitHub issues are the single source of truth; the Notion Tasks DB mirrors them (sync). Coding tasks carry the `CODER` label and sit on the client's board **Client: <Name>**. Non-code work uses the *Work item* template.
 
 ## 1. Picking a task
-- Work only on issues that are labelled **`CODER`** **and** sit in **Ready** on the **Web Agency - CODER Board**: https://github.com/users/FahadIbrahim93/projects (project **"Web Agency - CODER Board"**)
+- Work only on issues that are labelled **`CODER`** **and** sit in **Ready** on the client's board **Client: <Name>** (Sthappo: https://github.com/users/FahadIbrahim93/projects/3)
   - No board access? Treat an open `CODER` issue with no `claimed by` comment and no `blocked` label, whose dependencies are closed, as available, and say so in your claim comment.
 - Read the whole issue first: Goal, Scope (in/out), Acceptance criteria, Tests/verification, Constraints, Depends on.
 - **Claim it:** comment `claimed by <agent>` (e.g. `claimed by Claude Code`) and move the card to **In progress**. Set the board's **Agent** field to your name. If you can't edit the board, the claim comment is enough and the Chief of Web Agency bot moves the card.
@@ -48,7 +48,7 @@ General guidelines for **any AI coding agent** (Hermes, Freebuff, Cursor, Claude
 - Don't delete issues, branches or files you didn't create for this task.
 
 ## 7. Flow at a glance
-Notion task → `CODER` issue (**Ready** on the board) → agent claims it (**In progress**) → PR `feat(#N)…` / `Closes #N` (**In review**) → review by Hope / Chief of Web Agency → merge → issue closes → **Done** (Notion task set to Done, STATUS updated by the Chief of Web Agency bot).
+`CODER` issue (**Ready** on the board) → agent claims it (**In progress**) → PR `feat(#N)…` / `Closes #N` (**In review**) → review by Hope / Chief of Web Agency → merge → issue closes → **Done** (the `coder-pr-handoff` Action labels the issue `status:in-review` when the PR opens; after merge the sync sets the Notion mirror to Done and the Chief of Web Agency bot updates STATUS).
 
 ## 8. Stack conventions
 - This repo (`devjourney`) is mostly docs and templates, plus some JS tooling (`package.json`). Follow existing patterns, keep Markdown links relative, and run whatever lint/test/build scripts exist for the files you touch (see the quality gates in the root `AGENTS.md`).

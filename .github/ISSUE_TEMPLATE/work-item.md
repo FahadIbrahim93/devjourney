@@ -25,4 +25,4 @@ assignees: []
 ## Rules
 - No invented facts (phone, email, awards, projects, testimonials).
 - Code changes go through a branch + PR (`Closes #<n>`) with a preview link.
-- When done: close this issue and set the Notion task to Done (Grok updates devjourney STATUS.md).
+- When done: close this issue and set the Notion task to Done (the sync mirrors it to Notion; the Chief of Web Agency bot updates devjourney STATUS.md).

@@ -6,7 +6,7 @@ labels: ["CODER"]
 assignees: []
 ---
 
-<!-- Agents: read AGENTS.md before starting. Only pick this up if it is labelled CODER and is in "Ready" on the Web Agency - CODER Board. -->
+<!-- Agents: read AGENTS.md before starting. Only pick this up if it is labelled CODER and is in "Ready" on the client's project board ("Client: <Name>", e.g. Project 3). -->
 
 **Client:** <!-- e.g. Sthappo Architects -->
 **Priority:** <!-- High | Medium | Low -->

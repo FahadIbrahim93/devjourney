@@ -1,0 +1,76 @@
+{
+  "_doc": "Config for sync_github_to_notion.py. Add a client repo here when onboarding (new-client.sh prints the line).",
+  "owner": "FahadIbrahim93",
+  "repos": [
+    "devjourney",
+    "sthappo-architects"
+  ],
+  "closed_lookback_days": 30,
+  "agency_labels": [
+    "client",
+    "website",
+    "admin",
+    "bug",
+    "CODER",
+    "Business/Marketing_Tasks",
+    "type:bug",
+    "type:feature",
+    "type:content",
+    "type:design",
+    "documentation"
+  ],
+  "notion": {
+    "tasks_data_source_id": "ffff5aa0-ab35-4898-bb78-d476427d6404",
+    "api_version": "2025-09-03"
+  },
+  "clients": {
+    "_doc": "Maps a repo name OR the project 'Client' field text to the Clients DB page id",
+    "sthappo-architects": "3e770e6cd20a816793e0e459a7d4d694",
+    "Sthappo Architects": "3e770e6cd20a816793e0e459a7d4d694"
+  },
+  "type_map": [
+    [
+      "Business/Marketing_Tasks",
+      "Business/Marketing"
+    ],
+    [
+      "bug",
+      "Bug"
+    ],
+    [
+      "client",
+      "Client"
+    ],
+    [
+      "website",
+      "Website"
+    ],
+    [
+      "admin",
+      "Admin"
+    ],
+    [
+      "type:bug",
+      "Bug"
+    ],
+    [
+      "documentation",
+      "Admin"
+    ]
+  ],
+  "status_map": {
+    "Backlog": "Backlog",
+    "Ready": "Backlog",
+    "In progress": "Doing",
+    "In review": "Doing",
+    "Done": "Done"
+  },
+  "agent_map": {
+    "AI coder": "AI coder",
+    "Hermes": "AI coder",
+    "Freebuff": "AI coder",
+    "Trainee": "Trainee",
+    "Hope": "Hope",
+    "Chief of Web Agency": "Chief of Web Agency"
+  }
+}
