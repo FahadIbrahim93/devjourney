@@ -5,7 +5,8 @@
 
 Looks at every open issue in the sync repos (public config + private config.local.json):
 due = board "Due" field (boards listed in tools/sync/config.json "boards") > milestone due date.
-Also lists open milestones that are overdue or due soon (e.g. launch M5).
+Also lists open milestones that are overdue or due soon (e.g. launch M5), and Notion-only
+tasks (no GitHub issue, e.g. the trainee's client-prep tasks) that are not Done (needs NOTION_TOKEN).
 Issues: GH_AGENCY_TOKEN. Boards: gh login (fine-grained PATs can't read user Projects).
 Exit code is always 0 (informational). Never prints tokens.
 """
@@ -44,6 +45,31 @@ def gh(args, board=False):
         raise RuntimeError(r.stderr.strip()[:160])
     out = r.stdout.strip()
     return json.loads("[" + out.replace("][", "],[") + "]") if args[0] == "api" else json.loads(out)
+
+
+def notion_only(c):
+    """Open Notion Tasks rows without a GitHub issue that have a Due date: [(date, line)]."""
+    tok = os.environ.get("NOTION_TOKEN")
+    if not tok:
+        return None
+    import urllib.request
+    n = c.get("notion", {})
+    url = f"https://api.notion.com/v1/data_sources/{n['tasks_data_source_id']}/query"
+    body = {"filter": {"and": [{"property": "GitHub issue", "url": {"is_empty": True}},
+                               {"property": "Due", "date": {"is_not_empty": True}},
+                               {"property": "Status", "select": {"does_not_equal": "Done"}}]}, "page_size": 100}
+    req = urllib.request.Request(url, data=json.dumps(body).encode(), method="POST", headers={
+        "Authorization": "Bearer " + tok, "Notion-Version": n.get("api_version", "2025-09-03"),
+        "Content-Type": "application/json"})
+    out = []
+    for r in json.load(urllib.request.urlopen(req, timeout=30))["results"]:
+        pr = r["properties"]
+        title = "".join(x["plain_text"] for x in pr["Title"]["title"])
+        who = (pr.get("Assignee", {}).get("select") or {}).get("name", "?")
+        st = (pr.get("Status", {}).get("select") or {}).get("name", "")
+        d = pr["Due"]["date"]["start"][:10]
+        out.append((dt.date.fromisoformat(d), f"Notion: {title[:70]} ({who}, due {d}, {st})"))
+    return out
 
 
 def main():
@@ -85,6 +111,15 @@ def main():
                     if dd <= soon:
                         tag = "OVERDUE" if dd < today else "due soon"
                         ms_lines.append((dd, f"{repo} milestone {m['title']} ({tag} {dd}, {m['open_issues']} open)"))
+    try:
+        nrows = notion_only(c)
+    except Exception as e:  # informational only; never fail the morning run on this
+        print(f"WARN: Notion tasks unreadable: {type(e).__name__}"); nrows = None
+    for dd, line in nrows or []:
+        if dd < today:
+            over.append((dd, line))
+        elif dd <= soon:
+            due_soon.append((dd, line))
     print(f"== Due check {today} (window {a.days} days, Asia/Dhaka)")
     print(f"-- OVERDUE ({len(over)})"); [print("  ! " + l) for _, l in sorted(over)]
     print(f"-- DUE within {a.days} days ({len(due_soon)})"); [print("  > " + l) for _, l in sorted(due_soon)]
