@@ -10,7 +10,7 @@ Inputs
                        {{UPDATED}} {{CLIENTS}} {{CLIENT_ISSUES}} {{HUB_ISSUES}} {{TRAINEE}}
   status.local.json    PRIVATE (gitignored) or $AGENCY_STATUS_LOCAL:
                        {"clients":[{"code":"Client A","slug":"client-a","repo":"<real-repo>",
-                                    "tracking_issue":7,"stage":"Onboarding · Discovery"}]}
+                                    "tracking_issue":7,"project":3,"stage":"Onboarding · Discovery"}]}
 Rules: client repos are shown only as "<slug>#N" (no links: the real repo name would leak via the URL);
 money, invoice numbers, bank, phone/email never appear (Notion Invoices is the source); every line is
 passed through tools/public_hygiene.py scrub + check.
@@ -22,14 +22,43 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, os.path.dirname(HERE))
 import public_hygiene as hy  # noqa: E402
 
+
+def load_agency_env(path=os.environ.get("AGENCY_ENV", "/home/box/.agency.env")):
+    """Source ~/.agency.env without overriding existing vars. Never prints values."""
+    try:
+        for line in open(path):
+            line = line.strip().removeprefix("export ")
+            if "=" in line and not line.startswith("#"):
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip().strip("'\""))
+    except FileNotFoundError:
+        pass
+
+
+load_agency_env()
+
 OWNER, HUB = "FahadIbrahim93", "devjourney"
 LOCAL = os.environ.get("AGENCY_STATUS_LOCAL") or os.path.join(HERE, "status.local.json")
 CLIENTS = json.load(open(LOCAL))["clients"] if os.path.exists(LOCAL) else []
 
 
-def gh_json(*a):
-    out = subprocess.run(["gh", *a], capture_output=True, text=True, check=True).stdout.strip()
+def gh_json(*a, board=False):
+    """Issues: GH_AGENCY_TOKEN (fine-grained). Boards: gh login (fine-grained PATs can't read user Projects)."""
+    env = dict(os.environ)
+    env.pop("GH_TOKEN", None)
+    if not board and os.environ.get("GH_AGENCY_TOKEN"):
+        env["GH_TOKEN"] = os.environ["GH_AGENCY_TOKEN"]
+    out = subprocess.run(["gh", *a], capture_output=True, text=True, check=True, env=env).stdout.strip()
     return json.loads("[" + out.replace("][", "],[") + "]") if a[0] == "api" else json.loads(out)
+
+
+def board_status(project):
+    try:
+        items = gh_json("project", "item-list", str(project), "--owner", OWNER, "--format", "json", "--limit", "200", board=True)["items"]
+        return {(i.get("content") or {}).get("url"): i.get("status", "") for i in items}
+    except Exception as e:  # board optional
+        print(f"WARN: board {project} unreadable ({str(e)[:80]}); Board column left blank", file=sys.stderr)
+        return {}
 
 
 def issues(repo):
@@ -57,8 +86,9 @@ def build():
     for c in CLIENTS:
         C.append(f"| {c['code']} | {link(c['tracking_issue'])} | {c['slug']} (private repo) | {c.get('stage','')} |")
         rows = sorted(issues(c["repo"]), key=lambda i: (ms(i) or "Z", i["number"]))
-        CI += [f"### {c['code']} ({c['slug']}, private repo; details in Notion)", "| # | Title | Labels | Milestone |", "|---|---|---|---|"]
-        CI += [f"| {c['slug']}#{i['number']} | {i['title']} | {labels(i)} | {ms(i)} |" for i in rows] + [""]
+        bs = board_status(c["project"]) if c.get("project") else {}
+        CI += [f"### {c['code']} ({c['slug']}, private repo; details in Notion)", "| # | Title | Board | Labels | Milestone |", "|---|---|---|---|---|"]
+        CI += [f"| {c['slug']}#{i['number']} | {i['title']} | {bs.get(i['html_url'], '')} | {labels(i)} | {ms(i)} |" for i in rows] + [""]
     now = dt.datetime.now(dt.timezone(dt.timedelta(hours=6))).strftime("%Y-%m-%d %H:%M")
     tpl = open(os.path.join(HERE, "STATUS.template.md"), encoding="utf-8").read()
     out = (tpl.replace("{{UPDATED}}", f"{now} (Asia/Dhaka)").replace("{{CLIENTS}}", "\n".join(C))

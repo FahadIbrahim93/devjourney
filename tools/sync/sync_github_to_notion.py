@@ -17,6 +17,22 @@ Rules (deterministic, idempotent, never deletes/archives anything):
 """
 import argparse, datetime as dt, json, os, subprocess, sys, urllib.request, urllib.error
 
+
+def load_agency_env(path=os.environ.get("AGENCY_ENV", "/home/box/.agency.env")):
+    """Source ~/.agency.env (export KEY=VALUE lines) without overriding variables already set. Never prints values."""
+    try:
+        for line in open(path):
+            line = line.strip()
+            if line.startswith("export "):
+                line = line[7:]
+            if "=" in line and not line.startswith("#"):
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip().strip("'\""))
+    except FileNotFoundError:
+        pass
+
+
+load_agency_env()
 HERE = os.path.dirname(os.path.abspath(__file__))
 CFG = json.load(open(os.path.join(HERE, "config.json")))
 # Private overlay (gitignored; devjourney is PUBLIC): client repos + client->Notion mapping live here.
@@ -47,57 +63,70 @@ AUTH = "current gh login"
 USE_PROJECTS = True
 
 
-def gh_env():
-    """Token precedence: GH_AGENCY_PROJECT_TOKEN (classic, read:project+repo; needed because
-    fine-grained PATs cannot read user-owned Projects) > GH_AGENCY_TOKEN (fine-grained) > gh login."""
-    global AUTH
+def gh_env(projects=False):
+    """Issues: GH_AGENCY_TOKEN (fine-grained) > gh login.
+    Board fields: GH_AGENCY_PROJECT_TOKEN (classic) > gh login, because fine-grained PATs cannot read
+    user-owned Projects."""
     env = dict(os.environ)
-    for k in ("GH_AGENCY_PROJECT_TOKEN", "GH_AGENCY_TOKEN"):
-        if env.get(k):
-            env["GH_TOKEN"], AUTH = env[k], k
-            break
-    return env
+    env.pop("GH_TOKEN", None)
+    keys = ("GH_AGENCY_PROJECT_TOKEN",) if projects else ("GH_AGENCY_TOKEN",)
+    for k in keys:
+        if os.environ.get(k):
+            env["GH_TOKEN"] = os.environ[k]
+            return env, k
+    return env, "gh login"
 
 
-def gh_graphql(variables):
-    global USE_PROJECTS
-    env = gh_env()
-    args = ["gh", "api", "graphql", "-f", "query=" + (GQL if USE_PROJECTS else GQL_NO_PROJECTS)]
+def gh_graphql(variables, projects=False):
+    env, who = gh_env(projects)
+    args = ["gh", "api", "graphql", "-f", "query=" + (GQL if projects else GQL_NO_PROJECTS)]
     for k, v in variables.items():
         if v is not None:
             args += ["-f", f"{k}={v}"]
     out = subprocess.run(args, capture_output=True, text=True, env=env)
-    if out.returncode != 0 and USE_PROJECTS:
-        print("WARN: project fields unreadable with this token (" + out.stderr.strip()[:160] +
-              ") -> continuing without Priority/Due/Status from boards. Set GH_AGENCY_PROJECT_TOKEN.")
-        USE_PROJECTS = False
-        return gh_graphql(variables)
     if out.returncode != 0:
-        sys.exit("gh failed: " + out.stderr.strip())
-    return json.loads(out.stdout)
+        raise RuntimeError(f"gh ({who}) failed: " + out.stderr.strip()[:200])
+    return json.loads(out.stdout), who
+
+
+def _all_issues(repo, projects):
+    nodes, cursor, who = [], None, None
+    while True:
+        d, who = gh_graphql({"owner": CFG["owner"], "name": repo, "cursor": cursor}, projects)
+        d = d["data"]["repository"]["issues"]
+        nodes += d["nodes"]
+        if not d["pageInfo"]["hasNextPage"]:
+            return nodes, who
+        cursor = d["pageInfo"]["endCursor"]
 
 
 def fetch_issues():
+    global AUTH, USE_PROJECTS
     cutoff = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=CFG["closed_lookback_days"])
     agency = set(CFG["agency_labels"])
-    issues, ignored = [], []
+    issues, ignored, proj_who = [], [], None
     for repo in CFG["repos"]:
-        cursor = None
-        while True:
-            d = gh_graphql({"owner": CFG["owner"], "name": repo, "cursor": cursor})["data"]["repository"]["issues"]
-            for n in d["nodes"]:
-                labels = [l["name"] for l in n["labels"]["nodes"]]
-                if n["state"] == "CLOSED" and n["closedAt"] and \
-                        dt.datetime.fromisoformat(n["closedAt"].replace("Z", "+00:00")) < cutoff:
-                    continue
-                if not agency.intersection(labels):
-                    ignored.append(f'{repo}#{n["number"]} ({",".join(labels) or "no labels"})')
-                    continue
-                n["repo"], n["labels"] = repo, labels
-                issues.append(n)
-            if not d["pageInfo"]["hasNextPage"]:
-                break
-            cursor = d["pageInfo"]["endCursor"]
+        nodes, AUTH = _all_issues(repo, projects=False)
+        try:
+            pnodes, proj_who = _all_issues(repo, projects=True)
+            pmap = {n["url"]: n.get("projectItems") for n in pnodes}
+            for n in nodes:
+                n["projectItems"] = pmap.get(n["url"]) or {"nodes": []}
+        except RuntimeError as e:
+            print("WARN: board fields unreadable (" + str(e)[:160] + ") -> continuing without Priority/Due/Status from boards.")
+            USE_PROJECTS = False
+        for n in nodes:
+            labels = [l["name"] for l in n["labels"]["nodes"]]
+            if n["state"] == "CLOSED" and n["closedAt"] and \
+                    dt.datetime.fromisoformat(n["closedAt"].replace("Z", "+00:00")) < cutoff:
+                continue
+            if not agency.intersection(labels):
+                ignored.append(f'{repo}#{n["number"]} ({",".join(labels) or "no labels"})')
+                continue
+            n["repo"], n["labels"] = repo, labels
+            issues.append(n)
+    if USE_PROJECTS and proj_who:
+        AUTH = f"{AUTH} (issues) + {proj_who} (boards)"
     return issues, ignored
 
 
@@ -188,22 +217,29 @@ def snapshot_rows():
     return s["rows"], os.path.basename(files[-1])
 
 
-def to_props(d, url):
-    p = {"Title": {"title": [{"text": {"content": d["Title"][:2000]}}]},
-         "GitHub issue": {"url": url}}
+def to_props(d, url, only=None):
+    """only = set of changed keys (updates send just those, so untouched Notion edits survive)."""
+    use = lambda k: only is None or k in only
+    p = {"GitHub issue": {"url": url}}
+    if use("Title"):
+        p["Title"] = {"title": [{"text": {"content": d["Title"][:2000]}}]}
     for k in ("Status", "Priority", "Type", "Assignee"):
-        if d[k]:
+        if d[k] and use(k):
             p[k] = {"select": {"name": d[k]}}
-    if d["Due"] and not d["_due_fill_only"]:
+    if d["Due"] and use("Due") and (not d["_due_fill_only"] or only is not None):
         p["Due"] = {"date": {"start": d["Due"]}}
-    if d["Client"]:
+    if d["Client"] and use("Client"):
         p["Client"] = {"relation": [{"id": d["Client"]}]}
     return p
 
 
 def diff(row, d):
+    """Trainee (Business/Marketing_Tasks) rows are Notion-authoritative (Agency OS exception, 27 Sep):
+    only the title is kept in step and empty fields are filled; Status/Due/Priority/Assignee are never overwritten."""
     ch = {}
     for k in ("Title", "Status", "Priority", "Type", "Assignee", "Due"):
+        if d["_trainee"] and k != "Title" and row.get(k):
+            continue
         if d[k] and row.get(k) != d[k]:
             if k == "Due" and d["_due_fill_only"] and row.get("Due"):
                 continue
@@ -236,7 +272,8 @@ def main():
     creates = [u for u in want if u not in by_url]
     updates = {u: diff(by_url[u], want[u]) for u in want if u in by_url}
     updates = {u: c for u, c in updates.items() if c}
-    rows_no_issue = [r.get("Title") or r["id"] for r in rows if not r.get("url_key")]
+    # Notion-only trainee rows (Type Business/Marketing, no GitHub issue) are by design, not drift
+    rows_no_issue = [r.get("Title") or r["id"] for r in rows if not r.get("url_key") and r.get("Type") != "Business/Marketing"]
     rows_unknown = [u for u in by_url if u not in want]
     unverified = [u for u, d in want.items() if d["_trainee"] and d["_closed"]
                   and not (by_url.get(u) or {}).get("Verified")]
@@ -271,7 +308,7 @@ def main():
         for u in updates:
             if by_url[u].get("id") in (None, "snapshot"):
                 continue
-            notion("PATCH", f'/pages/{by_url[u]["id"]}', {"properties": to_props(want[u], u)})
+            notion("PATCH", f'/pages/{by_url[u]["id"]}', {"properties": to_props(want[u], u, set(updates[u]))})
         print(f"\nApplied: {len(creates)} created, {len(updates)} updated, 0 deleted.")
     if a.json:
         json.dump({"creates": creates, "updates": updates, "rows_no_issue": rows_no_issue,

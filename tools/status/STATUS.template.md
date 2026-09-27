@@ -6,16 +6,16 @@
 
 ## How the system works
 - **Chain of command:** Hope ↔ **Chief of Web Agency** bot (the only bot Hope talks to) → sub-bots (**Management & Marketing Department**, more later). **AI coders** (Hermes, Freebuff, Cursor, Claude Code, Codex…) take `CODER` issues and deliver via PR. The **trainee** does `Business/Marketing_Tasks`, reports to Hope, and Hope verifies.
-- **Single source of truth for work = GitHub issues.** The Notion [Tasks](https://app.notion.com/p/0051fdf55f41491baa23613e51e6efe2) DB mirrors them, keyed by issue URL, via [`tools/sync/`](tools/sync/RUNBOOK.md) (dry-run until `NOTION_TOKEN` exists).
+- **Single source of truth for work = GitHub issues.** The Notion [Tasks](https://app.notion.com/p/0051fdf55f41491baa23613e51e6efe2) DB mirrors them, keyed by issue URL, via [`tools/sync/`](tools/sync/RUNBOOK.md), applied live by the Chief bot's daily routine (`agency-daily.sh`). Trainee Business/Marketing rows are Notion-authoritative (the sync only fills blanks there).
 - **Notion = business view:** [HQ](https://app.notion.com/p/3e770e6cd20a812fa02bcea25d8e3ec4) · Clients · Invoices & Payments · [Agency OS](https://app.notion.com/p/3e870e6cd20a81af90dcc38f849da98c).
 - **Handoff:** `CODER` + **Ready** on the client board = pickup signal. A PR with `Closes #N` triggers the `coder-pr-handoff` Action (comment + `status:in-review`).
 - **Consistency:** new clients via [`tools/new-client.sh`](tools/new-client.sh) + [docs/NEW_CLIENT.md](docs/NEW_CLIENT.md), from the private template repo. Labels ↔ Notion: [docs/LABELS.md](docs/LABELS.md).
 
 ## Waiting on Hope
-1. Enable built-in board workflows (UI only) on the client CODER board: *Item closed → Done*, *Pull request merged → Done*.
-2. Create `NOTION_TOKEN` and `GH_AGENCY_TOKEN`. Steps: [docs/SECURITY_TOKENS.md](docs/SECURITY_TOKENS.md).
-3. Client A details (legal name, address, contacts) → then send proposal + deposit invoice ([#15](https://github.com/FahadIbrahim93/devjourney/issues/15)).
-4. Optional: delete old issue-body revisions that still show client details (issue "edited" menu → delete revision). See docs/SECURITY_TOKENS.md.
+1. Client A details (legal name, address, contacts) → then send proposal + deposit invoice ([#15](https://github.com/FahadIbrahim93/devjourney/issues/15)).
+2. Optional: delete old issue-body revisions that still show client details (issue "edited" menu → delete revision), and decide on a git-history rewrite. See docs/SECURITY_TOKENS.md §4.
+
+Done 27 Sep: client repo workflow PR merged · board workflows on · `NOTION_TOKEN` + `GH_AGENCY_TOKEN` live · public-repo hygiene + security settings.
 
 ## Deadlines (Client A; amounts and invoice numbers in Notion)
 | Date | What |
