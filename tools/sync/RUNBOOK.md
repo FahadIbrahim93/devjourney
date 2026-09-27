@@ -5,15 +5,14 @@
 Owner: **Chief of Web Agency** bot (`7eb04faf-93d6-4168-951f-cd615510031f`). Cadence: daily at 09:00 Dhaka, plus after any batch of issue changes.
 
 ## Path A: script (preferred, deterministic)
-```bash
-cd /workspace/agency/sync
 **Daily (Chief bot, 09:00 Dhaka):** `/workspace/agency/bin/agency-daily.sh` (copy: `tools/agency-daily.sh`) = source env → sync `--apply` → regenerate STATUS.md → commit only on real change → drift summary.
 
-```
+```bash
+cd /workspace/agency/sync
 python3 sync_github_to_notion.py            # dry-run: plan + drift report
 python3 sync_github_to_notion.py --apply    # writes (needs NOTION_TOKEN)
 ```
-* Reads GitHub via `gh`. Token precedence: `GH_AGENCY_PROJECT_TOKEN` → `GH_AGENCY_TOKEN` → current `gh` login (see devjourney `docs/SECURITY_TOKENS.md`).
+* Reads GitHub via `gh`: issues with `GH_AGENCY_TOKEN` (else `gh` login), board fields with `GH_AGENCY_PROJECT_TOKEN` (else `gh` login). See devjourney `docs/SECURITY_TOKENS.md`.
 * **Live since 27 Sep 2026.** The script sources `/home/box/.agency.env` itself (NOTION_TOKEN, GH_AGENCY_TOKEN). Issues are read with `GH_AGENCY_TOKEN`, board fields with the `gh` login (fine-grained PATs can't read user Projects). Updates send only the changed fields. Trainee (Business/Marketing_Tasks) rows are Notion-authoritative: only the title is kept in step and blanks filled; Notion-only trainee rows without a GitHub issue are not drift.
 * Writes to Notion via the REST API with `NOTION_TOKEN` (version 2025-09-03, data source `ffff5aa0-ab35-4898-bb78-d476427d6404`).
 * Without `NOTION_TOKEN` it stays in dry-run and diffs against the newest `notion_snapshot_*.json`. Refresh that file with Path A0 below.
