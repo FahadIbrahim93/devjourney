@@ -267,13 +267,23 @@ def main():
         rows, src = snapshot_rows()
         src = f"snapshot {src} (no NOTION_TOKEN)" if rows is not None else "none"
         rows = rows or []
-    by_url = {r["url_key"]: r for r in rows if r.get("url_key")}
+    def _trainee_row(r):
+        return r.get("Type") == "Business/Marketing" or r.get("Assignee") == "Trainee"
+    # One row per issue. If several rows carry the same issue URL (e.g. a trainee helper task that
+    # links the issue it supports), key the issue to the non-trainee row and leave the others alone.
+    by_url, linked = {}, []
+    for r in sorted((r for r in rows if r.get("url_key")), key=_trainee_row):
+        if r["url_key"] in by_url:
+            linked.append(r.get("Title") or r["id"])
+        else:
+            by_url[r["url_key"]] = r
 
     creates = [u for u in want if u not in by_url]
     updates = {u: diff(by_url[u], want[u]) for u in want if u in by_url}
     updates = {u: c for u, c in updates.items() if c}
     # Notion-only trainee rows (Type Business/Marketing, no GitHub issue) are by design, not drift
-    rows_no_issue = [r.get("Title") or r["id"] for r in rows if not r.get("url_key") and r.get("Type") != "Business/Marketing"]
+    # Notion-only trainee rows (Type Business/Marketing or Assignee Trainee) are also by design
+    rows_no_issue = [r.get("Title") or r["id"] for r in rows if not r.get("url_key") and not _trainee_row(r)]
     rows_unknown = [u for u in by_url if u not in want]
     unverified = [u for u, d in want.items() if d["_trainee"] and d["_closed"]
                   and not (by_url.get(u) or {}).get("Verified")]
@@ -298,6 +308,10 @@ def main():
     print(f"-- FLAG: trainee issues closed on GitHub but not 'Verified by Hope' ({len(unverified)})")
     for u in unverified:
         print("  * " + u)
+    if linked:
+        print(f"-- INFO: extra rows linking an issue already mirrored (left untouched) ({len(linked)})")
+        for t in linked:
+            print("  = " + str(t))
     print(f"-- Ignored (no agency label): {', '.join(ignored) or 'none'}")
 
     if a.apply:

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# agency-daily.sh: Chief of Web Agency daily routine (09:00 Asia/Dhaka). Idempotent, safe to re-run.
+# agency-daily.sh: Chief of Web Agency morning routine (Sun-Thu 09:10 Asia/Dhaka, Bangladesh workweek). Idempotent, safe to re-run any time.
 #   1 pre-flight (env file, tokens -> HTTP 200)  2 git pull  3 GitHub->Notion sync --apply
 #   4 regenerate anonymised STATUS.md, commit+push only on a real change  5 due-soon/overdue check  6 summary
 # Log: /workspace/agency/logs/agency-daily.log (rotated at 256 KB, keeps .1-.7). Never prints token values.

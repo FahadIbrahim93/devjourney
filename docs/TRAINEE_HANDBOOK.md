@@ -19,7 +19,7 @@ Your job: help the **business side** grow and run well. That means research, con
 ## 2. The system in plain language
 | Place | What it is | What you do there |
 |---|---|---|
-| **Notion: Tasks** | The to-do board for the whole agency. Each card has a Type, Assignee, Due date, Status. | Find tasks where **Assignee = Trainee** and **Type = Business/Marketing**. Update Status (Backlog → Doing). Hope sets Done. |
+| **Notion: Tasks** | The to-do board for the whole agency. Each card has a Type, Assignee, Due date, Status. | Find tasks where **Assignee = Trainee** (most are **Type = Business/Marketing**; client-prep tasks are **Type = Client**). Update Status (Backlog → Doing). Hope sets Done. |
 | **Notion: Clients** | List of clients and leads (name, stage, contact, domain, notes). | Read only, unless Hope asks you to add leads. |
 | **Notion: Invoices** | Who owes what and when. | **Read only, confidential.** Never share. |
 | **Notion: STATUS** | Weekly overview: priorities, deadlines, invoices due. | Read it every Monday. |

@@ -2,10 +2,10 @@
 
 **Rule:** GitHub issues are the single source of truth for work items. The Notion **Tasks** DB is a read-mostly mirror, keyed by its `GitHub issue` URL. Never create work in Notion first. Create the GitHub issue, then sync.
 
-Owner: **Chief of Web Agency** bot (`7eb04faf-93d6-4168-951f-cd615510031f`). Cadence: daily at 09:00 Dhaka, plus after any batch of issue changes.
+Owner: **Chief of Web Agency** bot (`7eb04faf-93d6-4168-951f-cd615510031f`). Cadence: **Sun–Thu 09:10 Dhaka** (Bangladesh workweek), plus after any batch of issue changes.
 
 ## Path A: script (preferred, deterministic)
-**Daily (Chief bot, 09:00 Dhaka):** `/workspace/agency/bin/agency-daily.sh` (copy: `tools/agency-daily.sh`) = source env → sync `--apply` → regenerate STATUS.md → commit only on real change → drift summary.
+**Morning run (Chief bot, Sun–Thu 09:10 Dhaka):** `/workspace/agency/bin/agency-daily.sh` (copy: `tools/agency-daily.sh`) = source env → token pre-flight → sync `--apply` → regenerate STATUS.md → commit only on real change → drift summary → `due_check.py --days 3`.
 
 ```bash
 cd /workspace/agency/sync
@@ -57,11 +57,13 @@ FROM "collection://ffff5aa0-ab35-4898-bb78-d476427d6404"
 ## Logs, errors, extras
 * Log: `/workspace/agency/logs/agency-daily.log` (rotated at 256 KB, keeps 7). Last sync plan: `logs/last-sync.txt`.
 * Exit codes: 0 ok · 2 env/token problem (message says which; no values printed) · 3 already running · 4 git · 5 sync · 6 STATUS/commit.
-* Due-soon/overdue: `python3 tools/ops/due_check.py [--days N]` (run in the daily summary with 3 days).
-* Sunday review: `python3 tools/ops/weekly_summary.py` → `logs/weekly-YYYY-MM-DD.md` (private, mode 600).
+* Due-soon/overdue: `python3 tools/ops/due_check.py [--days N]`: `--days 3` inside the morning run, `--days 2` in the Chief's evening summary (with invoice Sent+5 reminder drafts and Sent+8 Overdue flags), `--days 7` in the Sunday review.
+* Monthly (1st): invoice rollup into the Notion STATUS page (private; never in this repo). From 12 Dec: remind Hope to rotate `GH_AGENCY_TOKEN` (the morning run warns at ≤ 14 days).
+* Extra Notion rows that link an issue already mirrored (e.g. a trainee helper task) are reported as INFO and left untouched; the issue stays keyed to its non-trainee row.
+* Sunday review: `python3 tools/ops/weekly_summary.py` (+ `due_check.py --days 7`) → `logs/weekly-YYYY-MM-DD.md` (private, mode 600), then refresh the Notion STATUS page.
 
 ## Guardrails
 * **Trainee tasks.** A closed `Business/Marketing_Tasks` issue whose row lacks **Verified by Hope** is flagged. Only Hope ticks Verified, and the bot must not.
-* A **row without an issue** is drift, **except** Notion-only trainee rows (Type = Business/Marketing), which are by design. Otherwise create the issue (or ask Hope); never delete the row.
+* A **row without an issue** is drift, **except** Notion-only trainee rows (Type = Business/Marketing or Assignee = Trainee), which are by design. Otherwise create the issue (or ask Hope); never delete the row.
 * **Trainee rows are Notion-authoritative:** the sync keeps titles in step and fills blanks only.
 * Out of scope for sync: Invoices, Clients (maintained by hand / by the Chief bot).
