@@ -7,7 +7,7 @@ General guidelines for **any AI coding agent** (Hermes, Freebuff, Cursor, Claude
 **Where work lives:** GitHub issues are the single source of truth; the Notion Tasks DB mirrors them (sync). Coding tasks carry the `CODER` label and sit on the client's board **Client: <Name>**. Non-code work uses the *Work item* template.
 
 ## 1. Picking a task
-- Work only on issues that are labelled **`CODER`** **and** sit in **Ready** on the client's board **Client: <Name>** (Sthappo: https://github.com/users/FahadIbrahim93/projects/3)
+- Work only on issues that are labelled **`CODER`** **and** sit in **Ready** on the client's board **Client: <Name>** (link is in the client's private repo README)
   - No board access? Treat an open `CODER` issue with no `claimed by` comment and no `blocked` label, whose dependencies are closed, as available, and say so in your claim comment.
 - Read the whole issue first: Goal, Scope (in/out), Acceptance criteria, Tests/verification, Constraints, Depends on.
 - **Claim it:** comment `claimed by <agent>` (e.g. `claimed by Claude Code`) and move the card to **In progress**. Set the board's **Agent** field to your name. If you can't edit the board, the claim comment is enough and the Chief of Web Agency bot moves the card.

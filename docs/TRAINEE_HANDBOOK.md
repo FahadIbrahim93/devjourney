@@ -10,7 +10,7 @@ Welcome to **Hope Theory**! This handbook explains what we do, how the system wo
 ## 1. What the agency does
 Hope Theory builds **websites for small businesses** (studios, clinics, restaurants, schools, shops), mostly in Dhaka. We handle the design, the build, launch on the client's domain, and a handoff so the client owns their site.
 
-- **First client:** Sadia Alam Epshi, **Sthappo Architects** (working name), an architecture and interior studio. She is family-connected (referred by Sami's sister).
+- **First client:** **Client A**, a small design studio in Dhaka. The real name and contacts are in Notion (Clients); this repo is public, so we always write **Client A** here and in GitHub.
 - **Target launch:** 27 October 2026.
 - **How we make money:** a fixed project price paid in milestones (deposit → design approval → before launch), plus optional maintenance later.
 
@@ -24,7 +24,7 @@ Your job: help the **business side** grow and run well. That means research, con
 | **Notion: Invoices** | Who owes what and when. | **Read only, confidential.** Never share. |
 | **Notion: STATUS** | Weekly overview: priorities, deadlines, invoices due. | Read it every Monday. |
 | **GitHub issues** | The same tasks, written in detail (steps, checklist). Label `Business/Marketing_Tasks`. | **View only.** Read your task's steps there. |
-| **GitHub project boards** | Visual boards: **Agency: Business & Marketing** (your tasks) and **Client: Sthappo Architects** (the website build). | **View only.** It's where you see what's happening. |
+| **GitHub project boards** | Visual boards: **Agency: Business & Marketing** (your tasks) and **Client A** (the website build, private board). | **View only.** It's where you see what's happening. |
 | **Google Drive / Docs / Sheets / Canva** | Where you create deliverables. | Make files, share them **with Hope only**. |
 
 ## 3. Roles and chain of command
@@ -85,9 +85,9 @@ WEEKLY REPORT — week of [date]
 ## 8. 4-week learning path (tied to real tasks)
 | Week | Focus (business lesson) | Real tasks | Learn |
 |---|---|---|---|
-| **1** (28 Sep – 4 Oct) | **Client discovery & market research.** Understand the customer before selling. | Sthappo content brief (due 30 Sep) · Competitor scan of 10 Dhaka studios (due 4 Oct) | How agencies run discovery; what makes a service website convert |
+| **1** (28 Sep – 4 Oct) | **Client discovery & market research.** Understand the customer before selling. | Client A content brief (due 30 Sep) · Competitor scan of 10 Dhaka studios (due 4 Oct) | How agencies run discovery; what makes a service website convert |
 | **2** (5 – 11 Oct) | **Positioning & pricing.** Who we serve, why us, what we charge. | Agency brand basics: name options, one-line pitch, 3-tier BDT price draft (due 8 Oct) · Start the lead list | Value proposition canvas; good/better/best pricing |
 | **3** (12 – 18 Oct) | **Lead generation & outreach.** Find the right prospects and write messages that get replies. | Lead list of 30 Dhaka businesses (due 12 Oct) · Outreach drafts in Bangla + English (due 15 Oct) | Ideal customer profile; cold message structure (hook → value → small ask) |
-| **4** (19 – 31 Oct) | **Launch marketing & social proof.** Turn a finished project into more business. | Sthappo launch plan: Google Business Profile, FB/IG posts, testimonial request (due 22 Oct) · Sthappo case study outline (due 31 Oct) | Google Business Profile basics; case study structure (problem → solution → result) |
+| **4** (19 – 31 Oct) | **Launch marketing & social proof.** Turn a finished project into more business. | Client A launch plan: Google Business Profile, FB/IG posts, testimonial request (due 22 Oct) · Client A case study outline (due 31 Oct) | Google Business Profile basics; case study structure (problem → solution → result) |
 
 At the end of each week: send the weekly report, and have a 15-minute review with Hope.

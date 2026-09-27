@@ -19,6 +19,12 @@ import argparse, datetime as dt, json, os, subprocess, sys, urllib.request, urll
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CFG = json.load(open(os.path.join(HERE, "config.json")))
+# Private overlay (gitignored; devjourney is PUBLIC): client repos + client->Notion mapping live here.
+_LOCAL = os.environ.get("AGENCY_SYNC_LOCAL") or os.path.join(HERE, "config.local.json")
+if os.path.exists(_LOCAL):
+    _l = json.load(open(_LOCAL))
+    CFG["repos"] = list(dict.fromkeys(CFG.get("repos", []) + _l.get("repos", [])))
+    CFG.setdefault("clients", {}).update(_l.get("clients", {}))
 NOTION = "https://api.notion.com/v1"
 
 GQL = """query($owner:String!,$name:String!,$cursor:String){repository(owner:$owner,name:$name){

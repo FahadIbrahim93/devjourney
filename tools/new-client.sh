@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # new-client.sh — onboard a client in one idempotent pass. DRY-RUN by default; nothing is ever deleted.
 #
-#   ./new-client.sh <slug> "<Client Name>" [--launch YYYY-MM-DD] [--apply]
-#   e.g. ./new-client.sh acme-bakery "Acme Bakery" --launch 2026-11-30          # shows the plan
-#        ./new-client.sh acme-bakery "Acme Bakery" --launch 2026-11-30 --apply  # does it
+#   ./new-client.sh <slug> "<Client Name>" --code "Client B" [--launch YYYY-MM-DD] [--apply]
+#   e.g. ./new-client.sh acme-bakery "Acme Bakery" --code "Client B" --launch 2026-11-30          # shows the plan
+#        ./new-client.sh acme-bakery "Acme Bakery" --code "Client B" --launch 2026-11-30 --apply  # does it
+#   devjourney is PUBLIC: the real name/slug stay in the private repo, private board and Notion; the public
+#   tracking issue only uses --code. Record the code<->name mapping in Notion Clients (+ local private configs).
 #
 # Creates (skipping anything that already exists):
 #   1. private repo FahadIbrahim93/<slug> from template FahadIbrahim93/agency-client-template
@@ -11,17 +13,17 @@
 #   2. placeholder fill-in commit (__CLIENT_NAME__, __REPO__, __PROJECT_URL__, __TRACKING_ISSUE__)
 #   3. labels  4. milestones M1–M6 (dated back from --launch)
 #   5. project board "Client: <Name>" (Status Backlog/Ready/In progress/In review/Done; Client, Priority, Due, Agent), linked to repo
-#   6. devjourney tracking issue "Client: <Name> - website v1" (labels client, website), added to the board
+#   6. devjourney tracking issue "<Code> - website v1" (anonymised: no name, no repo name) (labels client, website), added to the board
 #   7. prints the Notion rows + sync config lines + Hope's UI steps
 # Auth: repo creation uses your gh login (needs Administration, which GH_AGENCY_TOKEN deliberately lacks).
 #       Labels/milestones/issues prefer GH_AGENCY_TOKEN; boards prefer GH_AGENCY_PROJECT_TOKEN (see docs/SECURITY_TOKENS.md).
 set -euo pipefail
 O=FahadIbrahim93; TPL=$O/agency-client-template; HUB=$O/devjourney
-APPLY=0; LAUNCH=""; ARGS=()
+APPLY=0; LAUNCH=""; CODE=""; ARGS=()
 while [ $# -gt 0 ]; do case "$1" in
-  --apply) APPLY=1;; --launch) LAUNCH="$2"; shift;; -h|--help) sed -n 2,20p "$0"; exit 0;; *) ARGS+=("$1");; esac; shift; done
-[ ${#ARGS[@]} -eq 2 ] || { echo "usage: $0 <slug> \"<Client Name>\" [--launch YYYY-MM-DD] [--apply]"; exit 2; }
-SLUG="${ARGS[0]}"; NAME="${ARGS[1]}"; R=$O/$SLUG; TITLE="Client: $NAME"; TRACK="Client: $NAME - website v1"
+  --apply) APPLY=1;; --launch) LAUNCH="$2"; shift;; --code) CODE="$2"; shift;; -h|--help) sed -n 2,20p "$0"; exit 0;; *) ARGS+=("$1");; esac; shift; done
+[ ${#ARGS[@]} -eq 2 ] && [ -n "$CODE" ] || { echo "usage: $0 <slug> \"<Client Name>\" --code \"Client B\" [--launch YYYY-MM-DD] [--apply]"; exit 2; }
+SLUG="${ARGS[0]}"; NAME="${ARGS[1]}"; R=$O/$SLUG; TITLE="Client: $NAME"; TRACK="$CODE - website v1"
 [[ "$SLUG" =~ ^[a-z0-9][a-z0-9-]{1,60}$ ]] || { echo "slug must be lowercase letters, digits, dashes"; exit 2; }
 [ -n "$LAUNCH" ] || LAUNCH=$(date -d "+30 days" +%F)
 d(){ date -d "$LAUNCH $1 days" +%F; }
@@ -42,6 +44,11 @@ if gh_repo repo view "$R" >/dev/null 2>&1; then skip "$R"; REPO_EXISTS=1; else
   REPO_EXISTS=0; do_ gh_repo repo create "$R" --private --template "$TPL" --description "$NAME website (Hope Theory)"
   if [ $APPLY = 1 ]; then for i in $(seq 1 20); do gh_repo api "repos/$R/contents/AGENTS.md" >/dev/null 2>&1 && break; sleep 3; done; REPO_EXISTS=1; fi
 fi
+step "1b. security baseline for $R (free tier: Dependabot alerts + security updates, read-only Actions token)"
+do_ gh_repo api -X PUT "repos/$R/vulnerability-alerts" --silent
+do_ gh_repo api -X PUT "repos/$R/automated-security-fixes" --silent
+do_ gh_repo api -X PUT "repos/$R/actions/permissions/workflow" -f default_workflow_permissions=read -F can_approve_pull_request_reviews=false --silent
+echo "   note: rulesets/branch protection, secret scanning and private vulnerability reporting need GitHub Pro (or a public repo) for private repos"
 
 # 5 (early, need URL). board
 step "5. project board \"$TITLE\""
@@ -69,7 +76,7 @@ else echo "   [dry-run] would set Status options Backlog/Ready/In progress/In re
 step "6. devjourney tracking issue \"$TRACK\""
 TNUM=$(gh_work issue list -R $HUB --state all --search "\"$TRACK\" in:title" --json number,title -q ".[]|select(.title==\"$TRACK\")|.number" | head -1)
 if [ -n "$TNUM" ]; then skip "$HUB#$TNUM"; else
-  BODY="Tracking issue for **$NAME** (repo \`$R\`, board: $PURL). Launch target: $LAUNCH.
+  BODY="Tracking issue for **$CODE** (private repo + private board; real name, contacts and amounts in Notion Clients). Launch target: $LAUNCH.
 
 Checklist: see [docs/NEW_CLIENT.md](https://github.com/$HUB/blob/main/docs/NEW_CLIENT.md).
 - [ ] Notion Clients row filled (price, deposit status, target launch, links)
@@ -122,9 +129,10 @@ cat <<TXT
 Clients DB (collection://48be6125-677c-4902-a795-3ec7d5f033fc):
   Name="$NAME" | Phase=Discovery | Price (BDT)=<Hope sets> | Target launch=$LAUNCH | Deposit status=Not invoiced
   Tracking issue=$TURL | Project board=$PURL | Repo=https://github.com/$R
-Tasks DB: nothing by hand. Run  python3 /workspace/agency/sync/sync_github_to_notion.py  after adding to sync/config.json:
+Tasks DB: nothing by hand. Run  python3 /workspace/agency/sync/sync_github_to_notion.py  after adding to the PRIVATE tools/sync/config.local.json:
   "repos": [..., "$SLUG"]      "clients": { "$SLUG": "<Clients page id>", "$NAME": "<Clients page id>" }
-Invoices DB: draft rows (Status=Draft, Client=$NAME) for deposit / design / final. Hope sends; only Hope marks Paid after checking EBL.
+STATUS.md: add {"code":"$CODE","slug":"<code-slug>","repo":"$SLUG","tracking_issue":<N>} to the PRIVATE tools/status/status.local.json
+Invoices DB: draft rows (Status=Draft, Client=$NAME) for deposit / design / final. Hope sends; only Hope marks Paid after checking the bank statement.
 
 == Hope, in the UI (can't be done by API) ==
   1. Board $PURL → … → Workflows: enable "Item closed" → Done, "Pull request merged" → Done, "Item added to project" → Backlog.

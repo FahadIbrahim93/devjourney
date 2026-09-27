@@ -31,3 +31,7 @@ Social_Media_v3_Overhaul/
 
 # Projects (each is its own repo)
 Projects/
+
+# private (devjourney is public)
+*.local.json
+__pycache__/

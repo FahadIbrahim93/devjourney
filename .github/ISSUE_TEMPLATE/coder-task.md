@@ -8,7 +8,7 @@ assignees: []
 
 <!-- Agents: read AGENTS.md before starting. Only pick this up if it is labelled CODER and is in "Ready" on the client's project board ("Client: <Name>", e.g. Project 3). -->
 
-**Client:** <!-- e.g. Sthappo Architects -->
+**Client:** <!-- client code, e.g. Client A (never real names: public repo) -->
 **Priority:** <!-- High | Medium | Low -->
 **Due:** <!-- YYYY-MM-DD -->
 **Notion task link:** <!-- https://app.notion.com/p/... -->

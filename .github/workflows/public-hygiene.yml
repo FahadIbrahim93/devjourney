@@ -1,0 +1,18 @@
+name: public-hygiene
+# devjourney is PUBLIC. Fails if client names (private denylist in the HYGIENE_DENYLIST secret),
+# invoice numbers, BDT amounts, or non-allowlisted phones/emails appear in agency files.
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hygiene check
+        env:
+          HYGIENE_DENYLIST: ${{ secrets.HYGIENE_DENYLIST }}
+        run: python3 tools/public_hygiene.py check

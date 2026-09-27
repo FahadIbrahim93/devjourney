@@ -8,8 +8,8 @@ Same steps for every client, in order. The Chief of Web Agency bot runs it; Hope
 
 ## 1. GitHub (one command, idempotent, never deletes)
 ```bash
-tools/new-client.sh <slug> "<Client Name>" --launch YYYY-MM-DD            # dry-run: read the plan
-tools/new-client.sh <slug> "<Client Name>" --launch YYYY-MM-DD --apply    # Hope's gh login (repo creation needs admin)
+tools/new-client.sh <slug> "<Client Name>" --code "Client B" --launch YYYY-MM-DD            # dry-run: read the plan
+tools/new-client.sh <slug> "<Client Name>" --code "Client B" --launch YYYY-MM-DD --apply    # Hope's gh login (repo creation needs admin)
 ```
 It creates, skipping whatever already exists:
 - [ ] private repo `FahadIbrahim93/<slug>` from [`agency-client-template`](https://github.com/FahadIbrahim93/agency-client-template), with AGENTS.md, CONTRIBUTING, issue templates (coder-task, work-item, business-marketing-task), PR template, `coder-pr-handoff` workflow and docs/WORKFLOW.md, placeholders filled
@@ -27,7 +27,7 @@ It creates, skipping whatever already exists:
 ## 3. Notion (Chief bot via connector; the script prints exact values)
 - [ ] **Clients** row: Name, Phase=Discovery, Price (BDT), Target launch, Deposit status=Not invoiced, Tracking issue, Project board, Repo.
 - [ ] **Invoices & Payments**: Draft rows (deposit / design / final), each linked to the client. Numbering `HT-YYYY-NNN`.
-- [ ] Proposal page + client status page (copy Sthappo's structure) linked from the Clients row.
+- [ ] Proposal page + client status page (copy Client A's structure) linked from the Clients row.
 - [ ] `tools/sync/config.json`: add the repo to `repos` and map it in `clients` → run the sync (Tasks rows appear automatically).
 
 ## 4. Content & first work
@@ -37,4 +37,4 @@ It creates, skipping whatever already exists:
 
 ## 5. Money gates (Hope only)
 - [ ] Proposal/agreement + deposit invoice **sent by Hope** (Invoices: Status=Sent, Sent date = today).
-- [ ] No design work until the deposit is **Paid**. Only Hope marks Paid, after checking the EBL statement and ticking *Checked in EBL (Hope)*.
+- [ ] No design work until the deposit is **Paid**. Only Hope marks Paid, after checking the bank statement and ticking the bank-check box in Notion.

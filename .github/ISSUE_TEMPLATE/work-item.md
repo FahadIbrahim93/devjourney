@@ -8,7 +8,7 @@ assignees: []
 
 <!-- Add ONE type label: client / website / admin / bug. In client repos, also add phase:* / type:* labels and a milestone. -->
 
-**Client:** <!-- e.g. Sthappo Architects (Sadia Alam Epshi) / internal -->
+**Client:** <!-- client code, e.g. Client A / internal (never real names: public repo) -->
 **Type:** <!-- client | website | admin | bug -->
 **Priority:** <!-- High | Medium | Low -->
 **Due:** <!-- YYYY-MM-DD -->

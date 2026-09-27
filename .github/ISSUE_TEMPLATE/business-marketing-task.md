@@ -8,7 +8,7 @@ assignees: []
 
 <!-- Written by Hope (or the Chief of Web Agency bot, via Hope). The trainee works from this; Hope verifies the result. -->
 
-**Client / area:** <!-- e.g. Sthappo Architects · Agency growth -->
+**Client / area:** <!-- client code, e.g. Client A · Agency growth (never real names: public repo) -->
 **Assignee:** Trainee
 **Priority:** <!-- High | Medium | Low -->
 **Time estimate:** <!-- e.g. 3–4 hours -->

@@ -11,7 +11,7 @@ Scripts (`sync_github_to_notion.py`, `new-client.sh`) read these environment var
 ## 1. `GH_AGENCY_TOKEN` (fine-grained) — create it
 1. https://github.com/settings/personal-access-tokens/new
 2. **Token name:** `agency-bot` · **Expiration:** 90 days (put a reminder in Notion) · **Resource owner:** `FahadIbrahim93`
-3. **Repository access → Only select repositories:** `devjourney`, `sthappo-architects` (+ each new client repo, + `agency-client-template`). Edit the token to add a repo when you onboard a client.
+3. **Repository access → Only select repositories:** `devjourney` + each client repo (names in Notion Clients) ( + `agency-client-template`). Edit the token to add a repo when you onboard a client.
 4. **Repository permissions:**
    - Contents: **Read and write**
    - Issues: **Read and write**
@@ -37,3 +37,33 @@ See `/workspace/agency/sync/RUNBOOK.md` → *Enable live writes*: create an inte
 - One token per purpose, shortest practical expiry, no admin/delete scopes.
 - Bots never print tokens in logs, issues or Notion.
 - The GitHub Actions workflow in client repos uses the built-in `GITHUB_TOKEN` (issues: write only), so it needs no PAT.
+
+## 4. devjourney is PUBLIC: hygiene rules (decided by Hope, 27 Sep 2026)
+- **Clients appear only as codes** (`Client A`, `Client B`…), in files, issue titles/bodies, comments and PRs. Private repos are written as `client-a#N (private repo)` with **no link** (the URL would reveal the real repo name).
+- **Never in devjourney:** client names or legal names, client phone/email/address/social links, domains before launch, amounts, invoice numbers, bank names/details, referral/family notes. These live in **Notion** (Clients, Invoices & Payments) and the client's **private repo** (`docs/CLIENT.md`).
+- Hope's own public business contact (portfolio email/WhatsApp) and the agency's public price tiers are fine.
+- **Tooling:**
+  - `tools/public_hygiene.py check` flags invoice numbers, BDT amounts, non-allowlisted phones/emails and anything in the private denylist. `scrub` anonymises text; `scrub-issues --repo … [--apply]` anonymises issues/comments.
+  - The private name map lives in the gitignored `tools/hygiene.local.json` (box master: `/workspace/agency/hygiene/`) and in the repo secret `HYGIENE_DENYLIST` for CI.
+  - `.github/workflows/public-hygiene.yml` runs the check on every push/PR.
+  - `tools/status/generate_status.py` builds STATUS.md from GitHub with client codes and refuses to write if the check fails. The client code → repo map is in the gitignored `tools/status/status.local.json`.
+  - `tools/sync/config.json` holds no client names; client repos + Notion mapping are in the gitignored `tools/sync/config.local.json`.
+  - `tools/new-client.sh` requires `--code "Client B"` and uses only the code in the public tracking issue.
+- **Not rewritten:** git history still contains the old client name, amounts and invoice numbers in commits made before 27 Sep 2026 (see the commit list in Notion Agency OS → Security). GitHub also keeps **issue/comment edit history** visible to anyone: Hope can delete old revisions in the UI (issue → "edited" → select revision → *Delete revision*). Full removal would need a history rewrite + GitHub Support cache purge. Not done (Hope's call).
+
+## 5. GitHub security settings (applied 27 Sep 2026)
+| Setting | devjourney (public) | Private repos (client repos, agency-client-template) |
+|---|---|---|
+| Secret scanning + push protection | ✅ on | ❌ not available on free tier |
+| Dependabot alerts + security updates | ✅ on | ✅ on (`new-client.sh` enables it for new repos) |
+| Private vulnerability reporting | ✅ on (see `SECURITY.md`) | ❌ public repos only |
+| Ruleset `protect-main` (block force-push + deletion; **no** PR requirement so the Chief bot can commit STATUS.md) | ✅ active | ❌ needs GitHub Pro (rulesets and classic branch protection both 403) |
+| Actions default `GITHUB_TOKEN` = read-only, can't approve PRs | ✅ | ✅ (`new-client.sh` sets it) |
+| Fork PR workflows need approval | ✅ all external contributors | n/a (private, no outside collaborators) |
+
+Workflows that need more declare it explicitly (`coder-pr-handoff.yml`: `issues: write`, `pull-requests: read`; `public-hygiene.yml`: `contents: read`).
+
+**Remaining risks:**
+- The `gh` login on the box has broad scopes (`repo`, `delete_repo`, `admin:org`, `workflow`). Replace day-to-day use with `GH_AGENCY_TOKEN` once created, and consider `gh auth refresh --remove-scopes delete_repo,admin:org`.
+- Old client text in git history and in issue edit history.
+- Private repos have no force-push/deletion protection (GitHub Pro, about $4/month, would add rulesets + branch protection).
