@@ -101,12 +101,12 @@ elif [ "$REPO_EXISTS" = 1 ]; then skip "already personalised"; else echo "   [dr
 
 # 3. labels
 step "3. labels"
-LABELS=( "client|0e8a16|Client project work" "website|1d76db|Design/build/launch work" "admin|c5def5|Client coordination, domain, assets, handoff"
-  "bug|d73a4a|Something is broken" "CODER|5319e7|Coding task for AI coder agents (pick only when Ready)"
-  "Business/Marketing_Tasks|f9a8d4|Trainee business/marketing task (Hope verifies)" "status:in-review|fbca04|A PR claims to close this issue; waiting for Hope review"
-  "blocked|b60205|Blocked; see latest comment" "client-waiting|fef2c0|Waiting on the client"
-  "type:feature|a2eeef|" "type:bug|d73a4a|" "type:content|bfdadc|" "type:design|d4c5f9|"
-  "phase:discovery|ededed|" "phase:design|ededed|" "phase:build|ededed|" "phase:review|ededed|" "phase:launch|ededed|" "phase:handoff|ededed|" )
+LABELS=( "client|8a3ffc|Client project work" "website|1d76db|Design/build/launch work" "admin|bfbfbf|Client coordination, domain, assets, handoff"
+  "bug|d73a4a|Something is broken" "CODER|FF6F00|Coding task for AI coder agents (pick only when Ready)"
+  "Business/Marketing_Tasks|C2185B|Trainee business/marketing task (Hope verifies)" "status:in-review|fbca04|A PR claims to close this issue; waiting for Hope review"
+  "blocked|b60205|Blocked; see latest comment" "client-waiting|f9d0c4|Waiting on the client"
+  "type:feature|1d76db|" "type:bug|d73a4a|" "type:content|fbca04|" "type:design|c5def5|"
+  "phase:discovery|0e8a16|" "phase:design|5319e7|" "phase:build|0052cc|" "phase:review|e99695|" "phase:launch|d93f0b|" "phase:handoff|bfdadc|" )   # colours match the live repos (28 Sep audit)
 EXIST=""; [ "$REPO_EXISTS" = 1 ] && EXIST=$(gh_work label list -R "$R" --limit 200 --json name -q '.[].name')
 for l in "${LABELS[@]}"; do IFS='|' read -r n c desc <<<"$l"
   if grep -qxF "$n" <<<"$EXIST"; then skip "label $n"; else do_ gh_work label create "$n" -R "$R" --color "$c" --description "$desc"; fi; done
@@ -130,15 +130,19 @@ cat <<TXT
 Clients DB (collection://48be6125-677c-4902-a795-3ec7d5f033fc):
   Name="$NAME" | Phase=Discovery | Price (BDT)=<Hope sets> | Target launch=$LAUNCH | Deposit status=Not invoiced
   Tracking issue=$TURL | Project board=$PURL | Repo=https://github.com/$R
-Tasks DB: nothing by hand. Run  python3 /workspace/agency/sync/sync_github_to_notion.py  after adding to the PRIVATE tools/sync/config.local.json:
+Tasks DB: nothing by hand. Add to the PRIVATE tools/sync/config.local.json, then run /workspace/agency/bin/agency-daily.sh:
   "repos": [..., "$SLUG"]      "clients": { "$SLUG": "<Clients page id>", "$NAME": "<Clients page id>" }
-STATUS.md: add {"code":"$CODE","slug":"<code-slug>","repo":"$SLUG","tracking_issue":<N>} to the PRIVATE tools/status/status.local.json
+  and add the board number to "boards" in tools/sync/config.json (due check).
+STATUS.md: add {"code":"$CODE","slug":"<code-slug>","repo":"$SLUG","tracking_issue":<N>,"project":<board N>} to the PRIVATE tools/status/status.local.json
+Public hygiene (devjourney is PUBLIC): add the client's real name/brand/contact person to "deny" + "replacements"
+  in the PRIVATE tools/hygiene.local.json (master: /workspace/agency/hygiene/) AND update the repo secret:
+  python3 -c "import json;print('\\n'.join(json.load(open('tools/hygiene.local.json'))['deny']))" | gh secret set HYGIENE_DENYLIST -R $HUB
 Invoices DB: draft rows (Status=Draft, Client=$NAME) for deposit / design / final. Hope sends; only Hope marks Paid after checking the bank statement.
 
 == Hope, in the UI (can't be done by API) ==
   1. Board $PURL → … → Workflows: enable "Item closed" → Done, "Pull request merged" → Done, "Item added to project" → Backlog.
   2. Board → add views: "CODER Ready" (filter label:CODER status:Ready), "By milestone" (group by Milestone).
-  3. github.com/settings/personal-access-tokens → edit agency-bot token → add repo $SLUG.
+  3. github.com/settings/personal-access-tokens → edit the agency token (GH_AGENCY_TOKEN) → add repo $SLUG.
   4. Connect the repo to Cloudflare Pages for per-PR previews (commercial use OK on free tier).
 TXT
 echo "== done [$MODE]"

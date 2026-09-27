@@ -21,19 +21,19 @@ It creates, skipping whatever already exists:
 ## 2. Hope, in the GitHub UI (no API exists)
 - [ ] Board → `…` → **Workflows**: enable *Item closed → Done*, *Pull request merged → Done*, *Item added → Backlog*.
 - [ ] Board views: *CODER Ready* (`label:CODER status:Ready`), *By milestone*.
-- [ ] Fine-grained token `agency-bot` → add the new repo (see [SECURITY_TOKENS.md](SECURITY_TOKENS.md)).
+- [ ] Fine-grained token `GH_AGENCY_TOKEN` → add the new repo (see [SECURITY_TOKENS.md](SECURITY_TOKENS.md)).
 - [ ] Cloudflare Pages → connect repo → per-PR previews.
 
 ## 3. Notion (Chief bot via connector; the script prints exact values)
 - [ ] **Clients** row: Name, Phase=Discovery, Price (BDT), Target launch, Deposit status=Not invoiced, Tracking issue, Project board, Repo.
 - [ ] **Invoices & Payments**: Draft rows (deposit / design / final), each linked to the client. Numbering `HT-YYYY-NNN`.
 - [ ] Proposal page + client status page (copy Client A's structure) linked from the Clients row.
-- [ ] `tools/sync/config.json`: add the repo to `repos` and map it in `clients` → run the sync (Tasks rows appear automatically).
+- [ ] PRIVATE `tools/sync/config.local.json`: add the repo to `repos` and map it in `clients`; add the board number to `boards` in `tools/sync/config.json`; add the client to the PRIVATE `tools/status/status.local.json` and the hygiene denylist (`tools/hygiene.local.json` + repo secret `HYGIENE_DENYLIST`). Then run `/workspace/agency/bin/agency-daily.sh` (Tasks rows appear automatically).
 
 ## 4. Content & first work
 - [ ] Fill `docs/SPEC.md` and `docs/CLIENT.md` in the new repo (verified facts only).
 - [ ] First `CODER` issue: *Scaffold site + preview deployments* → **Ready**.
-- [ ] Trainee: content brief + competitor scan issues in devjourney (`Business/Marketing_Tasks`), on the client board and on [Agency: Business & Marketing](https://github.com/users/FahadIbrahim93/projects/4).
+- [ ] Trainee: Hope creates the content brief + competitor scan tasks in the Notion **Tasks** DB (Type = Business/Marketing, Assignee = Trainee, brief on the page). Trainee work is Notion-only; no GitHub issue needed.
 
 ## 5. Money gates (Hope only)
 - [ ] Proposal/agreement + deposit invoice **sent by Hope** (Invoices: Status=Sent, Sent date = today).

@@ -54,7 +54,14 @@ FROM "collection://ffff5aa0-ab35-4898-bb78-d476427d6404"
 | Client | board Client text or repo name → Clients page (via `config.json` → `clients`) |
 | GitHub issue | issue URL (the key) |
 
+## Logs, errors, extras
+* Log: `/workspace/agency/logs/agency-daily.log` (rotated at 256 KB, keeps 7). Last sync plan: `logs/last-sync.txt`.
+* Exit codes: 0 ok · 2 env/token problem (message says which; no values printed) · 3 already running · 4 git · 5 sync · 6 STATUS/commit.
+* Due-soon/overdue: `python3 tools/ops/due_check.py [--days N]` (run in the daily summary with 3 days).
+* Sunday review: `python3 tools/ops/weekly_summary.py` → `logs/weekly-YYYY-MM-DD.md` (private, mode 600).
+
 ## Guardrails
 * **Trainee tasks.** A closed `Business/Marketing_Tasks` issue whose row lacks **Verified by Hope** is flagged. Only Hope ticks Verified, and the bot must not.
-* A **row without an issue** is drift. Create the issue (or ask Hope), never delete the row.
+* A **row without an issue** is drift, **except** Notion-only trainee rows (Type = Business/Marketing), which are by design. Otherwise create the issue (or ask Hope); never delete the row.
+* **Trainee rows are Notion-authoritative:** the sync keeps titles in step and fills blanks only.
 * Out of scope for sync: Invoices, Clients (maintained by hand / by the Chief bot).

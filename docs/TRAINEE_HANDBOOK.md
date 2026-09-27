@@ -23,8 +23,8 @@ Your job: help the **business side** grow and run well. That means research, con
 | **Notion: Clients** | List of clients and leads (name, stage, contact, domain, notes). | Read only, unless Hope asks you to add leads. |
 | **Notion: Invoices** | Who owes what and when. | **Read only, confidential.** Never share. |
 | **Notion: STATUS** | Weekly overview: priorities, deadlines, invoices due. | Read it every Monday. |
-| **GitHub issues** | The same tasks, written in detail (steps, checklist). Label `Business/Marketing_Tasks`. | **View only.** Read your task's steps there. |
-| **GitHub project boards** | Visual boards: **Agency: Business & Marketing** (your tasks) and **Client A** (the website build, private board). | **View only.** It's where you see what's happening. |
+| **Task brief** | New tasks: the full brief (steps, checklist) is on the Notion task page. The first tasks (#8–#14) also have a GitHub issue with label `Business/Marketing_Tasks`, kept as a record. | **View only.** Read your task's steps there. |
+| **GitHub project boards** (optional) | **Agency: Business & Marketing** mirrors the first tasks; **Client A** is the website build (private). | **View only.** Notion is your working board. |
 | **Google Drive / Docs / Sheets / Canva** | Where you create deliverables. | Make files, share them **with Hope only**. |
 
 ## 3. Roles and chain of command
@@ -41,7 +41,7 @@ You **do not** talk to the bots directly, and you don't need access to them.
 
 ## 4. How to take a task
 1. Open Notion **Tasks**, filter **Assignee = Trainee**. Start with the earliest **Due** date (or what Hope says is most urgent).
-2. Open the task's **GitHub issue** link and read everything: *Why this matters*, *Goal*, *Steps*, *Deliverable*, *What good looks like*.
+2. Open the task page (and its **GitHub issue** link if it has one) and read everything: *Why this matters*, *Goal*, *Steps*, *Deliverable*, *What good looks like*.
 3. Unclear? **Ask Hope before starting.** A 2-minute question saves 2 hours.
 4. Set the Notion Status to **Doing**.
 5. Follow the steps. Save your work in Google Drive, in a folder Hope gives you, with clear names (e.g. `Competitor scan - Oct 2026`).

@@ -69,5 +69,9 @@
     "Trainee": "Trainee",
     "Hope": "Hope",
     "Chief of Web Agency": "Chief of Web Agency"
-  }
+  },
+  "boards": [
+    3,
+    4
+  ]
 }
