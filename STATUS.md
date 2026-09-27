@@ -5,13 +5,26 @@
 **System:** Notion = business + task board ([HQ](https://app.notion.com/p/3e770e6cd20a812fa02bcea25d8e3ec4) · [Tasks Kanban](https://app.notion.com/p/0051fdf55f41491baa23613e51e6efe2) · [Clients](https://app.notion.com/p/1be4131f7f6c4e51a13b35a37ca0aa0e) · [Invoices](https://app.notion.com/p/4b273b828d4a4d189884fafdd3e041d2)). GitHub issues = work items. New work: use the **Work item** issue template.
 
 ## CODER board (coding tasks for AI coders)
-Flow: **Notion task → `CODER` issue (Ready) → AI coder PR → review by Hope / Chief of Web Agency → merge → Done.** Rules: [docs/CODER_AGENTS.md](docs/CODER_AGENTS.md) · client repo `AGENTS.md` (in sthappo PR #17). Board: **Web Agency - CODER Board** (GitHub Project; pending Hope's approval of the `project` token scope).
+Flow: **Notion task → `CODER` issue (Ready) → AI coder PR → review by Hope / Chief of Web Agency → merge → Done.** Rules: [docs/CODER_AGENTS.md](docs/CODER_AGENTS.md) · client repo `AGENTS.md` (in sthappo PR #17). Board: **Web Agency - CODER Board** ([project 3: Client: Sthappo Architects](https://github.com/users/FahadIbrahim93/projects/3)).
 
 | Status | Issues (sthappo-architects, label `CODER`) |
 |---|---|
 | **Ready** | [#8](https://github.com/FahadIbrahim93/sthappo-architects/issues/8) Scaffold + previews (due 2 Oct, do first) · [#6](https://github.com/FahadIbrahim93/sthappo-architects/issues/6) Design tokens (due 8 Oct, after #8) |
 | Backlog | [#7](https://github.com/FahadIbrahim93/sthappo-architects/issues/7) Homepage design · [#9](https://github.com/FahadIbrahim93/sthappo-architects/issues/9) Home · [#10](https://github.com/FahadIbrahim93/sthappo-architects/issues/10) Work grid · [#11](https://github.com/FahadIbrahim93/sthappo-architects/issues/11) Services + Process · [#12](https://github.com/FahadIbrahim93/sthappo-architects/issues/12) About + Contact · [#13](https://github.com/FahadIbrahim93/sthappo-architects/issues/13) QA · [#15](https://github.com/FahadIbrahim93/sthappo-architects/issues/15) Launch prep (blocked) |
 | In progress / In review / Done | none yet |
+
+## Business / Marketing (trainee)
+Trainee (Hope's brother, BBA marketing, NSU) does business & marketing tasks: label `Business/Marketing_Tasks`, board [Agency: Business & Marketing](https://github.com/users/FahadIbrahim93/projects/4). Chain: **Hope assigns → trainee delivers → trainee reports to Hope → Hope verifies ("Verified by Hope" in Notion) → forwarded to the Chief of Web Agency bot (Management & Marketing Department).** The trainee has no bot access. Handbook: [docs/TRAINEE_HANDBOOK.md](docs/TRAINEE_HANDBOOK.md). Drafts only: nothing is sent, posted or paid for without Hope.
+
+| # | Task | Due | Status |
+|---|---|---|---|
+| [#8](https://github.com/FahadIbrahim93/devjourney/issues/8) | Sthappo content brief (supports sthappo#3/#4) | 30 Sep | Ready |
+| [#9](https://github.com/FahadIbrahim93/devjourney/issues/9) | Competitor scan: 10 Dhaka studios | 4 Oct | Ready |
+| [#10](https://github.com/FahadIbrahim93/devjourney/issues/10) | Agency brand basics + 3-tier BDT price draft | 8 Oct | Backlog |
+| [#11](https://github.com/FahadIbrahim93/devjourney/issues/11) | Lead list: 30 Dhaka small businesses | 12 Oct | Backlog |
+| [#12](https://github.com/FahadIbrahim93/devjourney/issues/12) | Outreach drafts (Bangla + English) | 15 Oct | Backlog |
+| [#13](https://github.com/FahadIbrahim93/devjourney/issues/13) | Sthappo launch plan (GBP, FB/IG posts, testimonial request) | 22 Oct | Backlog |
+| [#14](https://github.com/FahadIbrahim93/devjourney/issues/14) | Sthappo case study outline | 31 Oct | Backlog |
 
 ## Deadlines
 | Date | What |
@@ -59,6 +72,7 @@ Open PR: [sthappo#17](https://github.com/FahadIbrahim93/sthappo-architects/pull/
 | # | Title | Labels |
 |---|---|---|
 | [7](https://github.com/FahadIbrahim93/devjourney/issues/7) | Client: Sthappo Architects - website v1 | client, website |
+| [8](https://github.com/FahadIbrahim93/devjourney/issues/8)–[14](https://github.com/FahadIbrahim93/devjourney/issues/14) | Business/Marketing trainee tasks (see above) | Business/Marketing_Tasks |
 | [4](https://github.com/FahadIbrahim93/devjourney/issues/4) | docs: add revenue action tracker template | documentation |
 | [3](https://github.com/FahadIbrahim93/devjourney/issues/3) | docs: add revenue asset index to devjourney README | documentation |
 | [2](https://github.com/FahadIbrahim93/devjourney/issues/2) | docs: Publish JG Mart case study for portfolio | documentation |
