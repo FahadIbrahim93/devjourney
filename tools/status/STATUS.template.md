@@ -12,7 +12,7 @@
 - **Consistency:** new clients via [`tools/new-client.sh`](tools/new-client.sh) + [docs/NEW_CLIENT.md](docs/NEW_CLIENT.md), from the private template repo. Labels ↔ Notion: [docs/LABELS.md](docs/LABELS.md).
 
 ## Waiting on Hope
-1. Enable built-in board workflows (UI only) on the client CODER board and the Business & Marketing board: *Item closed → Done*, *Pull request merged → Done*.
+1. Enable built-in board workflows (UI only) on the client CODER board: *Item closed → Done*, *Pull request merged → Done*.
 2. Create `NOTION_TOKEN` and `GH_AGENCY_TOKEN`. Steps: [docs/SECURITY_TOKENS.md](docs/SECURITY_TOKENS.md).
 3. Client A details (legal name, address, contacts) → then send proposal + deposit invoice ([#15](https://github.com/FahadIbrahim93/devjourney/issues/15)).
 4. Optional: delete old issue-body revisions that still show client details (issue "edited" menu → delete revision). See docs/SECURITY_TOKENS.md.
