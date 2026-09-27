@@ -1,19 +1,62 @@
-# STATUS — Hope Theory
+# STATUS — Hope Theory agency
 
-**Last updated:** 2026-09-27
+**Last updated:** 2026-09-27 (Asia/Dhaka) · **Maintained by:** Grok (Chief of Web Agency bot) — Grok edits this file only; Hermes/Freebuff execute issues.
 
-## Current
-- First client: Sadia Alam Epshi (working studio name: Sthappo Architects)
-- Referral: Sami's sister
-- Facebook: https://www.facebook.com/sarjana.rohe
-- Domain: NOT confirmed (Sthappoarchitects.com.bd / ghorbinonarchitecture.com.bd)
-- Client repo: https://github.com/FahadIbrahim93/sthappo-architects
-- Notion HQ: Clients DB + Tasks Kanban + STATUS page
+**System:** Notion = business + task board ([HQ](https://app.notion.com/p/3e770e6cd20a812fa02bcea25d8e3ec4) · [Tasks Kanban](https://app.notion.com/p/0051fdf55f41491baa23613e51e6efe2) · [Clients](https://app.notion.com/p/1be4131f7f6c4e51a13b35a37ca0aa0e) · [Invoices](https://app.notion.com/p/4b273b828d4a4d189884fafdd3e041d2)). GitHub issues = work items. New work: use the **Work item** issue template.
 
-## Next 3
-1. Confirm domain + legal studio name
-2. Gather brand assets + project photos
-3. Ship v1 website (in progress)
+## Deadlines
+| Date | What |
+|---|---|
+| **1 Oct 2026** | Sthappo M1 Discovery: domain + legal name, assets, agreement signed, deposit BDT 5,000 (HT-2026-001) |
+| 8 Oct 2026 | Sthappo M2 Design approved → invoice BDT 2,500 (HT-2026-002) |
+| 19 Oct 2026 | Sthappo M3 Build: all 6 pages on preview |
+| 24 Oct 2026 | Sthappo M4 Review: up to 3 rounds closed |
+| **27 Oct 2026** | **Sthappo launch + handoff** → final invoice BDT 2,500 (HT-2026-003) before DNS switch |
 
-## Open Issues
-See GitHub Issues. Client work is labeled in titles as `[Client]`.
+## Current priorities (this week)
+1. [sthappo#3](https://github.com/FahadIbrahim93/sthappo-architects/issues/3) Confirm domain + legal studio name — Hope (client-waiting)
+2. [sthappo#4](https://github.com/FahadIbrahim93/sthappo-architects/issues/4) Gather brand assets + project photos — Hope (client-waiting)
+3. Send proposal/agreement + deposit invoice HT-2026-001 (Notion draft; Hope sends)
+4. [sthappo#8](https://github.com/FahadIbrahim93/sthappo-architects/issues/8) Scaffold site + preview deployments — Hermes/Freebuff
+5. [sthappo#6](https://github.com/FahadIbrahim93/sthappo-architects/issues/6) Visual direction — Hermes/Freebuff
+
+## Clients
+| Client | Tracking issue | Repo | Stage |
+|---|---|---|---|
+| Sthappo Architects (Sadia Alam Epshi) | [devjourney#7](https://github.com/FahadIbrahim93/devjourney/issues/7) | [sthappo-architects](https://github.com/FahadIbrahim93/sthappo-architects) (private) | Won/Onboarding · Discovery |
+
+## Open issues — sthappo-architects
+| # | Title | Labels | Milestone |
+|---|---|---|---|
+| [3](https://github.com/FahadIbrahim93/sthappo-architects/issues/3) | Confirm domain + legal studio name | admin, client-waiting | M1 |
+| [4](https://github.com/FahadIbrahim93/sthappo-architects/issues/4) | Gather brand assets + project photos | admin, client-waiting | M1 |
+| [6](https://github.com/FahadIbrahim93/sthappo-architects/issues/6) | Visual direction: palette, type, spacing, components | website | M2 |
+| [7](https://github.com/FahadIbrahim93/sthappo-architects/issues/7) | Homepage design on preview | website, client-waiting | M2 |
+| [5](https://github.com/FahadIbrahim93/sthappo-architects/issues/5) | Ship v1 website (umbrella) | website | M3 |
+| [8](https://github.com/FahadIbrahim93/sthappo-architects/issues/8) | Scaffold site + preview deployments per PR | website | M3 |
+| [9](https://github.com/FahadIbrahim93/sthappo-architects/issues/9) | Home page | website | M3 |
+| [10](https://github.com/FahadIbrahim93/sthappo-architects/issues/10) | Work page: project grid | website | M3 |
+| [11](https://github.com/FahadIbrahim93/sthappo-architects/issues/11) | Services + Process pages | website | M3 |
+| [12](https://github.com/FahadIbrahim93/sthappo-architects/issues/12) | About + Contact pages | website | M3 |
+| [13](https://github.com/FahadIbrahim93/sthappo-architects/issues/13) | Internal QA pass | website | M4 |
+| [14](https://github.com/FahadIbrahim93/sthappo-architects/issues/14) | Client review rounds (max 3) | website, client-waiting | M4 |
+| [15](https://github.com/FahadIbrahim93/sthappo-architects/issues/15) | Launch checklist | website, blocked | M5 |
+| [16](https://github.com/FahadIbrahim93/sthappo-architects/issues/16) | Handoff doc + ownership transfer | admin | M6 |
+
+Open PR: [sthappo#17](https://github.com/FahadIbrahim93/sthappo-architects/pull/17) WORKFLOW.md + work-item template (awaiting Hope's review).
+
+## Open issues — devjourney
+| # | Title | Labels |
+|---|---|---|
+| [7](https://github.com/FahadIbrahim93/devjourney/issues/7) | Client: Sthappo Architects - website v1 | client, website |
+| [4](https://github.com/FahadIbrahim93/devjourney/issues/4) | docs: add revenue action tracker template | documentation |
+| [3](https://github.com/FahadIbrahim93/devjourney/issues/3) | docs: add revenue asset index to devjourney README | documentation |
+| [2](https://github.com/FahadIbrahim93/devjourney/issues/2) | docs: Publish JG Mart case study for portfolio | documentation |
+| [1](https://github.com/FahadIbrahim93/devjourney/issues/1) | docs: Create ARCHITECTURE.md for all Hope Theory projects | documentation |
+
+## Invoices due
+| Invoice | Amount | Due | Status |
+|---|---|---|---|
+| HT-2026-001 Deposit | BDT 5,000 | on signing (target by 1 Oct) | Draft |
+| HT-2026-002 Design approval | BDT 2,500 | after design approval (~8 Oct) | Draft |
+| HT-2026-003 Before launch | BDT 2,500 | before DNS switch (~25–27 Oct) | Draft |
