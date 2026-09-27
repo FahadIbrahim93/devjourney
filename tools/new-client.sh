@@ -18,6 +18,7 @@
 # Auth: repo creation uses your gh login (needs Administration, which GH_AGENCY_TOKEN deliberately lacks).
 #       Labels/milestones/issues prefer GH_AGENCY_TOKEN; boards prefer GH_AGENCY_PROJECT_TOKEN (see docs/SECURITY_TOKENS.md).
 set -euo pipefail
+[ -f "${AGENCY_ENV:-/home/box/.agency.env}" ] && { set -a; . "${AGENCY_ENV:-/home/box/.agency.env}"; set +a; }   # NOTION_TOKEN, GH_AGENCY_TOKEN (never printed)
 O=FahadIbrahim93; TPL=$O/agency-client-template; HUB=$O/devjourney
 APPLY=0; LAUNCH=""; CODE=""; ARGS=()
 while [ $# -gt 0 ]; do case "$1" in

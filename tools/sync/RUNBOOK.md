@@ -7,16 +7,20 @@ Owner: **Chief of Web Agency** bot (`7eb04faf-93d6-4168-951f-cd615510031f`). Cad
 ## Path A: script (preferred, deterministic)
 ```bash
 cd /workspace/agency/sync
+**Daily (Chief bot, 09:00 Dhaka):** `/workspace/agency/bin/agency-daily.sh` (copy: `tools/agency-daily.sh`) = source env → sync `--apply` → regenerate STATUS.md → commit only on real change → drift summary.
+
+```
 python3 sync_github_to_notion.py            # dry-run: plan + drift report
 python3 sync_github_to_notion.py --apply    # writes (needs NOTION_TOKEN)
 ```
 * Reads GitHub via `gh`. Token precedence: `GH_AGENCY_PROJECT_TOKEN` → `GH_AGENCY_TOKEN` → current `gh` login (see devjourney `docs/SECURITY_TOKENS.md`).
+* **Live since 27 Sep 2026.** The script sources `/home/box/.agency.env` itself (NOTION_TOKEN, GH_AGENCY_TOKEN). Issues are read with `GH_AGENCY_TOKEN`, board fields with the `gh` login (fine-grained PATs can't read user Projects). Updates send only the changed fields. Trainee (Business/Marketing_Tasks) rows are Notion-authoritative: only the title is kept in step and blanks filled; Notion-only trainee rows without a GitHub issue are not drift.
 * Writes to Notion via the REST API with `NOTION_TOKEN` (version 2025-09-03, data source `ffff5aa0-ab35-4898-bb78-d476427d6404`).
 * Without `NOTION_TOKEN` it stays in dry-run and diffs against the newest `notion_snapshot_*.json`. Refresh that file with Path A0 below.
 * It never deletes or archives. It never touches `Notes`, `Verified by Hope` or `Scope (legacy)`.
 * Add a repo: append it to `config.json` → `repos` and map it in `clients`. `new-client.sh` prints the exact lines.
 
-### Enable live writes (Hope, one time, about 3 min)
+### Enable live writes (done 27 Sep 2026; kept for re-setup)
 1. Open https://www.notion.so/profile/integrations → **New integration** → name `Agency Sync`, type **Internal**, workspace = Hope Theory's → Save.
 2. Capabilities: Read content ✔, Update content ✔, Insert content ✔. No user information is needed.
 3. Copy the **Internal Integration Secret** (`ntn_…`).

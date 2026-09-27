@@ -1,5 +1,7 @@
 # Tokens for agency scripts and bots (least privilege)
 
+> **Status 27 Sep 2026:** `NOTION_TOKEN` (integration *Agency Sync*, shared with Hope Theory HQ) and `GH_AGENCY_TOKEN` (fine-grained, 90 days, devjourney + client repo + template; Contents/Issues/PRs RW, no Projects) are **live** in `/home/box/.agency.env` (mode 600). All scripts source that file. Board reads still use the `gh` login. Rotate `GH_AGENCY_TOKEN` before expiry (~26 Dec 2026).
+
 Scripts (`sync_github_to_notion.py`, `new-client.sh`) read these environment variables. They **prefer the agency tokens** and fall back to the current `gh` login only when none is set. Nothing here changes the existing `gh` login.
 
 | Env var | Type | Used for | Required? |
