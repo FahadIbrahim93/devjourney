@@ -1,3 +1,5 @@
+> **Any AI coder (Hermes, Freebuff, Cursor, Claude Code, Codex, …) working on a `CODER` issue:** follow **[docs/CODER_AGENTS.md](docs/CODER_AGENTS.md)**. It takes precedence for `CODER` tasks (pick only CODER + Ready tasks, `coder/<issue#>-<slug>` branches, PR `feat(#N): …` / `Closes #N`, never push to main or merge your own PR). Client repos have their own `AGENTS.md`. The rest of this file is Hermes' personal system configuration.
+
 # Hope Theory - Hermes Agent System Configuration
 # Based on Claude Code Multi-Agent Architecture (2026 Standard)
 

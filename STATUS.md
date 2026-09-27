@@ -1,8 +1,17 @@
 # STATUS — Hope Theory agency
 
-**Last updated:** 2026-09-27 (Asia/Dhaka) · **Maintained by:** Grok (Chief of Web Agency bot) — Grok edits this file only; Hermes/Freebuff execute issues.
+**Last updated:** 2026-09-27 (Asia/Dhaka) · **Maintained by:** Grok (Chief of Web Agency bot) — Grok edits this file only; AI coders (Hermes, Freebuff, Cursor, Claude Code, Codex…) execute `CODER` issues.
 
 **System:** Notion = business + task board ([HQ](https://app.notion.com/p/3e770e6cd20a812fa02bcea25d8e3ec4) · [Tasks Kanban](https://app.notion.com/p/0051fdf55f41491baa23613e51e6efe2) · [Clients](https://app.notion.com/p/1be4131f7f6c4e51a13b35a37ca0aa0e) · [Invoices](https://app.notion.com/p/4b273b828d4a4d189884fafdd3e041d2)). GitHub issues = work items. New work: use the **Work item** issue template.
+
+## CODER board (coding tasks for AI coders)
+Flow: **Notion task → `CODER` issue (Ready) → AI coder PR → review by Hope / Chief of Web Agency → merge → Done.** Rules: [docs/CODER_AGENTS.md](docs/CODER_AGENTS.md) · client repo `AGENTS.md` (in sthappo PR #17). Board: **Web Agency - CODER Board** (GitHub Project; pending Hope's approval of the `project` token scope).
+
+| Status | Issues (sthappo-architects, label `CODER`) |
+|---|---|
+| **Ready** | [#8](https://github.com/FahadIbrahim93/sthappo-architects/issues/8) Scaffold + previews (due 2 Oct, do first) · [#6](https://github.com/FahadIbrahim93/sthappo-architects/issues/6) Design tokens (due 8 Oct, after #8) |
+| Backlog | [#7](https://github.com/FahadIbrahim93/sthappo-architects/issues/7) Homepage design · [#9](https://github.com/FahadIbrahim93/sthappo-architects/issues/9) Home · [#10](https://github.com/FahadIbrahim93/sthappo-architects/issues/10) Work grid · [#11](https://github.com/FahadIbrahim93/sthappo-architects/issues/11) Services + Process · [#12](https://github.com/FahadIbrahim93/sthappo-architects/issues/12) About + Contact · [#13](https://github.com/FahadIbrahim93/sthappo-architects/issues/13) QA · [#15](https://github.com/FahadIbrahim93/sthappo-architects/issues/15) Launch prep (blocked) |
+| In progress / In review / Done | none yet |
 
 ## Deadlines
 | Date | What |
@@ -17,8 +26,9 @@
 1. [sthappo#3](https://github.com/FahadIbrahim93/sthappo-architects/issues/3) Confirm domain + legal studio name — Hope (client-waiting)
 2. [sthappo#4](https://github.com/FahadIbrahim93/sthappo-architects/issues/4) Gather brand assets + project photos — Hope (client-waiting)
 3. Send proposal/agreement + deposit invoice HT-2026-001 (Notion draft; Hope sends)
-4. [sthappo#8](https://github.com/FahadIbrahim93/sthappo-architects/issues/8) Scaffold site + preview deployments — Hermes/Freebuff
-5. [sthappo#6](https://github.com/FahadIbrahim93/sthappo-architects/issues/6) Visual direction — Hermes/Freebuff
+4. [sthappo#8](https://github.com/FahadIbrahim93/sthappo-architects/issues/8) Scaffold site + preview deployments: CODER, Ready (any AI coder), due 2 Oct
+5. [sthappo#6](https://github.com/FahadIbrahim93/sthappo-architects/issues/6) Design tokens / visual direction: CODER, Ready after #8
+6. Hope: approve the GitHub `project` scope, then review/merge sthappo PR #17 (AGENTS.md + templates)
 
 ## Clients
 | Client | Tracking issue | Repo | Stage |
