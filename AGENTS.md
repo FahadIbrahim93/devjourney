@@ -1,32 +1,37 @@
-# Hope Theory — Agent Rules
+# Hope Theory — AI Web Agency
 
 **Last updated:** 2026-09-29
 
-## For AI coders (Hermes, Freebuff, Cursor, Claude Code, Codex…)
+We are an **AI Web Agency**.  
+Hope + trainees (Abir and others) ship professional websites and web products for clients.
 
-Work only on issues labeled `CODER` + `Ready`.
+## Roles
 
-1. Read [docs/CODER_AGENTS.md](docs/CODER_AGENTS.md) first (takes precedence).
+| Role | Who | Does |
+|------|-----|------|
+| Hope | Fahad | Final decisions, client contact, verification, money |
+| Trainee | Abir (and future) | Business/Marketing tasks assigned by Hope |
+| AI Coders | Hermes / Freebuff / Cursor / etc. | Code on `CODER` + `Ready` issues only |
+
+## Rules for AI coders
+
+1. Read [docs/CODER_AGENTS.md](docs/CODER_AGENTS.md) first.
 2. Branch: `coder/<issue#>-<slug>`
-3. PR title: `feat(#N): …` or `fix(#N): …`
-4. PR body must include `Closes #N`
-5. Never push to `main`. Never merge your own PR.
-
-Client repos have their own `AGENTS.md`. Follow that when working inside a client repo.
+3. PR: `feat(#N): …` or `fix(#N): …` + `Closes #N`
+4. Never push to main. Never merge your own PR.
 
 ## Source of truth
 
-- Work items → GitHub issues
-- Live status → [STATUS.md](STATUS.md)
-- Business data (names, money, contacts) → Notion only
+- Work → GitHub issues
+- Status → [STATUS.md](STATUS.md)
+- Client names / money / contacts → Notion only
 
-## Hard rules
+## Hard freeze still active
 
-- Revenue first. Ship Client A before expanding process.
-- No new Agency OS pages or Freelancing templates until Client A launches.
-- Public repo never holds client names, amounts, or contacts.
+- Ship Client A before any new process or templates
+- No expansion of Agency OS or Freelancing folder
+- Public repo never holds client PII
 
 ## Current focus
 
 Client A (Sthappo / interior design site) → Discovery → Design → Build → Launch.
-See STATUS.md for exact deadlines and open issues.
