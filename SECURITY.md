@@ -6,9 +6,8 @@ Please **do not open a public issue**. Use GitHub's private reporting:
 You'll get a reply within 7 days.
 
 ## What this repo is
-`devjourney` is Hope Theory's **public** agency hub: docs, tooling and agency-level issues.
-It holds **no client data**. Clients appear only as codes (Client A, B…). Names, contacts, amounts,
-invoice numbers and bank details live in Notion and in each client's private repository.
+`devjourney` is Hope Theory's **public** portfolio repo (site source, service pages, revenue assets).
+It holds **no client data**. Agency and client work is managed privately, outside this repo.
 If you spot client-identifying or financial information here, please report it privately as above.
 
 ## Protections in place

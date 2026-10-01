@@ -1,37 +1,25 @@
-# Hope Theory — AI Web Agency
+# Hope Theory: AI Web Agency
 
-**Last updated:** 2026-09-29
+**Last updated:** 2026-10-01
 
-We are an **AI Web Agency**.  
-Hope + trainees (Abir and others) ship professional websites and web products for clients.
+We are an **AI Web Agency**. Hope and trainees ship professional websites and web products for clients.
 
 ## Roles
 
-| Role | Who | Does |
-|------|-----|------|
-| Hope | Fahad | Final decisions, client contact, verification, money |
-| Trainee | Abir (and future) | Business/Marketing tasks assigned by Hope |
-| AI Coders | Hermes / Freebuff / Cursor / etc. | Code on `CODER` + `Ready` issues only |
+| Role | Does |
+|------|------|
+| Hope (founder) | Final decisions, client contact, verification, money |
+| Trainee | Business/marketing tasks assigned by Hope |
+| AI coders (Copilot, Hermes, Freebuff, Cursor, …) | Code, in each client's private repo, following that repo's `AGENTS.md` |
 
-## Rules for AI coders
+## Where things live
 
-1. Read [docs/CODER_AGENTS.md](docs/CODER_AGENTS.md) first.
-2. Branch: `coder/<issue#>-<slug>`
-3. PR: `feat(#N): …` or `fix(#N): …` + `Closes #N`
-4. Never push to main. Never merge your own PR.
-
-## Source of truth
-
-- Work → GitHub issues
-- Status → [STATUS.md](STATUS.md)
-- Client names / money / contacts → Notion only
+- Agency work (tasks, clients, money): private, outside this repo.
+- Client code: one private repo per client.
+- This public repo: Hope's portfolio, service pages and revenue assets only. **No client names, contacts or amounts here, ever** (the `public-hygiene` check enforces it).
 
 ## Hard freeze still active
 
 - Ship Client A before any new process or templates
-- No expansion of Agency OS or Freelancing folder
+- No expansion of the Freelancing folder
 - Public repo never holds client PII
-
-## Current focus
-
-Client A (Sthappo / interior design site) → Discovery → Design → Build → Launch.

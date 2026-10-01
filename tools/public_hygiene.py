@@ -12,7 +12,8 @@ Generic rules live here (safe to publish). Client real names live ONLY in a priv
 import json, os, re, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-AGENCY_PATHS = ["STATUS.md", "docs", "tools", ".github", "CONTRIBUTING.md", "README.md"]
+import glob as _glob
+AGENCY_PATHS = sorted(_glob.glob("*.md")) + ["docs", "tools", ".github"]  # every root .md is scanned (AGENTS.md leak, Sep 2026)
 SKIP = ("docs/archive/", "docs/index.html", "docs/services/", ".min.js")
 ALLOW = [r"hopetheorybd@gmail\.com", r"noreply", r"example\.com", r"you@", r"8801870489448", r"\+880 1870 489 448"]
 

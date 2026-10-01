@@ -44,6 +44,12 @@ DevJourney/
 
 ---
 
+## Agency work
+
+Client work for Hope Theory's web agency is planned and built privately (not in this repo). See `AGENTS.md` for the public summary.
+
+---
+
 ## What this repo is not
 
 - It is **not** a catch-all for old experiments, session logs, and duplicate docs.
